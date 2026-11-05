@@ -1,0 +1,33 @@
+# LaTeX output; figure PDFs remain trackable.
+/paper/build/
+/paper/main.pdf
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.xdv
+
+# Editor and operating system files.
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+
+# Local configuration.
+.env
+.env.*
+!.env.example

@@ -1,0 +1,36 @@
+% !TeX program = xelatex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[UTF8,scheme=plain,fontset=fandol]{ctex}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+\addbibresource{references.bib}
+\usepackage[hidelinks]{hyperref}
+
+\graphicspath{{figures/}}
+\newcommand{\draftnote}[1]{\par\noindent\textit{[TODO: #1]}\par}
+
+\title{Distributed System Project\\\large Research Draft}
+\author{Authors TBD}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+  \input{sections/00-abstract}
+\end{abstract}
+
+\input{sections/01-introduction}
+\input{sections/02-related-work}
+\input{sections/03-system-design}
+\input{sections/04-implementation}
+\input{sections/05-evaluation}
+\input{sections/06-discussion}
+\input{sections/07-conclusion}
+
+\printbibliography
+\end{document}

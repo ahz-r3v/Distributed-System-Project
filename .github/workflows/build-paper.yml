@@ -1,0 +1,39 @@
+name: Build paper
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: paper-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out sources
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Compile paper
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: main.tex
+          working_directory: paper
+          texlive_version: "2026"
+          args: -xelatex -file-line-error -halt-on-error -interaction=nonstopmode -outdir=build
+
+      - name: Upload PDF
+        uses: actions/upload-artifact@v7
+        with:
+          name: paper-pdf
+          path: paper/build/main.pdf
+          if-no-files-found: error
+          retention-days: 14

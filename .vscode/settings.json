@@ -1,0 +1,25 @@
+{
+  "latex-workshop.latex.outDir": "%DIR%/build",
+  "latex-workshop.latex.autoBuild.run": "never",
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "latexmk (XeLaTeX)",
+      "tools": ["latexmk-xelatex"]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk-xelatex",
+      "command": "latexmk",
+      "args": [
+        "-cd",
+        "-xelatex",
+        "-interaction=nonstopmode",
+        "-halt-on-error",
+        "-file-line-error",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ]
+    }
+  ]
+}
