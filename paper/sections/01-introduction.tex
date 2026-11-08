@@ -2,4 +2,23 @@
 \section{Introduction}
 \label{sec:introduction}
 
-\draftnote{说明研究背景、具体问题、现有方法的不足，以及本文拟验证的贡献。}
+\subsection{Motivation and Problem}
+\draftnote{Introduce KV cache reuse across coding-agent turns, finite accelerator memory, and the work required to recover evicted prefixes.
+Motivate the question: when should a serving system preserve KV state in secondary storage instead of recomputing it?}
+
+\subsection{Research Questions and Intended Contributions}
+This paper is organized around three research questions:
+\begin{enumerate}
+  \item Which CacheWise findings can we reproduce under our experimental setup?
+  \item Under what workload and hardware conditions does KV cache offloading cost less than prefix recomputation?
+  \item How should a secondary-storage offloading mechanism exploit those conditions while controlling I/O overhead?
+\end{enumerate}
+\draftnote{Present the completed contributions as a replication study, a measured tradeoff analysis, and an implemented offloading method with an evaluation.
+Until those steps are complete, describe them as research objectives.}
+
+\subsection{Paper Organization}
+Section~\ref{sec:related-work} introduces the necessary background.
+Section~\ref{sec:replication} presents the CacheWise replication study.
+Section~\ref{sec:tradeoff} examines recovery costs and the motivation for secondary storage.
+Section~\ref{sec:offloading} presents the proposed methods, followed by their evaluation in Section~\ref{sec:evaluation}.
+Sections~\ref{sec:discussion} and~\ref{sec:conclusion} discuss limitations and conclude.

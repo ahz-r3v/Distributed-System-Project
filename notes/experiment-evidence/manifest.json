@@ -1,0 +1,24 @@
+{
+  "source_repository": "/home/ws/cachewise-coding-traces",
+  "source_repository_revision": "6454cd8f310a155a5843e34a9af9823653b20872",
+  "verified_on": "2026-11-08",
+  "verification": "All 18 consolidated rows recomputed from original summary.json request details; session mean, prompt/output tokens, uncached tokens, and token-weighted cache hits matched.",
+  "snapshots": [
+    {
+      "snapshot": "consolidated-comparison.json",
+      "source_relative_path": "serving_experiment/results/2026-11-04/parallel-13943/consolidated-comparison.json",
+      "sha256": "64bb23d1409e5983bc866f18ef4a5e0b1256242ebc332c5fc23e6593b2545f7f"
+    },
+    {
+      "snapshot": "consolidated-provenance.json",
+      "source_relative_path": "serving_experiment/results/2026-11-04/parallel-13943/provenance.json",
+      "sha256": "73d94ebabb6db5e4d7a2e05195c612dd004eed680ce881a04ab70f9e3392c34a"
+    },
+    {
+      "snapshot": "recompute-profile.json",
+      "source_relative_path": "serving_experiment/results/2026-11-02/job-10807/recompute-profile.json",
+      "sha256": "685302a7ffed9f2a175e93a44bd05ea075f5b859abae654ec8698b2033920fb1"
+    }
+  ],
+  "scope": "Consolidated six-policy study is the primary replication evidence. The separate job-10807 profile is uncached client wall time with max_tokens=1, not isolated GPU prefill or an offloading measurement."
+}

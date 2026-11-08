@@ -1,0 +1,18 @@
+% !TeX root = ../main.tex
+\section{Discussion and Limitations}
+\label{sec:discussion}
+
+\subsection{Applicability and Failure Regimes}
+\draftnote{Discuss low reuse, short prefixes, slow or contended storage, limited staging memory, and inaccurate reuse predictions.
+Explain when keeping state in DRAM or recomputing it remains preferable.}
+
+\subsection{Threats to Validity}
+The present replication uses synthetic token content, tool-name prediction, one selected cohort, and three repeat blocks on different physical GPUs.
+Matched comparisons within repeats reduce hardware confounding but do not establish robustness across workloads.
+The absence of actual offloading measurements currently prevents an empirical conclusion about secondary-storage savings.
+\draftnote{Discuss trace representativeness, predictor leakage or drift, replay assumptions, hardware/model differences, measurement uncertainty, and filesystem caching effects.
+State which conclusions are specific to the tested system.}
+
+\subsection{Limitations and Future Work}
+\draftnote{Separate limitations of our prototype from CacheWise's design scope.
+Identify unimplemented methods and unevaluated cases, such as other storage devices or distributed storage, without presenting them as established results.}

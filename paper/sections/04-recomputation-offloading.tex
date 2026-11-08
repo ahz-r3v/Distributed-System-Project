@@ -1,0 +1,73 @@
+% !TeX root = ../main.tex
+\section{CacheWise Limitations: Recomputation versus Offloading}
+\label{sec:tradeoff}
+
+\subsection{Residual Recovery Costs and the Scope of the Gap}
+CacheWise already evaluates GPU--CPU DRAM offloading as an alternative to recomputation in Section~6.4 of the original paper~\cite{Tiwari2026CacheWise}.
+Our proposed extension examines recovery through secondary storage and the conditions under which it is preferable to recomputation.
+\draftnote{Use the replicated measurements to show the remaining recovery overhead under memory pressure.
+Explain how limited DRAM capacity motivates a storage tier without implying that CacheWise ignores offloading.}
+
+\subsection{Existing Recomputation-Side Measurements}
+% Evidence: notes/experiment-evidence/recompute-profile.json (job 10807).
+A separate uncached timing profile from job 10807 provides the compute-side starting point in Table~\ref{tab:recompute-profile}.
+It uses random-token prompts, one generated token per request, and three probes per length after discarding a warm-up probe.
+All recorded probes report zero cached tokens.
+The measured quantity is client wall-clock request latency, including serving overhead; it is not isolated GPU prefill time and is not measured under the consolidated cohort's concurrent load.
+
+\begin{table}[t]
+  \centering
+  \small
+  \begin{tabular}{rr}
+    \toprule
+    Prompt tokens & Median uncached latency (s) \\
+    \midrule
+    8,192 & 1.247 \\
+    32,768 & 7.086 \\
+    65,536 & 19.569 \\
+    126,976 & 57.311 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Selected measured points from the separate job-10807 profile, with three uncached probes per length.
+  These are request latencies, rather than offloading measurements.}
+  \label{tab:recompute-profile}
+\end{table}
+
+The existing artifacts contain no completed DRAM or SSD offloading comparison.
+They establish a measurable uncached-prefill cost, but do not yet establish that offloading is cheaper or locate its break-even point.
+
+\subsection{Cost Model and Break-Even Condition}
+Let $n$ denote the missing prefix tokens to recover and $S$ the size of their stored KV state.
+Let $T_{\mathrm{rec}}(n)$ denote the measured prefill time to recover that state, conditional on any valid resident prefix.
+For an initially uncached storage copy, a serial offload-and-restore cycle costs
+\begin{equation}
+  T_{\mathrm{off}}(S) = T_{\mathrm{out}}(S)
+    + T_{\mathrm{in}}(S) + T_{\mathrm{mgr}},
+  \label{eq:offload-cost}
+\end{equation}
+where $T_{\mathrm{out}}$ includes GPU-to-host transfer and storage writes, $T_{\mathrm{in}}$ includes storage reads and host-to-GPU transfer, and $T_{\mathrm{mgr}}$ covers additional management work.
+In this serial, single-reuse model, offloading is cheaper in elapsed service time when $T_{\mathrm{off}}(S) < T_{\mathrm{rec}}(n)$.
+
+If a saved prefix is reused with probability $p$ before its storage copy is discarded, a simple expected-work comparison is
+\begin{equation}
+  T_{\mathrm{out}} + p T_{\mathrm{in}} + T_{\mathrm{mgr}}
+    < p T_{\mathrm{rec}}.
+  \label{eq:expected-offload-cost}
+\end{equation}
+This model assumes one write, at most one subsequent reuse, and no overlap or resource contention.
+\draftnote{Measure each term on the target system.
+Report both total resource work and the delay exposed on the request's critical path when transfers overlap tool execution or computation.
+Use latency and GPU work as the primary meanings of ``cheaper''; report monetary cost only with explicit prices and accounting assumptions.}
+
+\subsection{Controlled Recomputation--Offloading Experiments}
+\draftnote{Compare recomputation, DRAM restoration, and SSD restoration for identical missing prefix state while holding scheduling and eviction policies fixed.
+Extend the existing timing profile with matched write/restore measurements; do not treat its separate single-request timings as a concurrent serving result.
+Sweep prefix length, concurrency, memory budget, effective storage bandwidth, and reuse interval.
+Measure complete writes and reads, staging copies, management overhead, and I/O queueing.
+Control the operating-system page cache so a supposed SSD result is not served entirely from DRAM.}
+\draftnote{Planned artifacts: recovery-latency curves versus missing prefix length, a breakdown of compute and transfer costs, and a plot of the measured break-even region.
+Show both favorable and unfavorable offloading regimes.}
+
+\subsection{Implications for Method Design}
+\draftnote{Derive design requirements from the measurements: which prefixes merit storage, when transfers can be hidden, and when recomputation should remain the fallback.
+Use these findings to motivate the methods in Section~\ref{sec:offloading}.}

@@ -2,7 +2,7 @@
 
 分布式系统课程报告协作仓库，采用 [USENIX 官方 LaTeX 模板](https://www.usenix.org/conferences/author-resources/paper-templates)（OSDI 使用的论文版式）。
 正文为 US Letter、双栏、10 pt，支持中英文草稿；按章节拆分，便于 teammates 并行写作。
-目前是报告骨架，题目、作者和研究内容需要团队填写。
+目前已按 CacheWise 复现、重计算与卸载的代价分析、二级存储 KV cache 卸载方法组织报告，并加入已核对的六策略复现实验结果；作者信息、卸载实现和卸载对比实验仍待补充。
 
 ## 开始写作
 
@@ -12,9 +12,26 @@
 4. 将核实过的文献加入 `paper/references.bib`，用 `\cite{citation-key}` 引用。
 5. 编译并检查 PDF，通过分支和 Pull Request 合并修改。
 
-仓库附有一条经 USENIX 出版页核实的 MapReduce 引用，仅用于演示 BibTeX；它不代表项目选题。
-正式写作时替换相关工作中的示例并清理草稿标记。
+共享文献库已加入从原文核实的 [CacheWise 论文](https://arxiv.org/abs/2606.16824v1)。
+原论文已评估 GPU–CPU DRAM 卸载；本报告拟分析二级存储（首先考虑本地 SSD）的恢复代价与方法，避免将已有的 DRAM 卸载误写为本文贡献。
+正式写作时补充相关文献和实测结果，并清理草稿标记。
 报告语言和篇幅按老师的要求确定。
+
+## 论文结构
+
+1. **Introduction**：研究动机、三个研究问题及预期贡献。
+2. **Background and Related Work**：KV cache、CacheWise、内存层级及已有卸载系统。
+3. **CacheWise Replication: Experiments and Results**：复现范围、实验配置、结果、消融及与原论文的差异。
+4. **CacheWise Limitations: Recomputation versus Offloading**：剩余恢复开销、包含写入与读取的代价模型、盈亏平衡点及适用条件。
+5. **Proposed Methods for Secondary-Storage KV Offloading**：分块存储与按需恢复、异步传输与预取、基于代价的决策，以及实现范围。
+6. **Evaluation of the Proposed Offloading Methods**：端到端结果、消融、敏感性与资源代价。
+7. **Discussion and Limitations**：适用范围、失败场景及有效性威胁。
+8. **Conclusion**：按复现、代价分析、方法与评估的顺序总结已验证结论。
+
+正文中的蓝色 TODO 是写作提示，不代表已有实现或实验结论。
+“卸载更便宜”需说明比较指标与成立条件，不能先写成普遍结论。
+已核对的复现结果及独立的未命中请求计时数据保存在 `notes/experiment-evidence/`，来源与校验值见其中的 `manifest.json`。
+当前主要实验只覆盖一个 N=10 队列；没有已完成的 DRAM/SSD 卸载对比。
 
 ## 目录
 
@@ -23,7 +40,7 @@ paper/
   main.tex             # 报告入口、标题、作者、公共宏包
   usenix2019_v3.sty    # 未修改的 USENIX 官方样式
   TEMPLATE.md          # 官方来源、校验值与课程适配说明
-  sections/            # 摘要、引言、相关工作、设计、实现、评估、讨论、结论
+  sections/            # 摘要、引言、背景、复现、代价分析、卸载方法、评估、讨论、结论
   references.bib       # 共享 BibTeX 文献库
   figures/             # 图表及其可编辑源文件
   build/               # 编译产物（不提交）
