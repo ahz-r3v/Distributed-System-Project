@@ -18,7 +18,24 @@
       "snapshot": "recompute-profile.json",
       "source_relative_path": "serving_experiment/results/2026-11-02/job-10807/recompute-profile.json",
       "sha256": "685302a7ffed9f2a175e93a44bd05ea075f5b859abae654ec8698b2033920fb1"
+    },
+    {
+      "snapshot": "paper-fidelity-audit.json",
+      "source_relative_path": "serving_experiment/results/2026-11-02/paper-fidelity-audit.json",
+      "sha256": "c3566947cb6c48b36fff6eda390cf686c84d6cd29c1a648c3beffb5cca1a75c8"
     }
   ],
-  "scope": "Consolidated six-policy study is the primary replication evidence. The separate job-10807 profile is uncached client wall time with max_tokens=1, not isolated GPU prefill or an offloading measurement."
+  "scope": "Consolidated six-policy study is the primary replication evidence. The separate job-10807 profile is uncached client wall time with max_tokens=1, not isolated GPU prefill or an offloading measurement.",
+  "derived_artifacts": [
+    {
+      "file": "workload-characterization.json",
+      "sha256": "c46d93b73b308dd22121e077dad21d13b29802bf493d9190d4a1b1ac74d1f7ad",
+      "generator": "paper/figures/prepare_replication_data.py"
+    },
+    {
+      "file": "replication-additional-metrics.json",
+      "sha256": "f426ff2a1ddc99399cade4f8692c23e5f7416d5775650310e6f186571b3cc9f9",
+      "generator": "paper/figures/prepare_replication_data.py"
+    }
+  ]
 }

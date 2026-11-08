@@ -2,38 +2,107 @@
 \section{CacheWise Replication: Experiments and Results}
 \label{sec:replication}
 
-% Primary evidence: notes/experiment-evidence/consolidated-comparison.json.
-% Original experiment: parallel-13943; repeats from jobs 13943, 13959, 13960.
-\subsection{Experimental Setup and Replication Scope}
-We use the completed six-policy consolidated experiment as the primary replication study.
-Each run replays ten held-out segments from eight source sessions, comprising 83 requests, 4,894,853 prompt tokens counted across requests, and 15,235 generated tokens.
-Six policies are evaluated three times, for 18 full runs and 1,494 request executions.
-Each repeat runs all six policies sequentially on one RTX Pro 6000 Blackwell Max-Q GPU; the three repeat blocks use separate GPUs of the same model and runtime configuration.
-Policy comparisons are matched within each repeat.
+% Evidence and figure-generation procedures are recorded in notes/README.md.
+% The primary serving results are the consolidated six-policy study, not job 10807.
+\subsection{Study Scope and Workload Characterization}
+We study whether the scheduling and eviction mechanisms of CacheWise improve serving efficiency in an adapted coding-agent replay.
+Our evaluation asks how much benefit comes from prefix-aware scheduling, whether predictive eviction adds to that benefit, and how recorded tool-duration information and queue aging affect the outcome.
+The experiment reproduces these mechanisms and comparisons under a different hardware and model configuration; it does not attempt to recreate the original paper's numerical results exactly.
 
-The model is Qwen2.5-Coder-14B-Instruct with BF16, tensor parallelism of one, prefix caching, and 512-token chunked prefill.
-The KV budget is 17,981 blocks of 16 tokens, or 287,696 tokens.
-The ten initial prompts total 487,696 tokens, so this cohort already creates memory pressure at $N=10$.
-The engine is the CacheWise fork at revision \texttt{a4b3affa} with recorded local patches.
-Every policy starts a fresh server, preserves recorded external delays, and marks completed segments idle.
+The local trace release contains 94 source files and 20,634 LLM event records representing 11,453 distinct messages.
+For descriptive analysis, we group records by source trace and message identifier, discard synthetic-model messages, and retain messages with positive prompt and output usage.
+Prompt length includes input, cache-creation, and cache-read tokens; we take the maximum observed usage within each message.
+This yields 11,388 messages from 80 source traces.
+The descriptive population includes both training and held-out traces and is separate from the serving evaluation cohort.
 
-This is an adapted replication of CacheWise~\cite{Tiwari2026CacheWise}.
-Redacted prompts are replaced by synthetic token sequences that preserve within-segment prefix growth and recorded output lengths.
-The learned predictor uses tool names because tool arguments are redacted; its bootstrap uses the release's 34 training source sessions, excluded from evaluation.
-Only the oracle case receives recorded tool durations.
-\draftnote{Add the final configuration comparison with the original paper, including hardware, model, training split, engine patches, and unavailable argument-level features.
-Do not combine this study's ratios with those from earlier jobs with different terminal-session handling.}
+Figure~\ref{fig:replication-workload} shows a strong difference between input and output lengths: the median prompt contains 80,670 tokens, whereas the median output contains 26.
+The median trace with included messages contains 98.5 unique messages.
+These properties make prefix reuse relevant: processing a long input afresh at each turn can introduce substantial work even when the generated response is short.
+The individual tool-duration distributions also differ across common tools, providing a motivation for using tool information when deciding which state to retain.
+These descriptive observations do not establish that a particular predictor improves serving performance.
 
-\subsection{Workload Characterization and Metric Definitions}
-\draftnote{Use the existing workload-analysis artifacts to describe prefill/decode lengths, turn counts, context growth, and tool-delay distributions.
-Identify the full dataset separately from the ten-segment serving cohort, and verify the underlying data before inserting each plot.}
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{replication-workload.pdf}
+  \caption{Workload characterization regenerated from the local trace release.
+  Panels (a) and (b) use 11,388 deduplicated, non-synthetic messages with positive usage from 80 of the 94 source traces.
+  Panel (c) shows the six most frequent tools with positive completed durations associated with those messages; repeated tool identifiers are merged, retaining the earliest launch for the same result.
+  Boxes span the 25th--75th percentiles and whiskers the 5th--95th percentiles; outliers are omitted.
+  These corpus-level plots are descriptive and do not represent the smaller serving cohort.}
+  \label{fig:replication-workload}
+\end{figure*}
 
-Mean session serving time is the mean, across segments, of summed LLM request latencies, then averaged over the three repeats.
-It excludes external tool execution and differs from whole-workload elapsed time.
-The prompt-token hit rate is the number of cached prompt tokens divided by total prompt tokens in completed-request usage.
-It is not a server lookup-hit rate or a block-eviction count.
-Repeat ranges below describe the three observed runs and are not confidence intervals.
-The policy order is partially rotated, rather than fully balanced.
+\subsection{Experimental Setup and Replay Procedure}
+The primary serving experiment uses ten complete held-out segments drawn from eight source sessions.
+Each run contains 83 requests, 4,894,853 prompt tokens counted across requests, and 15,235 generated tokens.
+Repeated prefixes contribute repeatedly to the prompt-token total; that quantity is not the number of distinct input tokens.
+The selected workload has 73 between-turn transitions, 57 of which have recorded delays of at most one second.
+It therefore emphasizes short reuse intervals, and is not assumed to represent all tool-delay distributions in the release.
+
+We use Qwen2.5-Coder-14B-Instruct in BF16 on one RTX Pro 6000 Blackwell Max-Q GPU per repeat, with tensor parallelism of one.
+Prefix caching and 512-token chunked prefill are enabled.
+The KV budget is 17,981 blocks of 16 tokens, equivalent to 287,696 tokens.
+The ten initial prompts total 487,696 tokens, approximately 1.70 times this capacity.
+Thus, $N=10$ already creates memory pressure on this testbed; equal session counts do not imply equal contention across different hardware configurations.
+Table~\ref{tab:replication-setup} summarizes the principal differences from the reference experiment.
+
+\begin{table}[t]
+  \centering
+  \small
+  \setlength{\tabcolsep}{3pt}
+  \hyphenpenalty=10000
+  \begin{tabular}{>{\raggedright\arraybackslash}p{0.23\columnwidth}>{\raggedright\arraybackslash}p{0.32\columnwidth}>{\raggedright\arraybackslash}p{0.32\columnwidth}}
+    \toprule
+    Setting & Reference & This study \\
+    \midrule
+    Accelerator & Two H200 GPUs & One RTX Pro 6000 per repeat \\
+    Model size & 32B & 14B \\
+    Tensor parallelism & Two & One \\
+    Prefill chunk & 512 tokens & 512 tokens \\
+    Predictor inputs & Tool names and arguments & Tool names; arguments redacted \\
+    Training membership & 80\% of sessions & 34 of 94 source traces \\
+    Serving loads & Multiple values of $N$ & One $N=10$ cohort \\
+    \bottomrule
+  \end{tabular}
+  \caption{Selected configuration differences from CacheWise~\cite{Tiwari2026CacheWise}.
+  Exact membership of the reference serving split is unavailable; the local training fraction uses the 94 available source traces as its denominator.}
+  \label{tab:replication-setup}
+\end{table}
+
+All policies run in the same CacheWise engine fork, pinned to revision \texttt{a4b3affa} with recorded local patches.
+The patches address session lifecycle handling, protection of queued returning sessions, and the timestamp used to observe tool durations.
+Each policy starts a fresh server, receives the same selected workload and token lengths, preserves external delays, and marks completed segments idle.
+The baseline is therefore an FCFS/LRU control within this engine, rather than a comparison against a separate stock-vLLM installation.
+
+Because the released text is redacted, the replay uses seeded synthetic prompts that preserve within-segment prefix growth.
+Generation is constrained to fixed token identifiers and recorded output lengths.
+Turns within a segment run sequentially, while the ten segments execute concurrently.
+Actual human-input boundaries and context shrink split the traces into segments, and overlapping tools contribute the interval from their earliest launch to their latest result.
+This procedure preserves a length-and-reuse workload, rather than original model answer quality.
+The predictor bootstrap uses 34 training source sessions that are excluded from serving evaluation; the learned predictor uses tool names because argument content is unavailable.
+
+We evaluate six settings, each with three repeats, for 18 full runs and 1,494 request executions.
+The four core settings form a two-by-two comparison of FCFS versus prefix-aware scheduling and LRU versus learned predictive eviction.
+The remaining settings replace learned predictions with recorded tool durations or enable the local 30-second queue-aging override.
+Within each repeat, all six policies share one physical GPU; the three repeat blocks run on separate GPUs with matching model, memory, driver, runtime, engine, and replay configuration.
+Policy order is partially rotated, not fully balanced.
+
+\subsection{Metrics and Evidence Validation}
+Our primary metric is mean session serving time: the mean, across segments, of the sum of their LLM request latencies, averaged over three repeats.
+It excludes external tool execution.
+Whole-workload elapsed time includes those waits and measures a different outcome.
+Prompt-token hit rate is computed from completed-request usage as cached prompt tokens divided by total prompt tokens, rather than from cache-lookup counters.
+
+For supporting metrics, useful-token goodput counts each new prompt token and generated output token once per segment and divides by whole-workload elapsed time.
+The selected workload contains 605,956 distinct prompt tokens by this accounting and 621,191 useful tokens including output.
+Latency percentiles use linear interpolation within each 83-request run; reported summaries average the three per-run percentiles.
+They are not percentiles of averaged request latencies, and observed maxima are reported separately.
+
+The experiment audit verifies identical request hashes and lengths, 6,811 successful metric snapshots, zero failed snapshots, and zero preemptions.
+When preparing the manuscript, we also recalculated the per-run means, token totals, and cache-hit rates from the original request summaries.
+These checks validate consistency of the recorded experiment.
+They do not establish that the engine is equivalent to the original paper's executable.
+All repeat ranges below are observed minima and maxima, not confidence intervals; the matched-repeat plots preserve the policy comparisons within each GPU block.
 
 \subsection{Main Results and Scheduling--Eviction Ablation}
 \begin{table*}[t]
@@ -51,41 +120,70 @@ The policy order is partially rotated, rather than fully balanced.
     Prefix-aware & Learned predictive & 30 seconds & 599.14 & 592.46--604.94 & 64.984 \\
     \bottomrule
   \end{tabular}
-  \caption{Measured results for the consolidated $N=10$ cohort.
+  \caption{Consolidated serving results at $N=10$, with three repeats per setting.
   Mean and range refer to mean session serving time, excluding tool execution.
-  Every setting has three repeats; the lowest mean time is bold.
-  Queue aging is an override for requests waiting in the scheduler, not a cache expiration time.}
+  Queue aging overrides prefix priority for sufficiently old waiting requests; it is not cache expiration.
+  All comparisons use the same engine and workload within each repeat.}
   \label{tab:replication-results}
 \end{table*}
 
-Table~\ref{tab:replication-results} separates the effects of scheduling and eviction.
-Prefix-aware scheduling with LRU reduces mean session serving time from 595.04 to 337.87 seconds, a $1.761\times$ time ratio over FCFS/LRU.
-Adding learned predictive eviction to FCFS reduces the mean to 529.97 seconds, a 10.94\% reduction.
-However, adding it to prefix-aware scheduling increases the mean from 337.87 to 349.67 seconds, or 3.49\%.
-Both directions hold in all three matched repeats.
-These measurements establish an interaction between scheduling and eviction in this cohort; they do not establish its underlying cause.
+Table~\ref{tab:replication-results} and Figure~\ref{fig:replication-serving} show that prefix-aware scheduling provides the largest reduction in mean session serving time in this cohort.
+With LRU eviction unchanged, replacing FCFS scheduling reduces the mean from 595.04 to 337.87 seconds, a $1.761\times$ time ratio, or a 43.22\% reduction.
+This comparison isolates the scheduling choice while retaining the same eviction policy.
 
-Learned CacheWise without aging improves over FCFS/LRU by a $1.702\times$ time ratio, but does not improve mean session serving time over the prefix-aware LRU control.
-Its slightly higher cache-hit rate also does not translate into a lower mean session time.
-Whole-workload elapsed time gives a different ordering: prefix-aware LRU averages 646.28 seconds, whereas learned CacheWise without aging averages 642.91 seconds.
-The two metrics must be reported separately.
+The effect of predictive eviction depends on that scheduling choice.
+Under FCFS, replacing LRU with learned predictive eviction reduces the mean to 529.97 seconds, a 10.94\% improvement.
+Under prefix-aware scheduling, the same replacement increases the mean from 337.87 to 349.67 seconds, a 3.49\% regression.
+Both directions hold in all three matched repeats.
+Learned CacheWise without aging still improves over FCFS/LRU by a $1.702\times$ time ratio, but does not improve the primary metric over the prefix-aware LRU control.
+The results therefore demonstrate an interaction between scheduling and eviction in the tested workload, rather than independent additive gains from both mechanisms.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{replication-serving.pdf}
+  \caption{Serving comparison from the consolidated six-policy experiment.
+  Panel (a) shows mean session serving time with whiskers spanning the three observed repeat means.
+  Panel (b) shows percentage changes within each matched GPU repeat; negative values indicate lower time than the corresponding control.
+  Predictive eviction helps FCFS but increases mean time under prefix-aware scheduling in every repeat.
+  The tool-duration oracle shows no consistent advantage over the learned predictor.
+  Whiskers are observed ranges, not confidence intervals.}
+  \label{fig:replication-serving}
+\end{figure*}
+
+The cache-hit metric alone does not explain the session-time ordering.
+Learned CacheWise without aging has a slightly higher hit rate than prefix-aware LRU, 79.048\% versus 79.009\%, yet a higher mean session time.
+Whole-workload elapsed time gives the opposite ordering, averaging 642.91 seconds for learned CacheWise and 646.28 seconds for prefix-aware LRU.
+Corresponding mean useful-token goodputs are 966.58 and 961.32 tokens/s.
+These small elapsed-time and goodput differences should not be substituted for the primary mean-session result.
+They show that finishing the entire batch and minimizing the average segment's accumulated serving time are distinct objectives.
 
 \subsection{Oracle and Queue-Aging Diagnostics}
-The recorded tool-duration oracle averages 349.58 seconds, only 0.028\% lower than the learned predictor's unrounded mean.
-Its direction of improvement varies across repeats.
-Knowing recorded tool durations therefore provides no consistent material advantage here; this oracle is not an omniscient future-arrival or optimal-eviction policy.
+Replacing learned predictions with recorded tool durations yields a mean of 349.58 seconds, only 0.028\% below the learned predictor's unrounded mean.
+The oracle is slower in one repeat and faster in two.
+Thus, providing recorded tool durations does not yield a consistent material advantage in this cohort.
+The oracle supplies tool-duration information, not exact future server-arrival times or an optimal eviction sequence; the result does not establish that prediction is irrelevant in other workloads.
 
-Disabling the local 30-second queue-aging override reduces mean session serving time from 599.14 to 349.67 seconds, a 41.64\% reduction.
-The maximum observed request latency nevertheless increases from 336.92 to 466.45 seconds across the repeats.
-These maxima describe observed worst requests and must not be reported as P99 latency.
-The aging comparison diagnoses a tradeoff in the executed implementation, rather than a universal property of CacheWise.
+The local queue-aging rule has a larger effect.
+With the learned predictor fixed, disabling the 30-second override reduces mean session serving time from 599.14 to 349.67 seconds, a 41.64\% reduction.
+Average per-run P99 request latency also decreases, from 268.19 to 233.03 seconds.
+Nevertheless, the largest individual request latency across repeats increases from 336.92 to 466.45 seconds.
+The maximum and P99 therefore support different statements about tail behavior.
+This experiment diagnoses a responsiveness tradeoff in the executed queue implementation; the published description does not identify this particular override as part of the evaluated design.
 
-\subsection{Replication Limits and Remaining Recovery Work}
-The consolidated audit verifies matched request hashes and token counts, 6,811 successful metric snapshots, zero failed snapshots, and zero preemptions.
-The per-run means and cache-hit rates were also checked against the original request summaries when preparing this manuscript.
-These checks establish consistency of the recorded experiment, rather than equivalence to the paper's executable or generality across workloads.
+\subsection{Interpretation, Limitations, and Transition}
+The replication supports a benefit from prefix-aware scheduling on this memory-constrained workload, while the added benefit of predictive eviction is conditional on the scheduler.
+It does not reproduce the reference paper's additional predictive-eviction benefit over prefix-aware LRU~\cite{Tiwari2026CacheWise}.
+This is a result for the adapted setup, not a refutation of the original evaluation.
+Hardware, model size, training membership, argument redaction, engine patches, and cohort composition differ.
+Only one $N=10$ cohort is measured, so higher-concurrency results remain untested.
 
-Only one $N=10$ cohort is measured; this does not test the original paper's higher-concurrency claims.
-Full eviction counts, actual KV transfer volumes, exclusive CPU/GPU phase costs, and DRAM/SSD offloading comparisons are unavailable.
-In particular, approximately 1.03 million uncached prompt tokens remain per run for learned CacheWise without aging, but this count includes first-time prefill and cannot all be labeled redundant recomputation.
-Section~\ref{sec:tradeoff} uses separate uncached timing probes to motivate the recovery-cost study and identifies the offloading measurements still required.
+There is also a concrete predictor-preparation limitation: bootstrap samples describe individual tools, whereas runtime metadata can describe parallel batches with repeated tool names.
+A prior input audit found 16 of the selected cohort's 73 transitions lacked a matching initial bootstrap key.
+Its isolated performance impact has not been measured, and argument-level prediction cannot be recovered by clustering identical redacted placeholders.
+Broader load and cohort coverage, matched training/runtime keys, and complete eviction instrumentation would allow stronger conclusions about when predictive eviction helps.
+
+Finally, substantial uncached prefill work remains under every policy.
+Learned CacheWise without aging computes approximately 1.03 million prompt KV tokens per run, including first-time prefill.
+This is not a full eviction count or a measurement of transferred bytes; repeated prefill and block-alignment or last-token handling require separate accounting.
+No exclusive CPU/GPU cost profile or completed DRAM/SSD offloading comparison is available.
+These limits motivate the recovery-cost question in Section~\ref{sec:tradeoff}, while leaving its numerical answer to the subsequent study.

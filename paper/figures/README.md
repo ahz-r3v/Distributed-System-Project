@@ -19,5 +19,13 @@
 | 方法评估 | 端到端效果、消融与敏感性图 | 固定策略下各存储方法的结果、I/O 与资源开销 |
 
 正文已加入六策略结果表和独立的未命中计时表，来源快照及校验值在 `notes/experiment-evidence/`。
-其余图表仍待生成，不使用虚构数据填充。
+Part 1 已加入两幅有数据来源和生成脚本的图：
+
+- `replication-workload.pdf`：去重后的输入/输出长度、消息数和常见工具时长。
+- `replication-serving.pdf`：最新六策略会话时间及每轮匹配的策略效果。
+
+`prepare_replication_data.py` 从实验仓库生成紧凑数值证据；`plot_replication.py` 可仅凭本仓库内的证据重建图。
+具体命令、图表取舍及剩余实验见 `notes/README.md` 的 Part 1 记录。
+`replication-figure-provenance.json` 记录输入与绘图脚本校验值；`replication-paired-effects.csv` 保存图中每轮对比的数值。
 已有的 job-10807 图对应早期五策略实验，不能直接用作最新六策略统一实验的图。
+其他拟议图表仍待生成，不使用虚构数据填充。

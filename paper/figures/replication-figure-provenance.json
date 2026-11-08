@@ -1,0 +1,14 @@
+{
+  "inputs": {
+    "notes/experiment-evidence/workload-characterization.json": "c46d93b73b308dd22121e077dad21d13b29802bf493d9190d4a1b1ac74d1f7ad",
+    "notes/experiment-evidence/consolidated-comparison.json": "64bb23d1409e5983bc866f18ef4a5e0b1256242ebc332c5fc23e6593b2545f7f"
+  },
+  "script_sha256": "ab74e54f91329e983591c0053741515fed0e9481dba7a892fee8afb61aee9c3e",
+  "method": "Workload ECDFs use deduplicated source messages; tool boxes show the 25th/75th percentiles and 5th/95th percentile whiskers. Serving bars show three-repeat means and observed ranges; paired effects compare policies within the same GPU block. Negative time change means faster. No confidence intervals are implied.",
+  "matplotlib_version": "3.11.2",
+  "numpy_version": "2.5.4",
+  "outputs": [
+    "replication-workload.pdf",
+    "replication-serving.pdf"
+  ]
+}

@@ -1,0 +1,206 @@
+{
+  "source_report_sha256": "64bb23d1409e5983bc866f18ef4a5e0b1256242ebc332c5fc23e6593b2545f7f",
+  "method": "Linear-interpolated latency percentiles computed within each 83-request run; summarize the three per-run values by arithmetic mean. Useful work counts each new prompt token and output token once per segment; rates divide by whole-run elapsed time including tool waits.",
+  "unique_prompt_tokens_per_run": 605956,
+  "useful_tokens_per_run": 621191,
+  "runs": [
+    {
+      "run": "baseline-r0",
+      "policy": "baseline",
+      "summary_sha256": "ee8150a72a1b2ab1200ca28d796ca12c4b2f5b715d6df6fc0f1e95dfb5f8bfb5",
+      "request_p50_s": 27.690070596989244,
+      "request_p90_s": 203.7261289577931,
+      "request_p99_s": 271.58996552030493,
+      "maximum_request_s": 342.639759704005,
+      "useful_tokens_per_s": 694.2409904827706,
+      "requests_per_s": 0.09276052326912328
+    },
+    {
+      "run": "baseline-r1",
+      "policy": "baseline",
+      "summary_sha256": "e90fc39e72cbd83e4883d467e39c7b8c78c7f586ba92855536a314653784adf2",
+      "request_p50_s": 28.18849456985481,
+      "request_p90_s": 206.61646833592093,
+      "request_p99_s": 275.302442475566,
+      "maximum_request_s": 346.1704705050215,
+      "useful_tokens_per_s": 688.2392889487311,
+      "requests_per_s": 0.09195861012594303
+    },
+    {
+      "run": "baseline-r2",
+      "policy": "baseline",
+      "summary_sha256": "f343c1134a6c9edd778dbba5c75a04851554a8d997553f5483ca5b33377ec105",
+      "request_p50_s": 28.786389713874087,
+      "request_p90_s": 206.9311369244009,
+      "request_p99_s": 275.6374922205315,
+      "maximum_request_s": 346.5797301491257,
+      "useful_tokens_per_s": 684.4398440207924,
+      "requests_per_s": 0.09145094995536923
+    },
+    {
+      "run": "cachewise-r0",
+      "policy": "cachewise",
+      "summary_sha256": "fe1a8d713b72d91c43d84f28251cbbab309251f8ea112fce65aa0c72ca755a9c",
+      "request_p50_s": 33.88587215682492,
+      "request_p90_s": 196.82611940279602,
+      "request_p99_s": 265.3071076889982,
+      "maximum_request_s": 330.6131947201211,
+      "useful_tokens_per_s": 693.932233191187,
+      "requests_per_s": 0.09271926888005223
+    },
+    {
+      "run": "cachewise-r1",
+      "policy": "cachewise",
+      "summary_sha256": "f6b1257f27ec2bb6c1dd865dce6826d214915e8b616ed3a612b8402610cd9439",
+      "request_p50_s": 33.89539904799312,
+      "request_p90_s": 199.15991906891574,
+      "request_p99_s": 268.59740190674023,
+      "maximum_request_s": 334.68980177794583,
+      "useful_tokens_per_s": 686.7153033353993,
+      "requests_per_s": 0.09175498385655644
+    },
+    {
+      "run": "cachewise-r2",
+      "policy": "cachewise",
+      "summary_sha256": "d8ecd7e6223fb97d53667fd02c55eb4a121e9025f1c5b927b681bc1ce387f27d",
+      "request_p50_s": 34.54083243384957,
+      "request_p90_s": 200.22051814543082,
+      "request_p99_s": 270.6610130262462,
+      "maximum_request_s": 336.91920608095825,
+      "useful_tokens_per_s": 680.8530095153266,
+      "requests_per_s": 0.09097169757735077
+    },
+    {
+      "run": "cachewise_no_aging-r0",
+      "policy": "cachewise_no_aging",
+      "summary_sha256": "c8f145a22fd0464fe04fdeaeedc2ef904ae7343e5cc800dcb7bc325c0e640c0f",
+      "request_p50_s": 24.5174022000283,
+      "request_p90_s": 94.03584724012761,
+      "request_p99_s": 229.7257245997133,
+      "maximum_request_s": 455.02626868197694,
+      "useful_tokens_per_s": 984.4274657323367,
+      "requests_per_s": 0.13153358573415252
+    },
+    {
+      "run": "cachewise_no_aging-r1",
+      "policy": "cachewise_no_aging",
+      "summary_sha256": "a84f2b69ed02e263f8c0170b23428bb088d2d2d9e3c32c077b8c7df2ff572f08",
+      "request_p50_s": 24.81640609400347,
+      "request_p90_s": 95.92704927092416,
+      "request_p99_s": 233.5251445006279,
+      "maximum_request_s": 462.07678887201473,
+      "useful_tokens_per_s": 974.5304085099815,
+      "requests_per_s": 0.13021119737138573
+    },
+    {
+      "run": "cachewise_no_aging-r2",
+      "policy": "cachewise_no_aging",
+      "summary_sha256": "9394d95d8026ff1faf1721f2d0e5135ce0f970f17907b58f1897449c9e756447",
+      "request_p50_s": 25.411359735997394,
+      "request_p90_s": 103.98878269093109,
+      "request_p99_s": 235.82729167416483,
+      "maximum_request_s": 466.44684182293713,
+      "useful_tokens_per_s": 940.780865001266,
+      "requests_per_s": 0.1257017757744479
+    },
+    {
+      "run": "cachewise_oracle_no_aging-r0",
+      "policy": "cachewise_oracle_no_aging",
+      "summary_sha256": "7a129ff869fb59acd8b82eb89b60f41e937a3afe0123e1829e45b58f448a44ad",
+      "request_p50_s": 24.595539140049368,
+      "request_p90_s": 94.28190033719875,
+      "request_p99_s": 229.74212493657862,
+      "maximum_request_s": 455.6254984869156,
+      "useful_tokens_per_s": 981.4324523485254,
+      "requests_per_s": 0.1311334091204277
+    },
+    {
+      "run": "cachewise_oracle_no_aging-r1",
+      "policy": "cachewise_oracle_no_aging",
+      "summary_sha256": "c7f595ea6d6c66d7caca78d52c411ad10ad50f4bfcd3e6b104355650b55803f5",
+      "request_p50_s": 24.724035470047966,
+      "request_p90_s": 95.55819371058604,
+      "request_p99_s": 232.94855763424914,
+      "maximum_request_s": 460.80907885800116,
+      "useful_tokens_per_s": 976.6589987181311,
+      "requests_per_s": 0.13049560745987124
+    },
+    {
+      "run": "cachewise_oracle_no_aging-r2",
+      "policy": "cachewise_oracle_no_aging",
+      "summary_sha256": "47a8d69e89094aa3f0cc2086032466f0ea7b6c6071829d38e45e6fdf2ed2eeda",
+      "request_p50_s": 25.344374606152996,
+      "request_p90_s": 103.59568956349975,
+      "request_p99_s": 235.1699404667204,
+      "maximum_request_s": 465.60934809804894,
+      "useful_tokens_per_s": 939.540899881594,
+      "requests_per_s": 0.12553609870421867
+    },
+    {
+      "run": "eviction_only-r0",
+      "policy": "eviction_only",
+      "summary_sha256": "6cd38b825887c88825019b63516b41db105d4cc0adea324b0b804e4174627b3e",
+      "request_p50_s": 25.272947205929086,
+      "request_p90_s": 185.03905255575663,
+      "request_p99_s": 259.3918096678838,
+      "maximum_request_s": 317.76880259020254,
+      "useful_tokens_per_s": 786.051367866553,
+      "requests_per_s": 0.10502770248268875
+    },
+    {
+      "run": "eviction_only-r1",
+      "policy": "eviction_only",
+      "summary_sha256": "750a0085a0eddaa869b0e92d4c6460c7af0f51e126a39fc30cd8bd0766392147",
+      "request_p50_s": 24.965893503045663,
+      "request_p90_s": 187.63767493064512,
+      "request_p99_s": 263.0822838820465,
+      "maximum_request_s": 321.8302837689407,
+      "useful_tokens_per_s": 769.6981395354558,
+      "requests_per_s": 0.10284267734310837
+    },
+    {
+      "run": "eviction_only-r2",
+      "policy": "eviction_only",
+      "summary_sha256": "37bcdc71a7caf98d2f7e2c01ceb8bac1e52b232a4d70c587c645fa981b38ab02",
+      "request_p50_s": 25.619514423189685,
+      "request_p90_s": 187.72677841125986,
+      "request_p99_s": 263.736301677762,
+      "maximum_request_s": 322.4443103221711,
+      "useful_tokens_per_s": 766.4726620017215,
+      "requests_per_s": 0.1024117074235507
+    },
+    {
+      "run": "prefix_only_no_aging-r0",
+      "policy": "prefix_only_no_aging",
+      "summary_sha256": "e08ce46f338021e63317aa6feac4b3b9bd86e61c85b42ff7de5cb63ce02ef008",
+      "request_p50_s": 23.645215393044055,
+      "request_p90_s": 107.22846082905306,
+      "request_p99_s": 206.29885097443957,
+      "maximum_request_s": 315.83174566412345,
+      "useful_tokens_per_s": 974.4579470873337,
+      "requests_per_s": 0.13020151548919526
+    },
+    {
+      "run": "prefix_only_no_aging-r1",
+      "policy": "prefix_only_no_aging",
+      "summary_sha256": "b5f5c3f15ae0059244d4fb779dcd7ec9007f3cd447890af7f5823ead737de6a5",
+      "request_p50_s": 23.727080418961123,
+      "request_p90_s": 109.550885016378,
+      "request_p99_s": 209.86203026966092,
+      "maximum_request_s": 320.9522062309552,
+      "useful_tokens_per_s": 963.8463872992234,
+      "requests_per_s": 0.128783659366983
+    },
+    {
+      "run": "prefix_only_no_aging-r2",
+      "policy": "prefix_only_no_aging",
+      "summary_sha256": "87083b91e833f50d02f2379eaabdfab6aee7027ea83462fd064f5364d65b1c79",
+      "request_p50_s": 25.333972377004102,
+      "request_p90_s": 110.25040079234167,
+      "request_p99_s": 211.61639686466094,
+      "maximum_request_s": 323.66250279010274,
+      "useful_tokens_per_s": 945.6589642999219,
+      "requests_per_s": 0.12635355959261083
+    }
+  ]
+}
