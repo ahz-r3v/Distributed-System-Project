@@ -1,0 +1,25 @@
+% !TeX root = ../main.tex
+\section{Evaluation of the Proposed Offloading Methods}
+\label{sec:evaluation}
+
+\subsection{Evaluation Questions, Setup, and Baselines}
+\draftnote{Evaluate whether the methods reduce session serving time and recomputation, when benefits disappear, and which mechanisms produce the gains.
+Reuse the replication setup where possible, and list all changes, including SSD model, effective read/write bandwidth, filesystem, DRAM budget, and page-cache treatment.}
+\draftnote{Compare the default serving policy, CacheWise with recomputation, CacheWise with DRAM offloading, CacheWise with synchronous SSD offloading (Method 1), and each implemented optimization.
+Hold CacheWise's scheduling and eviction rules fixed in the storage comparison.
+Report memory and storage capacity for every configuration and make additional capacity explicit.}
+
+\subsection{End-to-End Results}
+\draftnote{Plot session serving time and useful-token goodput across increasing concurrency and memory pressure.
+Also report session wall-clock duration, time to first token, tail latency, recomputed tokens, actual bytes read/written, and GPU compute time.
+Include repeated runs and uncertainty estimates, and check that cache restoration preserves valid model state and output behavior.}
+
+\subsection{Ablations and Sensitivity Analysis}
+\draftnote{Add asynchronous I/O, prefetching, and cost-aware decisions individually to the synchronous SSD baseline, then evaluate the combined method.
+Sweep storage bandwidth, block size, queue depth, host-buffer capacity, reuse frequency, and workload concurrency.
+Include rarely reused prefixes and saturated storage to identify regressions.}
+
+\subsection{Resource Costs and Interpretation}
+\draftnote{Account for write amplification, unused prefetches, staging memory, CPU overhead, and storage occupancy alongside compute saved.
+If monetary cost is reported, compare equal completed work at stated service targets and include GPU, host, and storage charges.
+Connect measured outcomes to the break-even analysis in Section~\ref{sec:tradeoff}; do not infer end-to-end gains from isolated I/O timings alone.}

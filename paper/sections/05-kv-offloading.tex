@@ -1,0 +1,37 @@
+% !TeX root = ../main.tex
+\section{Proposed Methods for Secondary-Storage KV Offloading}
+\label{sec:offloading}
+
+The following subsections organize candidate methods; they do not claim that the mechanisms are implemented or validated.
+\draftnote{Select the mechanisms supported by the implementation and the tradeoff measurements, and replace proposal language as work is completed.}
+
+\subsection{Architecture and Design Goals}
+\draftnote{Describe the GPU--DRAM--SSD data path, bounded host staging buffers, and integration with CacheWise's scheduling and eviction policies.
+Define goals in terms of reduced recovery work and session serving time, subject to memory and I/O limits.
+Planned artifact: an architecture diagram showing the control path and read/write path.}
+
+\subsection{Method 1: Block-Based Offload and On-Demand Restore}
+\draftnote{Define the basic synchronous storage method used as the implementation baseline.
+Specify block identifiers, prefix lookup, storage allocation, and metadata.
+Explain when a block becomes eligible for offload and how a request restores a valid prefix.
+Include model, token-prefix, position, and KV-format compatibility in cache validation.}
+\draftnote{Describe the block lifecycle: GPU resident, being written, stored, being restored, and invalidated.
+Do not release the final usable copy before its write completes.
+Define ownership for shared blocks, storage-capacity eviction, stale-entry cleanup, and fallback after missing or failed reads.}
+
+\subsection{Method 2: Asynchronous Transfers and Prefetching}
+\draftnote{Propose pipelined reads/writes using bounded queues, batched contiguous I/O, and host staging buffers.
+Explain whether tool execution or ongoing GPU work provides an overlap window and what triggers prefetching.
+Specify backpressure, cancellation, and limits on speculative reads.
+Measure whether this method improves on Method 1.}
+
+\subsection{Method 3: Cost-Aware Offload and Recovery Decisions}
+\draftnote{Use measured write, read, and recomputation costs plus estimated reuse to decide which blocks to retain, store, or discard.
+Describe how CacheWise's reuse information can guide storage decisions, while distinguishing future-reuse ordering from a calibrated reuse probability.
+Allow recomputation when restoration is predicted to be slower or the stored state is unavailable.
+Provide decision logic or pseudocode once the policy is specified.}
+
+\subsection{Implementation Scope and Reproducibility}
+\draftnote{Identify the implemented subset of Methods 1--3, engine integration points, storage API, block size, queue depth, buffer limits, and configuration interface.
+Record code revisions and experiment entry points.
+Mark every unimplemented optimization as future work.}
