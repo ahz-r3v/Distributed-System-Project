@@ -1,24 +1,43 @@
 % !TeX program = xelatex
-\documentclass[11pt,a4paper]{article}
+\documentclass[letterpaper,twocolumn,10pt]{article}
 
-\usepackage[UTF8,scheme=plain,fontset=fandol]{ctex}
-\usepackage[margin=1in]{geometry}
+% Official USENIX style, shared by OSDI. See TEMPLATE.md for provenance.
+\usepackage{usenix2019_v3}
+
+% XeLaTeX: retain Chinese draft notes and a Times-compatible Latin font.
+\usepackage{xeCJK}
+\setmainfont{TeX Gyre Termes}
+\setsansfont{TeX Gyre Heros}
+\setmonofont{TeX Gyre Cursor}
+\setCJKmainfont[BoldFont=FandolSong-Bold,ItalicFont=FandolKai-Regular]{FandolSong-Regular}
+\setCJKsansfont{FandolHei-Regular}
+\setCJKmonofont{FandolFang-Regular}
+
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
-\addbibresource{references.bib}
-\usepackage[hidelinks]{hyperref}
+% hyperref and cite are already loaded by the USENIX style.
+\hypersetup{hidelinks}
 
 \graphicspath{{figures/}}
-\newcommand{\draftnote}[1]{\par\noindent\textit{[TODO: #1]}\par}
+\newcommand{\draftnote}[1]{\par\noindent\textcolor{blue!60!black}{[TODO: #1]}\par}
 
-\title{Distributed System Project\\\large Research Draft}
-\author{Authors TBD}
+\title{\Large\bfseries Distributed System Project: Course Report}
+\author{
+  {\rmfamily Author One}\\
+  University / Student ID
+  \and
+  {\rmfamily Author Two}\\
+  University / Student ID
+  \and
+  {\rmfamily Author Three}\\
+  University / Student ID
+}
 \date{}
 
 \begin{document}
 \maketitle
+\pagestyle{plain}
 
 \begin{abstract}
   \input{sections/00-abstract}
@@ -32,5 +51,6 @@
 \input{sections/06-discussion}
 \input{sections/07-conclusion}
 
-\printbibliography
+\bibliographystyle{plain}
+\bibliography{references}
 \end{document}
