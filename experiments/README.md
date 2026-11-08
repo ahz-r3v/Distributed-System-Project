@@ -26,6 +26,13 @@ selected waits are preserved without truncation, clipping, or rescaling.
 The resulting population is a runtime-bounded adapted workload. Historical
 N=10 results remain a separate experiment.
 
+The registered execution finished on **2026-11-08 at 19:26 UTC**: all 60 policy
+runs and 6,384 requests completed without client errors. The final cross-block
+audit passed under the declared amendment below, retaining one real preemption.
+Compact numeric results, measurements, and completion provenance are archived
+as `../notes/experiment-evidence/part1-coverage-comparison.json`,
+`part1-coverage-measurements.csv`, and `part1-coverage-completion.json`.
+
 ## Observed preemption and the analysis amendment
 
 The registered zero-preemption condition was not satisfied: A-N20, repeat 0
@@ -123,7 +130,7 @@ python control/collect_cachewise_part1.py \
   --root /absolute/path/to/study --array-job EXISTING_ARRAY_JOB_ID
 ```
 
-The current execution uses that collector with `--observed-preemptions`, the
+The completed execution used that collector with `--observed-preemptions`, the
 independent analyzer in `control/`, and the recorded amendment copied to
 `study/preemption-audit-amendment.json`. Its original collector was retained as
 provenance and stopped after the amended collector was verified. GPU jobs and

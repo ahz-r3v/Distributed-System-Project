@@ -1,0 +1,455 @@
+{
+  "status": "complete_with_protocol_deviation",
+  "completed_at_utc": "2026-11-08T19:26:08.302837+00:00",
+  "verified_at_utc": "2026-11-08T19:29:03.963992+00:00",
+  "analysis_repository_revision": "e9ccd89cee254448ec5b25c628b661489b4e1e2e",
+  "array_job": "16293",
+  "validation_job": "16289",
+  "remote_root": "/export/home4/wspang/cachewise-rerun/part1-coverage-20261108-v1",
+  "completed_blocks": 15,
+  "completed_policy_runs": 60,
+  "completed_requests": 6384,
+  "prompt_tokens_in_request_usage": 294550116,
+  "output_tokens": 1011600,
+  "client_errors": 0,
+  "reported_preemptions": 1,
+  "original_protocol_fully_satisfied": false,
+  "strict_registered_audits_passed_blocks": 14,
+  "shared_hashes": {
+    "protocol_sha256": "d281390347ba2342eb43b229ec0799ca9226f915e170696fb5415b28994b9002",
+    "engine_patch_sha256": "0289afa28f92c1db66684923d69336d833a4a52f89af84c62cb57f9bcdcf03ad",
+    "packages_sha256": "3bcd42966bc47e95e73dda5a9a2153ba8c0a6428b1bea632241cf654e1005ff3",
+    "model_snapshot_sha256": "cb7cae4cc3c61789b9d840902d55220c189223ae6c2e2aacc3b1ef50fea0ecab",
+    "source_manifest_sha256": "1dab30dc27607b95ffbec760eb7114924a3679317a5b3ebedbb2575587e04bb3",
+    "analyzer_sha256": "5a1281cc182e36a670fc2d3da1b3e4059ebbec0cb044e021b5fd56870a0e4b0e",
+    "audit_amendment_sha256": "244e25efe66bd429cef3fc3039a281371049dc64748cd0b860c9f4f1a67581ff"
+  },
+  "frozen_worker_runner_and_prepared_input_hashes": {
+    "part1/array.slurm": "1113d6034f5eeb66dca34733197c5fefc7ec273a160c2a557a8f0b8b788ee367",
+    "part1/audit.py": "275d69de68670b95c866ccc8bb185d11fefaa9504388293059b81aee09ae2dbc",
+    "part1/common.py": "c5102cac11bf0433b682f6e17b58777a216695796b597f12c37f050620db429b",
+    "part1/environment.sh": "5c966ca0f9adf4c6f2605a5058d350c5e51e07ce57d9e316fa7c44a8826687ba",
+    "part1/full_counters.py": "9c2acd0cb6093eb114badf9e061b3e9b8d95fb18132d79ea94005e3ffcd61f07",
+    "part1/monitor.py": "9e2272fb2adb87406cc93831e138d192f158c6ba03addd1de47397890ba650bf",
+    "part1/prepare.py": "cb6cc90df52e217a09dad7512eb5d0bcabc3803c52416cf9e18fbe37cc8e35b4",
+    "part1/protocol.json": "d281390347ba2342eb43b229ec0799ca9226f915e170696fb5415b28994b9002",
+    "part1/run.py": "31b74c99382531d368d759f00d52526c75e5dce53d37795248cd1eb42fd20fe0",
+    "part1/selection.json": "bba29876256aace7afda0b99b261800db85a1b821fe552726886448d58441837",
+    "part1/server.py": "d3ec227f56989acefb0b73ed57d02bab6a0a22f795e517520d014f93153aa19a",
+    "part1/smoke.slurm": "a876e878b61b3aa6d736aa23a66e26eaddcf43daf9d0b70e708d230987df46b5",
+    "part1/tests/conftest.py": "5304ee5bfdb9cac1d7288cf7ecfc7534e844cea22a8d4f3e2e41c78029a5d860",
+    "part1/tests/test_counters.py": "021ab9aedf3fb98bd0f045c8122d807bd77c235f5b71605a14b3f2ae4f9c2004",
+    "part1/tests/test_protocol.py": "7fc68e0634682b8e93c6b68c53b997ae4b542c33b0a4838c4023de2b42e3cf66",
+    "prepared/a-n10.json": "c60d2f62aebd0dc7fd5ea1a2833d29eca43f2facd765277e5ae9f684cf93580a",
+    "prepared/a-n20.json": "350f1ae6aebdfea03c8a884cc49f582219f3d093ae1e190e9486cfa9e2ebc2dd",
+    "prepared/a-n30.json": "d5719ed88d0836f600291c0bc40f78dc4734c68ed3ebb594da0015a5294c6dfe",
+    "prepared/b-n10.json": "c5c5d6977b057207eb0a9b0f7f6d6891a55859747696483607b75c5bf448292f",
+    "prepared/bootstrap.jsonl": "00bc7912d76a7c2d5a9fa45cccd5153d63f597639f590496556ec4d4df0f96eb",
+    "prepared/c-n10.json": "4755580d534b6ddb9716783b272d6009ec1aad79ab4f4d6a2e74e97391de675d",
+    "prepared/protocol.json": "d281390347ba2342eb43b229ec0799ca9226f915e170696fb5415b28994b9002",
+    "prepared/selection.json": "bba29876256aace7afda0b99b261800db85a1b821fe552726886448d58441837",
+    "prepared/smoke.json": "ac9d6055cf6c7371f85161b7b23f5d85952b4f005a31021a2afdc06465dd42aa",
+    "serving_experiment/analyze_aging.py": "74ef79f332f0155552b34a5fc383922a1443c667ea4c2cb6e652a775039772e8",
+    "serving_experiment/analyze_bottlenecks.py": "ae1aa5852281d2bec318dea36b0735a8859e38b14aa6b9235186a7fc3499174f",
+    "serving_experiment/analyze_diagnostics.py": "541846645d7d3837336bc48f4378abcf5faf21f2c28b55924405f703801df0b6",
+    "serving_experiment/analyze_evictions.py": "91c4392aee916009ea2ad283657e7926fe383aa7c8e07cdf973bc528e53b4750",
+    "serving_experiment/analyze_fair.py": "c5dcc38cd6378f9dbfbaf8e1b073a2f73478b30a17f28207f56b2eda753e7928",
+    "serving_experiment/analyze_oracle.py": "72dbe51351074c1e411fdccfe422da266de7c43f46837ffb3b3d48dbbb803717",
+    "serving_experiment/analyze_pressure.py": "9270bf57ddd3556473ff967ce3a5be30a9b4a86644608db0b966709d9c197cda",
+    "serving_experiment/audit_paper_fidelity.py": "2752e63e37912ba48e75b008d28ddd7ec575d809ae68ebc3ad4e87a46413b12c",
+    "serving_experiment/inspect_traces.py": "9f2ede8a7a91be7da6721f164bdad2055180881f31d8d7e800bcebd9939639a5",
+    "serving_experiment/plot_paper_figures.py": "3b311eb0f10bffb4b806afa225ad681b7efb282e025ed297c71a4a0093d6a337",
+    "serving_experiment/plot_remaining_figures.py": "a711b51671d2d3fd80abe75ffb1f24c78094de50c0dd793b3d845d80856293e5",
+    "serving_experiment/prepare.py": "2ba74c811bf71c61f88a2084a53741abd265ca7fffcde5c08aa2fc926a9609ba",
+    "serving_experiment/probe_predictor.py": "a3343e1cef6960455884c040e5ca2670bad3b5dfe2760bcea942840743d61efc",
+    "serving_experiment/probe_scheduler.py": "b83122cfc872d0adfe5f11a2d6a108b72b9fedb19ee07806324ad222ed244882",
+    "serving_experiment/profile_recompute.py": "1d566e7fca5bedc58bce5b38ae62ba5adfbdd79d53c0b0605afc988eeb000986",
+    "serving_experiment/queue_observer.py": "b4a6bb0ce465edb4942b1c32e044da4d9f94f8e8f0a7f7f0e806fb76ea0fc44d",
+    "serving_experiment/replay.py": "c90784b0bebaeb28a511a65f9bdc985f122d243535219ffc2203e01b3bacaeef",
+    "serving_experiment/run_job.py": "7ba2edcbc8c45a2e3b9a4320c24c2467504f9087a05c4fcb98db72526c7c6c31",
+    "serving_experiment/server_diagnostics.py": "db96c12a9c4c34c8671b58379805c13e4e5eb9197ec464e7ff065a32b2ba47fd",
+    "serving_experiment/server_queue_diagnostics.py": "24d992893c4f091d1d64f17f1df0ad131dc98aa6784b09e9097ba1517f73a1fd",
+    "serving_experiment/summarize.py": "7500f329d2663ee474169f0b2038b4f2ce8dd3374a2c1f1eb2e69d28e5439cd8",
+    "serving_experiment/test_queue_observer.py": "c1a8a8fada309ba99129f9942389953b95f2940ca59a4ee5a71d52fa80826d2f",
+    "serving_experiment/test_replay.py": "2084788e21b53f614eb3cfa80c12edd1e356ff7389a83a767a39876a8c94f1e3"
+  },
+  "block_audits": [
+    {
+      "setting": "a-n10",
+      "repeat": 0,
+      "audit_relative_path": "results-observed/a-n10/repeat-0/part1-audit.json",
+      "audit_sha256": "e5bbc918ddfb23307ae1878a2df1e8b2290804fc0ea00620bb7251608e754da6",
+      "original_validation": "passed_registered_checks",
+      "original_audit_sha256": "2b644550f8b9c56224fe6fdfa55f60dea93ba4f1c243542d7e78ae8d72bb30ee",
+      "environment": {
+        "vllm_revision": "a4b3affa7f746db57c2f19de839f72094c8f3ce1",
+        "host": "node06",
+        "gpu": "uuid, name, driver_version, memory.total [MiB]\nGPU-aa038492-0240-2260-6d38-ac461108562b, NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 615.71.09, 97887 MiB\n",
+        "slurm_job_id": "16294",
+        "cuda_visible_devices": "0",
+        "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+        "model": "Qwen/Qwen2.5-Coder-14B-Instruct",
+        "smoke": false
+      },
+      "policy_preemptions": {
+        "baseline": 0,
+        "eviction_only": 0,
+        "prefix_only_no_aging": 0,
+        "cachewise_no_aging": 0
+      }
+    },
+    {
+      "setting": "a-n10",
+      "repeat": 1,
+      "audit_relative_path": "results-observed/a-n10/repeat-1/part1-audit.json",
+      "audit_sha256": "387be827ecf9924bef34a5cc81e427f49d407c59152a02106ddab9d13345fc77",
+      "original_validation": "passed_registered_checks",
+      "original_audit_sha256": "f2a113330aeaf09cc9494343b407997addfa99a73f62a1d4e2b7c133c2dad378",
+      "environment": {
+        "vllm_revision": "a4b3affa7f746db57c2f19de839f72094c8f3ce1",
+        "host": "node06",
+        "gpu": "uuid, name, driver_version, memory.total [MiB]\nGPU-e42940a5-77eb-66f0-bd40-27886ff66c04, NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 615.71.09, 97887 MiB\n",
+        "slurm_job_id": "16295",
+        "cuda_visible_devices": "0",
+        "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+        "model": "Qwen/Qwen2.5-Coder-14B-Instruct",
+        "smoke": false
+      },
+      "policy_preemptions": {
+        "baseline": 0,
+        "eviction_only": 0,
+        "prefix_only_no_aging": 0,
+        "cachewise_no_aging": 0
+      }
+    },
+    {
+      "setting": "a-n10",
+      "repeat": 2,
+      "audit_relative_path": "results-observed/a-n10/repeat-2/part1-audit.json",
+      "audit_sha256": "fc855aec90742996590c0c1d75c54c8874a053b42b8c125403ddc91bce34c1f3",
+      "original_validation": "passed_registered_checks",
+      "original_audit_sha256": "65fee3921ea26f260c7e3d7ae49099a6d199543c54e160db97674ab6679266a4",
+      "environment": {
+        "vllm_revision": "a4b3affa7f746db57c2f19de839f72094c8f3ce1",
+        "host": "node07",
+        "gpu": "uuid, name, driver_version, memory.total [MiB]\nGPU-3fcc4892-a8ae-58b3-42fb-f3602a766842, NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 615.71.09, 97887 MiB\n",
+        "slurm_job_id": "16296",
+        "cuda_visible_devices": "0",
+        "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+        "model": "Qwen/Qwen2.5-Coder-14B-Instruct",
+        "smoke": false
+      },
+      "policy_preemptions": {
+        "baseline": 0,
+        "eviction_only": 0,
+        "prefix_only_no_aging": 0,
+        "cachewise_no_aging": 0
+      }
+    },
+    {
+      "setting": "a-n20",
+      "repeat": 0,
+      "audit_relative_path": "results-observed/a-n20/repeat-0/part1-audit.json",
+      "audit_sha256": "47cb0a3aae12bf8a1c27702f47be66070eeefe9292341073bba7ec6ba6c5e359",
+      "original_validation": "rejected_nonzero_preemptions",
+      "original_audit_sha256": null,
+      "environment": {
+        "vllm_revision": "a4b3affa7f746db57c2f19de839f72094c8f3ce1",
+        "host": "node06",
+        "gpu": "uuid, name, driver_version, memory.total [MiB]\nGPU-e42940a5-77eb-66f0-bd40-27886ff66c04, NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 615.71.09, 97887 MiB\n",
+        "slurm_job_id": "16327",
+        "cuda_visible_devices": "0",
+        "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+        "model": "Qwen/Qwen2.5-Coder-14B-Instruct",
+        "smoke": false
+      },
+      "policy_preemptions": {
+        "baseline": 0,
+        "eviction_only": 0,
+        "prefix_only_no_aging": 0,
+        "cachewise_no_aging": 1
+      }
+    },
+    {
+      "setting": "a-n20",
+      "repeat": 1,
+      "audit_relative_path": "results-observed/a-n20/repeat-1/part1-audit.json",
+      "audit_sha256": "74178edbfd81724d1d9a3c29d93548d9b321b389800beeead48376fb159bcaf6",
+      "original_validation": "passed_registered_checks",
+      "original_audit_sha256": "5393a56d8943a3d1ce00e84a5b85b553fd27304d2589c42f8077eea228ae3b81",
+      "environment": {
+        "vllm_revision": "a4b3affa7f746db57c2f19de839f72094c8f3ce1",
+        "host": "node06",
+        "gpu": "uuid, name, driver_version, memory.total [MiB]\nGPU-aa038492-0240-2260-6d38-ac461108562b, NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 615.71.09, 97887 MiB\n",
+        "slurm_job_id": "16329",
+        "cuda_visible_devices": "0",
+        "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+        "model": "Qwen/Qwen2.5-Coder-14B-Instruct",
+        "smoke": false
+      },
+      "policy_preemptions": {
+        "baseline": 0,
+        "eviction_only": 0,
+        "prefix_only_no_aging": 0,
+        "cachewise_no_aging": 0
+      }
+    },
+    {
+      "setting": "a-n20",
+      "repeat": 2,
+      "audit_relative_path": "results-observed/a-n20/repeat-2/part1-audit.json",
+      "audit_sha256": "ae8055bab450599ede4741c644fbf83a466cd0dc2053895e3b28172f5a4fd944",
+      "original_validation": "passed_registered_checks",
+      "original_audit_sha256": "db6f1ed93251fe2d16856049fa6b53cbf5aebd841bcabb4aaaf794a9bcfb1d63",
+      "environment": {
+        "vllm_revision": "a4b3affa7f746db57c2f19de839f72094c8f3ce1",
+        "host": "node08",
+        "gpu": "uuid, name, driver_version, memory.total [MiB]\nGPU-d5631308-81f2-06f5-c32a-b83394d5178f, NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 615.71.09, 97887 MiB\n",
+        "slurm_job_id": "16330",
+        "cuda_visible_devices": "0",
+        "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+        "model": "Qwen/Qwen2.5-Coder-14B-Instruct",
+        "smoke": false
+      },
+      "policy_preemptions": {
+        "baseline": 0,
+        "eviction_only": 0,
+        "prefix_only_no_aging": 0,
+        "cachewise_no_aging": 0
+      }
+    },
+    {
+      "setting": "a-n30",
+      "repeat": 0,
+      "audit_relative_path": "results-observed/a-n30/repeat-0/part1-audit.json",
+      "audit_sha256": "9ca591fc38e17068d358ab26fc96f9de5ddc0a0e017b2d73361f1a8cc9a1dd73",
+      "original_validation": "passed_registered_checks",
+      "original_audit_sha256": "cc20c6d02087913a3ff78e50d6a102ee5f69b6c9dee74c6dfa506257fd0a1308",
+      "environment": {
+        "vllm_revision": "a4b3affa7f746db57c2f19de839f72094c8f3ce1",
+        "host": "node06",
+        "gpu": "uuid, name, driver_version, memory.total [MiB]\nGPU-e42940a5-77eb-66f0-bd40-27886ff66c04, NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 615.71.09, 97887 MiB\n",
+        "slurm_job_id": "16416",
+        "cuda_visible_devices": "0",
+        "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+        "model": "Qwen/Qwen2.5-Coder-14B-Instruct",
+        "smoke": false
+      },
+      "policy_preemptions": {
+        "baseline": 0,
+        "eviction_only": 0,
+        "prefix_only_no_aging": 0,
+        "cachewise_no_aging": 0
+      }
+    },
+    {
+      "setting": "a-n30",
+      "repeat": 1,
+      "audit_relative_path": "results-observed/a-n30/repeat-1/part1-audit.json",
+      "audit_sha256": "1f2528ef1bfaea98a1302a3c6f6057f983595a9e1251c45816d41c41a51847a3",
+      "original_validation": "passed_registered_checks",
+      "original_audit_sha256": "d67eb354e7105fae50ea0fe44a24c377edae942db2dfb532cf935f4fe3ae53d9",
+      "environment": {
+        "vllm_revision": "a4b3affa7f746db57c2f19de839f72094c8f3ce1",
+        "host": "node06",
+        "gpu": "uuid, name, driver_version, memory.total [MiB]\nGPU-aa038492-0240-2260-6d38-ac461108562b, NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 615.71.09, 97887 MiB\n",
+        "slurm_job_id": "16436",
+        "cuda_visible_devices": "0",
+        "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+        "model": "Qwen/Qwen2.5-Coder-14B-Instruct",
+        "smoke": false
+      },
+      "policy_preemptions": {
+        "baseline": 0,
+        "eviction_only": 0,
+        "prefix_only_no_aging": 0,
+        "cachewise_no_aging": 0
+      }
+    },
+    {
+      "setting": "a-n30",
+      "repeat": 2,
+      "audit_relative_path": "results-observed/a-n30/repeat-2/part1-audit.json",
+      "audit_sha256": "cdbf454f68132006bc1d1d081aeb439f74f899804c5a47f28f5fb49301b7f3fe",
+      "original_validation": "passed_registered_checks",
+      "original_audit_sha256": "2911a3290db04be906c36fddeb32d676d2953dec5b48c0bda7d338d9cf059b3a",
+      "environment": {
+        "vllm_revision": "a4b3affa7f746db57c2f19de839f72094c8f3ce1",
+        "host": "node06",
+        "gpu": "uuid, name, driver_version, memory.total [MiB]\nGPU-7923d65c-aaf9-e896-f03d-b357eddada4d, NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 615.71.09, 97887 MiB\n",
+        "slurm_job_id": "16446",
+        "cuda_visible_devices": "0",
+        "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+        "model": "Qwen/Qwen2.5-Coder-14B-Instruct",
+        "smoke": false
+      },
+      "policy_preemptions": {
+        "baseline": 0,
+        "eviction_only": 0,
+        "prefix_only_no_aging": 0,
+        "cachewise_no_aging": 0
+      }
+    },
+    {
+      "setting": "b-n10",
+      "repeat": 0,
+      "audit_relative_path": "results-observed/b-n10/repeat-0/part1-audit.json",
+      "audit_sha256": "317d993dc445eca9ac5cd49fb382774856ce330c572593dd4259d06ef30d2e0f",
+      "original_validation": "passed_registered_checks",
+      "original_audit_sha256": "fdf89b3e8ac8cfa7ff3313e72850a71793717f02346061386543fe2d90ae84a2",
+      "environment": {
+        "vllm_revision": "a4b3affa7f746db57c2f19de839f72094c8f3ce1",
+        "host": "node06",
+        "gpu": "uuid, name, driver_version, memory.total [MiB]\nGPU-e42940a5-77eb-66f0-bd40-27886ff66c04, NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 615.71.09, 97887 MiB\n",
+        "slurm_job_id": "16567",
+        "cuda_visible_devices": "0",
+        "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+        "model": "Qwen/Qwen2.5-Coder-14B-Instruct",
+        "smoke": false
+      },
+      "policy_preemptions": {
+        "baseline": 0,
+        "eviction_only": 0,
+        "prefix_only_no_aging": 0,
+        "cachewise_no_aging": 0
+      }
+    },
+    {
+      "setting": "b-n10",
+      "repeat": 1,
+      "audit_relative_path": "results-observed/b-n10/repeat-1/part1-audit.json",
+      "audit_sha256": "97e673296759134bbef865ea6d83f4fc5851c0a4c41344c8882988a36cb44196",
+      "original_validation": "passed_registered_checks",
+      "original_audit_sha256": "eeaf6891eeca21342d02716ce9b115a79af71b9a5ba26b2c29bb44507d99449a",
+      "environment": {
+        "vllm_revision": "a4b3affa7f746db57c2f19de839f72094c8f3ce1",
+        "host": "node06",
+        "gpu": "uuid, name, driver_version, memory.total [MiB]\nGPU-aa038492-0240-2260-6d38-ac461108562b, NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 615.71.09, 97887 MiB\n",
+        "slurm_job_id": "16573",
+        "cuda_visible_devices": "0",
+        "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+        "model": "Qwen/Qwen2.5-Coder-14B-Instruct",
+        "smoke": false
+      },
+      "policy_preemptions": {
+        "baseline": 0,
+        "eviction_only": 0,
+        "prefix_only_no_aging": 0,
+        "cachewise_no_aging": 0
+      }
+    },
+    {
+      "setting": "b-n10",
+      "repeat": 2,
+      "audit_relative_path": "results-observed/b-n10/repeat-2/part1-audit.json",
+      "audit_sha256": "f5c9ce72c1f8529f825f5c724252f3c9f13b8b5126767dcc5bf04efda4626483",
+      "original_validation": "passed_registered_checks",
+      "original_audit_sha256": "91990d6f9f100140b1956f1fbd25c261ce7a40dfffec7c09017410fd432c1696",
+      "environment": {
+        "vllm_revision": "a4b3affa7f746db57c2f19de839f72094c8f3ce1",
+        "host": "node06",
+        "gpu": "uuid, name, driver_version, memory.total [MiB]\nGPU-7923d65c-aaf9-e896-f03d-b357eddada4d, NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 615.71.09, 97887 MiB\n",
+        "slurm_job_id": "16575",
+        "cuda_visible_devices": "0",
+        "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+        "model": "Qwen/Qwen2.5-Coder-14B-Instruct",
+        "smoke": false
+      },
+      "policy_preemptions": {
+        "baseline": 0,
+        "eviction_only": 0,
+        "prefix_only_no_aging": 0,
+        "cachewise_no_aging": 0
+      }
+    },
+    {
+      "setting": "c-n10",
+      "repeat": 0,
+      "audit_relative_path": "results-observed/c-n10/repeat-0/part1-audit.json",
+      "audit_sha256": "f11b088a68eca64a5174b1ab075a753fb9841d452f4961d6e162b988a188c5fa",
+      "original_validation": "passed_registered_checks",
+      "original_audit_sha256": "bea26bc98b99687b5c1c92a63fafbcd12009b23cd0d3d7912385daa9e3425482",
+      "environment": {
+        "vllm_revision": "a4b3affa7f746db57c2f19de839f72094c8f3ce1",
+        "host": "node06",
+        "gpu": "uuid, name, driver_version, memory.total [MiB]\nGPU-e42940a5-77eb-66f0-bd40-27886ff66c04, NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 615.71.09, 97887 MiB\n",
+        "slurm_job_id": "16611",
+        "cuda_visible_devices": "0",
+        "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+        "model": "Qwen/Qwen2.5-Coder-14B-Instruct",
+        "smoke": false
+      },
+      "policy_preemptions": {
+        "baseline": 0,
+        "eviction_only": 0,
+        "prefix_only_no_aging": 0,
+        "cachewise_no_aging": 0
+      }
+    },
+    {
+      "setting": "c-n10",
+      "repeat": 1,
+      "audit_relative_path": "results-observed/c-n10/repeat-1/part1-audit.json",
+      "audit_sha256": "30305a9955a46bd8d495306b75d9eda723fb0a9705063fb15ea57f899fdb2206",
+      "original_validation": "passed_registered_checks",
+      "original_audit_sha256": "8f8dea31790b9feedcdffe35ce38f6fdd704f2516eac3c87d49cf7919e0c679e",
+      "environment": {
+        "vllm_revision": "a4b3affa7f746db57c2f19de839f72094c8f3ce1",
+        "host": "node06",
+        "gpu": "uuid, name, driver_version, memory.total [MiB]\nGPU-aa038492-0240-2260-6d38-ac461108562b, NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 615.71.09, 97887 MiB\n",
+        "slurm_job_id": "16617",
+        "cuda_visible_devices": "0",
+        "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+        "model": "Qwen/Qwen2.5-Coder-14B-Instruct",
+        "smoke": false
+      },
+      "policy_preemptions": {
+        "baseline": 0,
+        "eviction_only": 0,
+        "prefix_only_no_aging": 0,
+        "cachewise_no_aging": 0
+      }
+    },
+    {
+      "setting": "c-n10",
+      "repeat": 2,
+      "audit_relative_path": "results-observed/c-n10/repeat-2/part1-audit.json",
+      "audit_sha256": "66f54e4050b6d857a106604197613c65a1b1ce6f3b618e0070219ab93a644dd5",
+      "original_validation": "passed_registered_checks",
+      "original_audit_sha256": "b679ffce4e3d56d3026948dc7717209a7527df8b8a7532339fd14b1ae743e2d6",
+      "environment": {
+        "vllm_revision": "a4b3affa7f746db57c2f19de839f72094c8f3ce1",
+        "host": "node06",
+        "gpu": "uuid, name, driver_version, memory.total [MiB]\nGPU-7923d65c-aaf9-e896-f03d-b357eddada4d, NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 615.71.09, 97887 MiB\n",
+        "slurm_job_id": "16293",
+        "cuda_visible_devices": "0",
+        "python": "3.12.3 (main, Nov  6 2024, 18:32:19) [GCC 13.2.0]",
+        "model": "Qwen/Qwen2.5-Coder-14B-Instruct",
+        "smoke": false
+      },
+      "policy_preemptions": {
+        "baseline": 0,
+        "eviction_only": 0,
+        "prefix_only_no_aging": 0,
+        "cachewise_no_aging": 0
+      }
+    }
+  ],
+  "slurm_accounting": "16293_0|16294|COMPLETED|0:0\n16293_1|16295|COMPLETED|0:0\n16293_2|16296|COMPLETED|0:0\n16293_3|16327|FAILED|1:0\n16293_4|16329|COMPLETED|0:0\n16293_5|16330|COMPLETED|0:0\n16293_6|16416|COMPLETED|0:0\n16293_7|16436|COMPLETED|0:0\n16293_8|16446|COMPLETED|0:0\n16293_9|16567|COMPLETED|0:0\n16293_10|16573|COMPLETED|0:0\n16293_11|16575|COMPLETED|0:0\n16293_12|16611|COMPLETED|0:0\n16293_13|16617|COMPLETED|0:0\n16293_14|16293|COMPLETED|0:0",
+  "original_rejection": {
+    "relative_path": "results/task-3-failed.txt",
+    "sha256": "883d9c3304a696991ad7b49e23bd98c07bdad4725ddb5100775367e00a814d9b",
+    "traceback": "Traceback (most recent call last):\n  File \"/export/home4/wspang/cachewise-rerun/part1-coverage-20261108-v1/part1/run.py\", line 112, in <module>\n    main(args)\n  File \"/export/home4/wspang/cachewise-rerun/part1-coverage-20261108-v1/part1/run.py\", line 100, in main\n    audit_block(root, output, setting, repeat, args.smoke)\n  File \"/export/home4/wspang/cachewise-rerun/part1-coverage-20261108-v1/part1/audit.py\", line 84, in audit_block\n    raise ValueError(\"Wrong output lengths or request preemption\")\nValueError: Wrong output lengths or request preemption\n"
+  },
+  "artifacts": {
+    "part1-coverage-comparison.json": {
+      "sha256": "ece9e43fc8ca9e12691ca0311fe5f222d1f3cdec48dcfbb21a6152ea2174292c",
+      "source_relative_path": "results-observed/part1-comparison.json"
+    },
+    "part1-coverage-measurements.csv": {
+      "sha256": "b3f6d177e44be1c02063bcb404a88abb2e764c765235e99d7e0a1e1069534a31",
+      "source_relative_path": "results-observed/measurements.csv"
+    }
+  },
+  "scope": "All registered policy executions retained. The original zero-preemption condition failed once; the recorded post hoc analysis amendment reports that event and preserves all other checks. Uncached-token totals are completed-request usage, not all executed prefill; extra preemption work remains unmeasured. No offloading measurements."
+}

@@ -41,7 +41,7 @@
 早期 job-10807 的五策略结果与后续统一实验有不同的 terminal-session 处理，不应混用其比值。
 
 紧凑原始结果、来源版本、校验值及范围说明保存在 `experiment-evidence/`。
-历史统一实验没有完整淘汰计数，新增覆盖研究正在收集这些计数；当前仍没有已完成的 DRAM/SSD 卸载对比或实际 KV 传输字节数。
+历史统一实验没有完整淘汰计数，新增覆盖研究已完成并归档这些计数；当前仍没有已完成的 DRAM/SSD 卸载对比或实际 KV 传输字节数。
 
 ## Part 1 draft, figure choices, and remaining experiments
 
@@ -160,16 +160,19 @@ Two later controller tests bring the local total to eleven; they do not alter th
 A separate CPU-only probe using the real engine `BlockPool` verified exactly two allocation evictions and one invalidation outside allocation.
 The smoke replays and metadata probe are functional validation, not results for the main serving study.
 
-The full study is **running** as Slurm array **16293**, comprising 15 matched four-policy blocks and a maximum of three simultaneous single-GPU jobs.
-Its first three tasks started on node06 and node07.
-The requested steps 2 and 3 remain in progress until all 60 policy runs finish and the amended analysis below verifies their complete coverage.
-The active full counters and metric extraction implement step 4; successful study-wide coverage still depends on completion of those runs.
+The full execution **finished at 19:26 UTC on 2026-11-08** as Slurm array **16293**: 15 matched four-policy blocks, 60 policy runs, and 6,384 completed requests, with no client errors.
+The requested concurrency sweep and two additional held-out cohorts are complete.
+Fourteen blocks passed the registered strict audit; the remaining block failed its zero-preemption assumption after one real preemption, as documented below.
+All 15 blocks passed the separately recorded amended analysis, including the final cross-block source, package, model, and hardware consistency checks.
+The final status is `complete_with_protocol_deviation`; the original protocol was not fully satisfied.
+Full eviction counts and request-level usage/cache/latency measurements are available for every run; extra computation caused by preemption remains unmeasured.
 
 Remote frozen study root: `/export/home4/wspang/cachewise-rerun/part1-coverage-20261108-v1` via the existing `ccds-ai` connection.
 Compact artifacts are synchronized into the ignored local directory `experiments/cachewise_part1/results/cluster/`.
-The active cluster collector rereads completion files after querying Slurm and allows a 120-second shared-filesystem visibility grace period.
-It runs separately from the immutable GPU worker directory and does not change policy execution or submitted jobs.
-No benchmark table in the manuscript has yet been replaced with unfinished measurements.
+The cluster collector reread completion files after querying Slurm and allowed a 120-second shared-filesystem visibility grace period.
+It ran separately from the immutable GPU worker directory and did not change policy execution or submitted jobs.
+The collector, local synchronizer, and monitoring process exited after verifying completion; no jobs from this study remain active.
+Compact final results are archived below; the manuscript and historical figures have not yet been updated with the new study.
 
 For an immediate compact-results refresh:
 
@@ -222,6 +225,33 @@ Local synchronization was updated to recognize the separate results, and the mon
 Successful amended completion requires `results-observed/COMPLETE_WITH_PROTOCOL_DEVIATION`, a comparison status of `complete_with_protocol_deviation`, all 60 rows, and `original_protocol_fully_satisfied: false`.
 The original strict `results/COMPLETE` marker must not be created for this execution.
 The complete report should disclose this deviation and the remaining limit on computation accounting.
+
+### Completed coverage results
+
+The final marker was written at `2026-11-08T19:26:08.302837+00:00` and synchronized locally before the monitoring agent closed its checks.
+The archived comparison contains exactly 60 unique setting/repeat/policy rows, 6,384 requests, and 1,011,600 generated output tokens.
+CSV and JSON measurements agree; all 15 block audits share the same protocol, engine patch, package, model snapshot, worker-source, analyzer, and amendment hashes.
+The frozen worker, runner, and prepared-input signatures were checked unchanged after the complete execution.
+The single preemption occurred in A-N20, repeat 0, prefix-aware/predictive eviction.
+Its original Slurm validation failure and traceback are retained in the completion provenance.
+
+Mean session serving time in seconds, averaged over the three matched repeats:
+
+| Setting | FCFS/LRU | FCFS/predictive | Prefix-aware/LRU | Prefix-aware/predictive |
+| --- | ---: | ---: | ---: | ---: |
+| A, N=10 | 547.35 | 481.73 | 227.78 | 256.60 |
+| A, N=20 | 1,352.30 | 1,281.92 | 517.33 | 589.80 |
+| A, N=30 | 1,997.35 | 1,929.49 | 699.83 | 777.53 |
+| B, N=10 | 447.56 | 417.72 | 256.59 | 282.42 |
+| C, N=10 | 630.52 | 600.22 | 265.62 | 380.83 |
+
+These are descriptive results for the registered runtime-bounded cohorts.
+They retain all repetitions, including the observed preemption, and must remain separate from the historical six-policy study.
+Observed repeat ranges in the saved rows are not confidence intervals, and the usage-derived token counts do not establish exact executed recomputation.
+
+- `experiment-evidence/part1-coverage-comparison.json`: all 60 numeric rows, frozen selection, and declared amendment.
+- `experiment-evidence/part1-coverage-measurements.csv`: the same run-level measurements in tabular form.
+- `experiment-evidence/part1-coverage-completion.json`: completion checks, block audit references/hashes, environments, frozen source hashes, and original rejection.
 
 - 阅读笔记：原文链接、引用键、问题、方法、结论、局限及关键页码。
 - 讨论记录：日期、参与者、议题、决定、待办与负责人。
