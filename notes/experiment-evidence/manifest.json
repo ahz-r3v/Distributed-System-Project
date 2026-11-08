@@ -23,6 +23,16 @@
       "snapshot": "paper-fidelity-audit.json",
       "source_relative_path": "serving_experiment/results/2026-11-02/paper-fidelity-audit.json",
       "sha256": "c3566947cb6c48b36fff6eda390cf686c84d6cd29c1a648c3beffb5cca1a75c8"
+    },
+    {
+      "snapshot": "part1-coverage-validation.json",
+      "source_relative_path": "experiments/cachewise_part1: validation evidence",
+      "sha256": "c6a55acc90dc29ccaf0d1d03b11546db0c6f96906c6c628fc28877272eedf92f"
+    },
+    {
+      "snapshot": "part1-coverage-launch.json",
+      "source_relative_path": "experiments/cachewise_part1: Slurm launch journal",
+      "sha256": "8437b14b7d26bf296884400922dafc7af8049a8b0986750783ef6541df485023"
     }
   ],
   "scope": "Consolidated six-policy study is the primary replication evidence. The separate job-10807 profile is uncached client wall time with max_tokens=1, not isolated GPU prefill or an offloading measurement.",

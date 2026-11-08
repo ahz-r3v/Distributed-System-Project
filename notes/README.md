@@ -48,7 +48,7 @@
 Part 1 now has a prose draft covering workload characterization, setup, metric definitions, the six-policy comparison, matched scheduling/eviction effects, oracle and queue-aging diagnostics, and replication limits.
 The supporting KV-cache and CacheWise background is also drafted.
 Parts 2 and 3 retain their existing plans; their proposed mechanisms and measurements are not claimed as completed work.
-No new GPU jobs were launched for this revision.
+No new GPU jobs were launched for that prose-and-figures revision; the subsequent execution study is recorded below.
 
 ### Figure decisions
 
@@ -116,6 +116,77 @@ It checks source-trace and workload hashes, regenerates `workload-characterizati
 The second command only requires the saved numeric evidence and regenerates vector figures, PNG previews, paired-effect CSV values, and figure provenance.
 
 ## 记录建议
+
+### Part 1 execution protocol frozen on 2026-11-08
+
+The requested steps 1--4 are implemented in `experiments/cachewise_part1/`.
+`protocol.json` defines the design and `selection.json` records the cohorts and exclusions fixed before new policy outcomes are collected.
+The selector only reads trace metadata and identifiers; no historical policy latency or cache-hit measurements are used for selection.
+
+Eligible segments are complete held-out segments with 2--20 turns, at most 300 seconds of total recorded waiting, at most 1,000,000 summed prompt tokens, and at most 8,192 output tokens.
+These declared runtime budgets leave 252 eligible segments from 43 source sessions.
+No selected segment is truncated and no selected delay is clipped or rescaled.
+The study therefore measures a runtime-bounded subset of the release, not the unfiltered trace population.
+
+| Setting | Complete segments | Source sessions | Requests per policy run | Recorded wait sum |
+| --- | ---: | ---: | ---: | ---: |
+| A, N=10 | 10 | 10 | 57 | 46.35 s |
+| A, N=20 | 20 | 20 | 150 | 402.30 s |
+| A, N=30 | 30 | 23 | 226 | 839.92 s |
+| B, N=10 | 10 | 10 | 49 | 106.00 s |
+| C, N=10 | 10 | 10 | 50 | 278.05 s |
+
+A uses nested prefixes of a fixed segment ordering; B and C use disjoint source sessions, separate from A, training, and the historical serving cohort.
+The four core policies are FCFS/LRU, FCFS/predictive, prefix-aware/LRU, and prefix-aware/predictive, with queue aging disabled in the prefix-aware cases.
+Three matched repeats per setting give 60 full runs and 6,384 planned request executions.
+New N=10 controls are included because workload selection and instrumentation differ from the historical study.
+Historical measurements are retained separately.
+
+The passive observer counts every successful cached-block hash removal during allocation, distinguishing cache invalidation outside allocation and excluding unsuccessful removals or fresh blocks.
+It leaves the policy result and allocation order unchanged and keeps the existing 1% lifetime sampling as a separate diagnostic.
+Computed prompt tokens are checked against both server counters and completed-request usage.
+First-use prompt tokens and excess computed tokens are reported separately; alignment and last-token overhead are not mislabeled as an exact recomputation count.
+Per-run P50/P90/P99, maxima, TTFT, goodput, cache hits, preemptions, source hashes, and physical GPU identity are audited.
+
+The suite uses isolated copies of the existing runner and engine, a fresh server per policy, at most three GPU jobs concurrently, and one physical GPU for all four policies within each repeat block.
+A four-policy GPU smoke test and engine tests gate the main array.
+Raw replay completion alone is insufficient: a block needs `AUDITED_COMPLETE`, and the overall study only receives a completion marker after all 60 policy runs pass the final cross-block audit.
+
+Local validation: eleven tests passed for deterministic/disjoint selection, full-segment exclusion without delay clipping, first-use accounting, real-versus-fresh eviction counting, failed allocation, forked-process reset, incomplete/duplicate counter rejection, single-node resource requests, validation-gated launching, and a scheduler-completion race.
+Shell syntax checks and whitespace checks passed.
+
+GPU validation **passed** in Slurm job **16289**: 74 engine tests, nine tests in the frozen worker bundle, and all four two-segment smoke replays with request/token/configuration/full-counter audits.
+Two later controller tests bring the local total to eleven; they do not alter the frozen GPU worker sources.
+A separate CPU-only probe using the real engine `BlockPool` verified exactly two allocation evictions and one invalidation outside allocation.
+The smoke replays and metadata probe are functional validation, not results for the main serving study.
+
+The full study is **running** as Slurm array **16293**, comprising 15 matched four-policy blocks and a maximum of three simultaneous single-GPU jobs.
+Its first three tasks started on node06 and node07.
+The requested steps 2 and 3 remain in progress until all 60 policy runs finish and pass the final audit.
+The active full counters and metric extraction implement step 4; successful study-wide coverage still depends on completion of those runs.
+
+Remote frozen study root: `/export/home4/wspang/cachewise-rerun/part1-coverage-20261108-v1` via the existing `ccds-ai` connection.
+Compact artifacts are synchronized into the ignored local directory `experiments/cachewise_part1/results/cluster/`.
+The active cluster collector rereads completion files after querying Slurm and allows a 120-second shared-filesystem visibility grace period.
+It runs separately from the immutable GPU worker directory and does not change policy execution or submitted jobs.
+No benchmark table in the manuscript has yet been replaced with unfinished measurements.
+
+For an immediate compact-results refresh:
+
+```sh
+python experiments/pull_cachewise_part1.py \
+  --remote-root /export/home4/wspang/cachewise-rerun/part1-coverage-20261108-v1 \
+  --output experiments/cachewise_part1/results/cluster
+```
+
+`results/COMPLETE` and `part1-comparison.json` with status `complete` and 60 audited rows denote successful completion; `progress.json` reports partial progress.
+The array submission record, protocol hash, passed smoke audit, and counter probe are preserved in `notes/experiment-evidence/part1-coverage-launch.json` and `part1-coverage-validation.json`.
+The launch record is historical status at submission, rather than a completion claim.
+
+Setup history is retained on the cluster: job 16280 was cancelled while pending after a required-node-list setting requested four nodes; it consumed no run time.
+Job 16283 passed the engine and worker tests but stopped before inference because the initial copied runner lacked repeat-index support.
+The final validation uses the already validated parallel runner with SHA-256 `7ba2edcbc8c45a2e3b9a4320c24c2467504f9087a05c4fcb98db72526c7c6c31` and the unchanged engine patch SHA-256 `0289afa28f92c1db66684923d69336d833a4a52f89af84c62cb57f9bcdcf03ad`.
+Neither setup attempt contributes performance results; the registered workload and predictor bootstrap were not changed.
 
 - 阅读笔记：原文链接、引用键、问题、方法、结论、局限及关键页码。
 - 讨论记录：日期、参与者、议题、决定、待办与负责人。
