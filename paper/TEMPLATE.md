@@ -21,6 +21,8 @@ OSDI 的官方征稿页指向 USENIX 的作者模板资源。
 
 - 使用 US Letter、双栏、10 pt 正文以及官方样式设置的 7 × 9 英寸正文区域。
 - 使用 XeLaTeX、TeX Gyre Termes（Times 兼容字体）及 Fandol 中文字体，方便团队写中英文草稿。
+- 在入口文件通过 `scrlfile` 跳过只适用于 dvips 的 `breakurl`，由 `hyperref` 处理 URL；关闭 `microtype` 的 pdfTeX 专属 spacing / kerning 功能，兼容 XeLaTeX。
+- 字体直接通过 TeX 自带文件加载，无需在操作系统中另行注册字体。
 - 使用官方示例中的 BibTeX `plain` 文献样式；共享文献库位于 `references.bib`。
 - 将正文拆到 `sections/`，保留真实作者信息位置、页码和醒目的草稿标记。
 - 不改写官方样式中的页边距、栏宽或标题布局。

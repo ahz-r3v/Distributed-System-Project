@@ -2,20 +2,30 @@
 \documentclass[letterpaper,twocolumn,10pt]{article}
 
 % Official USENIX style, shared by OSDI. See TEMPLATE.md for provenance.
+% breakurl targets dvips; XeLaTeX uses hyperref's native URL handling.
+\usepackage{scrlfile}
+\PreventPackageFromLoading{breakurl}
 \usepackage{usenix2019_v3}
+% The upstream style enables pdfTeX-only microtype features.
+\microtypesetup{spacing=false,kerning=false}
 
 % XeLaTeX: retain Chinese draft notes and a Times-compatible Latin font.
 \usepackage{xeCJK}
-\setmainfont{TeX Gyre Termes}
-\setsansfont{TeX Gyre Heros}
-\setmonofont{TeX Gyre Cursor}
-\setCJKmainfont[BoldFont=FandolSong-Bold,ItalicFont=FandolKai-Regular]{FandolSong-Regular}
-\setCJKsansfont{FandolHei-Regular}
-\setCJKmonofont{FandolFang-Regular}
+% Use TeX-distributed font files, without relying on OS font registration.
+\setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,
+  BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\setsansfont{texgyreheros}[Extension=.otf,UprightFont=*-regular,
+  BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\setmonofont{texgyrecursor}[Extension=.otf,UprightFont=*-regular,
+  BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\setCJKmainfont[BoldFont=FandolSong-Bold.otf,ItalicFont=FandolKai-Regular.otf]{FandolSong-Regular.otf}
+\setCJKsansfont[BoldFont=FandolHei-Bold.otf]{FandolHei-Regular.otf}
+\setCJKmonofont{FandolFang-Regular.otf}
 
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{xurl} % Allow long bibliography URLs to wrap within a column.
 % hyperref and cite are already loaded by the USENIX style.
 \hypersetup{hidelinks}
 
@@ -24,13 +34,13 @@
 
 \title{\Large\bfseries Distributed System Project: Course Report}
 \author{
-  {\rmfamily Author One}\\
+  {\normalfont Author One}\\
   University / Student ID
   \and
-  {\rmfamily Author Two}\\
+  {\normalfont Author Two}\\
   University / Student ID
   \and
-  {\rmfamily Author Three}\\
+  {\normalfont Author Three}\\
   University / Student ID
 }
 \date{}

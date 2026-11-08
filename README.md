@@ -42,8 +42,8 @@ latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error -file-line-error -o
 ```
 
 PDF 输出至 `paper/build/main.pdf`。`latexmk` 会自动运行 BibTeX 并解析交叉引用。
-使用精简 TeX 安装时，需要 `xecjk`、`fandol`、`tex-gyre`、`amsmath`、`amsfonts`、`graphics`、`booktabs`、`latexmk`，
-以及官方样式依赖的 `times`、`pslatex`、`microtype`、`sttools`（含 `flushend`）、`cite`、`breakurl`、`url`、`xcolor`、`hyperref` 及其依赖。
+使用精简 TeX 安装时，需要 `xecjk`、`fandol`、`tex-gyre`、`koma-script`（含 `scrlfile`）、`amsmath`、`amsfonts`、`graphics`、`booktabs`、`latexmk`，
+以及官方样式依赖的 `times`、`pslatex`、`microtype`、`sttools`（含 `flushend`）、`cite`、`url`、`xurl`、`xcolor`、`hyperref` 及其依赖。
 
 清理编译缓存（保留最终 PDF）：
 
