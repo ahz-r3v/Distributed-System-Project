@@ -1,0 +1,10 @@
+treatment,control,repeat,time_change_percent
+eviction_only,baseline,0,-11.26356763510099
+eviction_only,baseline,1,-10.705135290957202
+eviction_only,baseline,2,-10.84290659509417
+cachewise_no_aging,prefix_only_no_aging,0,3.168827144220332
+cachewise_no_aging,prefix_only_no_aging,1,3.081593377703995
+cachewise_no_aging,prefix_only_no_aging,2,4.209818715514646
+cachewise_oracle_no_aging,cachewise_no_aging,0,0.26068179432177097
+cachewise_oracle_no_aging,cachewise_no_aging,1,-0.26628932317518395
+cachewise_oracle_no_aging,cachewise_no_aging,2,-0.07201436786165027

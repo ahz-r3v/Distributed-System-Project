@@ -3,13 +3,16 @@
 \label{sec:related-work}
 
 \subsection{KV Cache, Prefix Reuse, and Memory Tiers}
-\draftnote{Define prefill, decode, shared prefixes, cache blocks, eviction, and recomputation of missing prefix state.
-Distinguish accelerator memory, CPU DRAM, and secondary storage.
-Use a local SSD as the initial secondary-storage target, and state the actual device used in the experiments.}
+Autoregressive inference first processes the input during prefill and then generates output tokens during decode.
+The KV cache retains attention keys and values so later tokens can reuse previously computed state.
+Successive agent turns can also reuse an unchanged prompt prefix when its compatible KV state remains available.
+Evicting that state frees accelerator memory but requires recovery before reuse, either through recomputation or restoration from another tier.
+We distinguish accelerator memory, CPU DRAM, and secondary storage such as an SSD throughout the report.
 
 \subsection{CacheWise}
 CacheWise combines prefix-aware request scheduling with predictive KV cache eviction based on tool-call metadata~\cite{Tiwari2026CacheWise}.
-\draftnote{Explain the two policies sufficiently to identify which components are replicated and which are held fixed when evaluating offloading.}
+Its scheduler favors requests needing fewer additional KV blocks, while its eviction policy uses estimated future reuse to choose which cached state to discard.
+Our replication varies these policies independently in the same engine.
 
 \subsection{Related Offloading Systems and Research Gap}
 \draftnote{Add verified primary references for existing CPU-memory and SSD-backed KV cache offloading systems.

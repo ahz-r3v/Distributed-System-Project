@@ -2,7 +2,7 @@
 
 分布式系统课程报告协作仓库，采用 [USENIX 官方 LaTeX 模板](https://www.usenix.org/conferences/author-resources/paper-templates)（OSDI 使用的论文版式）。
 正文为 US Letter、双栏、10 pt，支持中英文草稿；按章节拆分，便于 teammates 并行写作。
-目前已按 CacheWise 复现、重计算与卸载的代价分析、二级存储 KV cache 卸载方法组织报告，并加入已核对的六策略复现实验结果；作者信息、卸载实现和卸载对比实验仍待补充。
+目前已完成 CacheWise 复现部分的正文初稿，加入已核对的六策略结果、工作负载图和匹配消融图；重计算与卸载分析及二级存储方法仍为后续工作，作者信息待填写。
 
 ## 开始写作
 
