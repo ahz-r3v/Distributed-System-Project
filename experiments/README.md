@@ -26,6 +26,38 @@ selected waits are preserved without truncation, clipping, or rescaling.
 The resulting population is a runtime-bounded adapted workload. Historical
 N=10 results remain a separate experiment.
 
+## Observed preemption and the analysis amendment
+
+The registered zero-preemption condition was not satisfied: A-N20, repeat 0
+completed all four policies with the correct 150 requests and 27,809 output
+tokens per policy, but prefix-aware/predictive eviction had one real preemption.
+The original worker rejected that block. Its failure, all raw results, the
+protocol, and the executing worker code are preserved.
+
+`part1-preemption-audit-amendment.json` records a **post hoc validation
+correction**, not an execution change. Nonnegative integer preemption counts are
+reported as outcomes rather than suppressed or selectively rerun. All remaining
+request-integrity, configuration, full-counter, source, package, model, and
+hardware requirements still apply. This amendment is specific to the current
+registered study and does not mean its original protocol was fully satisfied.
+
+The engine's `request_prefill_kv_computed` histogram is derived from
+completed-request prompt-minus-cached usage. The independent analysis labels it
+`reported_uncached_prompt_tokens`; it cannot establish all computation lost or
+repeated during preemption. Extra prefill work from preemption remains unknown
+when preemptions occur. Client performance and full cached-block eviction counts
+remain available, subject to the same complete-run checks.
+
+`audit_cachewise_part1_observed.py` reuses passed registered audits and independently
+checks every nonzero-preemption block without rewriting its raw artifacts.
+It writes separate audits under `results-observed/`. The collector's
+`--observed-preemptions` option selects this analysis; only one collector should
+run for that output directory. Its final marker is
+`results-observed/COMPLETE_WITH_PROTOCOL_DEVIATION`, and its comparison status is
+`complete_with_protocol_deviation` with 60 rows and
+`original_protocol_fully_satisfied: false`. The strict original study must not be
+marked `COMPLETE` when its zero-preemption requirement failed.
+
 ## Preparing another isolated execution
 
 Use an isolated study directory; do not overwrite the registered study or edit
@@ -91,6 +123,13 @@ python control/collect_cachewise_part1.py \
   --root /absolute/path/to/study --array-job EXISTING_ARRAY_JOB_ID
 ```
 
+The current execution uses that collector with `--observed-preemptions`, the
+independent analyzer in `control/`, and the recorded amendment copied to
+`study/preemption-audit-amendment.json`. Its original collector was retained as
+provenance and stopped after the amended collector was verified. GPU jobs and
+the frozen worker bundle were not modified. The local puller recognizes both
+strict and amended completion markers and retains their distinct statuses.
+
 Each block verifies actual request hashes and lengths, server configuration,
 physical GPU, input/source hashes, runtime packages, request completion, and
 full counter coverage. Prefix cache removals during allocation and other cache
@@ -122,7 +161,7 @@ result mirrors are ignored by Git.
 ## Local validation
 
 ```sh
-python -m pytest experiments/cachewise_part1/tests -q
+python -m pytest experiments/cachewise_part1/tests experiments/tests -q
 bash -n experiments/cachewise_part1/environment.sh \
   experiments/cachewise_part1/smoke.slurm experiments/cachewise_part1/array.slurm
 ```

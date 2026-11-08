@@ -33,6 +33,11 @@
       "snapshot": "part1-coverage-launch.json",
       "source_relative_path": "experiments/cachewise_part1: Slurm launch journal",
       "sha256": "8437b14b7d26bf296884400922dafc7af8049a8b0986750783ef6541df485023"
+    },
+    {
+      "snapshot": "part1-preemption-audit-amendment.json",
+      "source_relative_path": "experiments/part1-preemption-audit-amendment.json",
+      "sha256": "244e25efe66bd429cef3fc3039a281371049dc64748cd0b860c9f4f1a67581ff"
     }
   ],
   "scope": "Consolidated six-policy study is the primary replication evidence. The separate job-10807 profile is uncached client wall time with max_tokens=1, not isolated GPU prefill or an offloading measurement.",

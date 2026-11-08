@@ -22,10 +22,15 @@ def completion_poll(collect_ready, read_queue):
     return False, queue
 
 
-def monitor(root, job):
+def monitor(root, job, observed_preemptions=False):
     sys.path.insert(0, str(root / "part1"))
-    from audit import collect
+    if observed_preemptions:
+        from audit_cachewise_part1_observed import collect
+    else:
+        from audit import collect
     from common import atomic_json
+    results = root / ("results-observed" if observed_preemptions else "results")
+    results.mkdir(exist_ok=True)
 
     def ready():
         with redirect_stdout(io.StringIO()):
@@ -44,11 +49,13 @@ def monitor(root, job):
         complete, current_queue = completion_poll(ready, queue)
         if complete:
             atomic_json(root / "launch-status.json", {
-                "state": "complete", "array_job": job, "completed_policy_runs": 60,
+                "state": "complete_with_protocol_deviation" if observed_preemptions else "complete",
+                "array_job": job, "completed_policy_runs": 60,
+                "original_protocol_fully_satisfied": not observed_preemptions,
             })
-            print("All 60 runs collected and audited.", flush=True)
+            print("All 60 runs collected and audited" + (" with the recorded protocol deviation." if observed_preemptions else "."), flush=True)
             return
-        progress = json.loads((root / "results/progress.json").read_text())
+        progress = json.loads((results / "progress.json").read_text())
         signature = (progress["completed_blocks"], current_queue)
         if signature != previous:
             print(json.dumps({"time_utc": datetime.now(timezone.utc).isoformat(),
@@ -61,7 +68,7 @@ def monitor(root, job):
                 "sacct", "-X", "-j", str(job), "--noheader", "--parsable2",
                 "--format=JobIDRaw,State,ExitCode",
             ], text=True)
-            atomic_json(root / "results/array-accounting.json", {"text": accounting})
+            atomic_json(results / "array-accounting.json", {"text": accounting})
             states = [line.split("|")[1].split()[0] for line in accounting.splitlines() if line]
             if states and all(s in {"COMPLETED", "FAILED", "CANCELLED", "TIMEOUT", "NODE_FAIL", "OUT_OF_MEMORY"} for s in states):
                 if ready():
@@ -79,9 +86,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--array-job", required=True)
+    parser.add_argument("--observed-preemptions", action="store_true",
+                        help="Use the separately recorded audit amendment and results directory")
     args = parser.parse_args()
     try:
-        monitor(args.root.resolve(), args.array_job)
+        monitor(args.root.resolve(), args.array_job, args.observed_preemptions)
     except Exception:
-        (args.root / "results/CONTROLLER_FAILED.txt").write_text(traceback.format_exc())
+        results = args.root / ("results-observed" if args.observed_preemptions else "results")
+        results.mkdir(exist_ok=True)
+        (results / "CONTROLLER_FAILED.txt").write_text(traceback.format_exc())
         raise

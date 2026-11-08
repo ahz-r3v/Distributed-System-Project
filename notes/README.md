@@ -41,7 +41,7 @@
 早期 job-10807 的五策略结果与后续统一实验有不同的 terminal-session 处理，不应混用其比值。
 
 紧凑原始结果、来源版本、校验值及范围说明保存在 `experiment-evidence/`。
-当前没有已完成的 DRAM/SSD 卸载对比、完整淘汰计数或实际 KV 传输字节数；这些是下一阶段证据缺口。
+历史统一实验没有完整淘汰计数，新增覆盖研究正在收集这些计数；当前仍没有已完成的 DRAM/SSD 卸载对比或实际 KV 传输字节数。
 
 ## Part 1 draft, figure choices, and remaining experiments
 
@@ -162,7 +162,7 @@ The smoke replays and metadata probe are functional validation, not results for 
 
 The full study is **running** as Slurm array **16293**, comprising 15 matched four-policy blocks and a maximum of three simultaneous single-GPU jobs.
 Its first three tasks started on node06 and node07.
-The requested steps 2 and 3 remain in progress until all 60 policy runs finish and pass the final audit.
+The requested steps 2 and 3 remain in progress until all 60 policy runs finish and the amended analysis below verifies their complete coverage.
 The active full counters and metric extraction implement step 4; successful study-wide coverage still depends on completion of those runs.
 
 Remote frozen study root: `/export/home4/wspang/cachewise-rerun/part1-coverage-20261108-v1` via the existing `ccds-ai` connection.
@@ -180,6 +180,7 @@ python experiments/pull_cachewise_part1.py \
 ```
 
 `results/COMPLETE` and `part1-comparison.json` with status `complete` and 60 audited rows denote successful completion; `progress.json` reports partial progress.
+Those are the original strict criteria; the observed preemption below requires a distinct amended completion status for this execution.
 The array submission record, protocol hash, passed smoke audit, and counter probe are preserved in `notes/experiment-evidence/part1-coverage-launch.json` and `part1-coverage-validation.json`.
 The launch record is historical status at submission, rather than a completion claim.
 
@@ -187,6 +188,40 @@ Setup history is retained on the cluster: job 16280 was cancelled while pending 
 Job 16283 passed the engine and worker tests but stopped before inference because the initial copied runner lacked repeat-index support.
 The final validation uses the already validated parallel runner with SHA-256 `7ba2edcbc8c45a2e3b9a4320c24c2467504f9087a05c4fcb98db72526c7c6c31` and the unchanged engine patch SHA-256 `0289afa28f92c1db66684923d69336d833a4a52f89af84c62cb57f9bcdcf03ad`.
 Neither setup attempt contributes performance results; the registered workload and predictor bootstrap were not changed.
+
+### Monitoring repair and declared protocol deviation (2026-11-08)
+
+At 14:56 UTC, task 3 (A-N20, repeat 0) finished all four policy replays without client errors, but its worker audit rejected one real preemption in prefix-aware/predictive eviction.
+All policies completed 150 requests, 6,458,386 prompt tokens, and 27,809 output tokens with matching request hashes and lengths.
+Complete eviction counters cover every request without duplicate completion callbacks.
+The failure was the registered zero-preemption assumption, rather than a replay or engine crash.
+
+The monitoring repair preserves the original protocol, worker signatures, raw results, and rejection.
+It does not change execution settings or rerun a policy until preemption disappears.
+`experiments/part1-preemption-audit-amendment.json` records the post hoc correction at 15:06 UTC, before any N=30 or additional-cohort block completed.
+An identical archived copy is in `experiment-evidence/part1-preemption-audit-amendment.json`.
+Actual preemptions are retained as outcomes, and all other integrity and environment requirements remain enforced.
+
+Inspection also confirmed that the engine's request-level computed-prefill histogram is derived from prompt-minus-cached usage.
+The amended analysis calls it `reported_uncached_prompt_tokens`; neither the server/request agreement nor the first-use difference measures all extra execution caused by preemption.
+That extra work is recorded as unknown when preemptions occur.
+No exact redundant-computation claim should be made from those counters.
+
+The independent analyzer, `experiments/audit_cachewise_part1_observed.py`, writes separate results under `results-observed/` and never rewrites original replay artifacts.
+Passed strict audits are retained as evidence; blocks rejected for preemption undergo independent request/archive, token, configuration, full-counter, and source checks.
+Unrelated failures, wrong output lengths, missing counters, and noninteger/negative preemption counts are still rejected.
+All original worker, runner, and prepared-input hashes were checked unchanged after the first amended analysis.
+Twenty local tests passed, including nine regression cases for these amendment boundaries.
+
+At 15:13 UTC, all six A-N10/A-N20 blocks (24 policy runs) had been validated under this recorded amendment, with one observed preemption; the original strict audit passed 20 of those runs.
+The three N=30 tasks were running, with the additional cohorts still queued.
+This is a progress snapshot, not a completed-study finding.
+The amended collector is process 3678117; the replaced collector's code/state and process record are preserved in the remote `control/` directory.
+Local synchronization was updated to recognize the separate results, and the monitoring agent continues to check failures and process health.
+
+Successful amended completion requires `results-observed/COMPLETE_WITH_PROTOCOL_DEVIATION`, a comparison status of `complete_with_protocol_deviation`, all 60 rows, and `original_protocol_fully_satisfied: false`.
+The original strict `results/COMPLETE` marker must not be created for this execution.
+The complete report should disclose this deviation and the remaining limit on computation accounting.
 
 - 阅读笔记：原文链接、引用键、问题、方法、结论、局限及关键页码。
 - 讨论记录：日期、参与者、议题、决定、待办与负责人。

@@ -1,0 +1,28 @@
+{
+  "id": "cachewise-part1-preemption-reporting-v1",
+  "recorded_at_utc": "2026-11-08T15:06:49.170081+00:00",
+  "original_protocol_sha256": "d281390347ba2342eb43b229ec0799ca9226f915e170696fb5415b28994b9002",
+  "original_worker_audit_sha256": "275d69de68670b95c866ccc8bb185d11fefaa9504388293059b81aee09ae2dbc",
+  "timing": "Post hoc validation correction after the first observed preemption; registered before N=30 or additional-cohort blocks completed.",
+  "trigger": {
+    "task": 3,
+    "setting": "a-n20",
+    "repeat": 0,
+    "policy": "cachewise_no_aging",
+    "observed_preemptions": 1,
+    "requests_per_policy": 150,
+    "output_tokens_per_policy": 27809,
+    "client_errors": 0,
+    "original_failure": "Wrong output lengths or request preemption"
+  },
+  "reason": "A real request preemption under memory pressure is an observed policy outcome, not a failed request or permission to rerun until preemption disappears. The original zero-preemption condition was overly restrictive for the load sweep.",
+  "acceptance_change": "Keep actual nonnegative integer preemption counts, retain every prescribed policy/run, and enforce all request-integrity, token-length, configuration, counter-coverage, source, package, model, and hardware checks.",
+  "accounting_correction": "The server request_prefill_kv_computed histogram is derived from completed-request prompt-minus-cached usage. Report it as reported_uncached_prompt_tokens; extra prefill work due to preemption is unmeasured and must not be called exact executed or redundant computation.",
+  "original_protocol_fully_satisfied": false,
+  "execution_settings_changed": false,
+  "original_failures_and_results_preserved": true,
+  "reruns_to_remove_preemptions": false,
+  "output_directory": "results-observed",
+  "completion_marker": "COMPLETE_WITH_PROTOCOL_DEVIATION",
+  "completion_status": "complete_with_protocol_deviation"
+}
