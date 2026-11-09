@@ -1,44 +1,44 @@
-# 协作写作约定
+# Collaborative writing conventions
 
-## 分支与审阅
+## Branches and review
 
-1. 从 GitHub 默认分支更新本地副本，再创建任务分支，例如 `writing/introduction`、`figures/architecture` 或 `codex/update-related-work`。
-2. 在 Issue 或 `notes/` 中说明目标章节、负责人及涉及的图表，减少同时修改同一段落。
-3. 每次提交聚焦一个内容变化，例如 `docs: clarify the failure model`。
-4. 推送任务分支并提交 PR，说明修改理由、证据来源及编译结果。
-5. 审阅正文和生成的 PDF，确认自动编译通过后合并；建议至少另一位作者审阅。
+1. Update your local copy from the GitHub default branch, then create a task branch such as `writing/introduction`, `figures/architecture`, or `codex/update-related-work`.
+2. Use an issue or `notes/` to identify the target section, owner, and related figures, reducing simultaneous edits to the same paragraphs.
+3. Keep each commit focused on one content change, for example `docs: clarify the failure model`.
+4. Push the task branch and open a PR describing the rationale, evidence sources, and compilation results.
+5. Review the text and generated PDF, and merge after the automated build passes; review by at least one other author is recommended.
 
-以上是团队协作约定；分支保护规则需要在仓库设置中另行配置。
+These are team conventions; branch protection rules must be configured separately in the repository settings.
 
-## 正文与格式
+## Text and formatting
 
-- 每个句子尽量独占一行，避免编辑器自动重排整段造成无关差异。
-- 使用 UTF-8 和 LF 换行；仓库的 `.editorconfig` 与 `.gitattributes` 提供统一配置。
-- 内容写入 `paper/sections/`，公共宏包与命令集中放在 `paper/main.tex`。
-- 标签使用 `sec:`、`fig:`、`tab:`、`eq:` 前缀，通过 `\ref{...}` 引用，不手写编号。
-- 暂未完成的内容使用 `\draftnote{...}`。投稿前搜索并清理所有占位标记。
-- 更换投稿模板时单独提交，避免与正文修改混合。
-- 当前使用 OSDI / USENIX 版式；不要直接改动官方 `paper/usenix2019_v3.sty`。
-- 文献使用 BibTeX 和 `plain` 样式；不要同时加载 `biblatex`，以免与官方样式的 `cite` 包冲突。
+- Put each sentence on its own line where practical, and avoid unrelated diffs caused by reflowing entire paragraphs.
+- Use UTF-8 and LF line endings; `.editorconfig` and `.gitattributes` provide shared settings.
+- Write content in `paper/sections/` and keep shared packages and commands in `paper/main.tex`.
+- Use the prefixes `sec:`, `fig:`, `tab:`, and `eq:` for labels, and refer to them with `\ref{...}` rather than hard-coded numbers.
+- Mark unfinished content with `\draftnote{...}`. Find and remove all placeholders before submission.
+- Commit template changes separately from changes to the report text.
+- The report uses the OSDI / USENIX format; do not edit the official `paper/usenix2019_v3.sty` directly.
+- Use BibTeX with the `plain` style; do not also load `biblatex`, which conflicts with the official style's `cite` package.
 
-## 文献与证据
+## References and evidence
 
-- 文献统一维护在 `paper/references.bib`，添加前先检查是否重复。
-- 引用键建议采用 `FirstAuthorYearKeyword`，从出版方或论文原文核实作者、标题、年份和 DOI/URL。
-- 不添加占位论文、未经核实的引用或虚构的实验结论。
-- 研究假设与已验证结论应明确区分；实验结果需关联数据、脚本版本、参数及运行环境。
-- 阅读笔记注明原文链接与相关页码，便于合作者核对。
+- Maintain references in `paper/references.bib` and check for duplicates before adding entries.
+- Prefer citation keys in the form `FirstAuthorYearKeyword`; verify authors, title, year, and DOI/URL against the publisher or original paper.
+- Do not add placeholder papers, unverified citations, or fabricated experimental conclusions.
+- Clearly distinguish research hypotheses from verified findings; link experimental results to data, script versions, parameters, and the execution environment.
+- Include source links and relevant page numbers in reading notes so collaborators can verify them.
 
-## 图表与实验记录
+## Figures and experiment records
 
-- 图表放在 `paper/figures/`，保留可编辑源文件或生成脚本，并记录生成方式。
-- 图表文件使用简短英文名称，如 `system-architecture.pdf`。
-- 大型原始数据与第三方论文全文使用可访问的外部链接，记录版本或校验值。
-- 不提交编译缓存；需要共享草稿时使用 Actions PDF 产物。
+- Store figures in `paper/figures/`, retain editable sources or generation scripts, and document how to regenerate them.
+- Use short English filenames, such as `system-architecture.pdf`.
+- Use accessible external links for large raw datasets and full texts of third-party papers, recording versions or checksums.
+- Do not commit build caches; use Actions PDF artifacts to share drafts.
 
-## 提交前
+## Before committing
 
-- 按 README 的命令编译，检查 PDF 中的公式、图表、分页和引用。
-- 修复未定义引用与交叉引用，检查有内容溢出的排版警告。
-- 使用 `git diff --check` 检查空白问题，确认暂存区只包含本次变更。
-- 如果本机没有 TeX 环境，在 PR 中注明，并等待 GitHub 编译结果。
+- Compile using the README command and inspect equations, figures, tables, page breaks, and citations in the PDF.
+- Fix undefined citations and cross-references, and inspect layout warnings about overflowing content.
+- Run `git diff --check` to check whitespace and confirm that the staging area contains only the intended changes.
+- If you do not have a local TeX environment, note this in the PR and wait for the GitHub build result.

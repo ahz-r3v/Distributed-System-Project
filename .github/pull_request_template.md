@@ -1,15 +1,15 @@
-## 修改内容与理由
+## Changes and rationale
 
-<!-- 说明涉及的章节、图表或引用，以及为何修改。 -->
+<!-- Describe the affected sections, figures, tables, or references, and explain why they changed. -->
 
-## 证据与关联任务
+## Evidence and related tasks
 
-<!-- 关联 Issue、论文来源或实验记录；纯措辞修改可注明不适用。 -->
+<!-- Link related issues, paper sources, or experiment records; for wording-only edits, state that this is not applicable. -->
 
-## 验证
+## Validation
 
-- [ ] 已编译论文并检查 PDF，或已注明等待 CI 验证
-- [ ] 新增引用和实验结论有可核对的来源（如适用）
-- [ ] 未提交编译缓存或无关文件
+- [ ] Compiled the report and inspected the PDF, or noted that CI validation is pending
+- [ ] Added verifiable sources for new references and experimental findings, where applicable
+- [ ] Excluded build caches and unrelated files
 
-<!-- 留下需要合作者重点审阅的问题。 -->
+<!-- Highlight any questions or areas that need particular attention from reviewers. -->

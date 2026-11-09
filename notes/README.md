@@ -1,47 +1,47 @@
-# 研究记录
+# Research records
 
-选题、阅读笔记、讨论结论与实验记录统一放在这里。
-文件名建议使用 `YYYY-MM-DD-topic.md`，记录来源与决定，方便追溯。
+Keep topic-selection notes, reading notes, discussion decisions, and experiment records here.
+Use filenames such as `YYYY-MM-DD-topic.md`, and record sources and decisions for traceability.
 
-## 项目待确定事项
+## Project planning
 
-| 项目 | 当前状态 |
+| Item | Current status |
 | --- | --- |
-| 论文题目与研究问题 | 暂定 Beyond CacheWise；围绕复现、重计算与卸载的代价、二级存储卸载方法 |
-| 报告格式 | USENIX / OSDI 官方双栏样式；用于课程报告 |
-| 写作语言与篇幅限制 | 待确认 |
-| 作者与章节分工 | 待确认 |
-| 基线、实验指标与数据来源 | 已核对 cachewise-coding-traces 的六策略、三轮、N=10 实验；卸载对比待测 |
-| 初稿、审阅与提交时间 | 待安排 |
+| Title and research questions | Working title: Beyond CacheWise; focus on replication, recomputation and offloading costs, and secondary-storage offloading methods |
+| Report format | Official USENIX / OSDI two-column style, used for a course report |
+| Language and length limit | English; length limit to be confirmed |
+| Authors and section assignments | To be confirmed |
+| Baselines, metrics, and data sources | Verified the six-policy, three-repeat, N=10 experiment from cachewise-coding-traces; offloading comparisons remain to be measured |
+| Draft, review, and submission dates | To be scheduled |
 
-## 当前论文主线
+## Current report outline
 
-1. 复现 CacheWise：记录原论文与本项目的环境差异，报告实际结果与策略消融。
-2. 分析重计算与卸载：固定调度与淘汰策略，比较相同缺失前缀的重计算、DRAM 恢复和 SSD 恢复，计入完整读写路径。
-3. 提出并评估二级存储方法：先实现同步分块卸载基线，再按证据选择异步传输、预取和代价决策等优化。
+1. Replicate CacheWise: document differences between the original paper's environment and this project's environment, and report measured results and policy ablations.
+2. Analyze recomputation and offloading: fix the scheduling and eviction policies, and compare recomputation, DRAM restore, and SSD restore for identical missing prefixes, including the complete read/write paths.
+3. Propose and evaluate secondary-storage methods: first implement a synchronous block-offloading baseline, then use evidence to select optimizations such as asynchronous transfer, prefetching, and cost-based decisions.
 
-原论文来源：[CacheWise v1](https://arxiv.org/abs/2606.16824v1)，引用键 `Tiwari2026CacheWise`。
-核对原文第 6.4 节，明确已有 DRAM 卸载与拟研究的二级存储扩展之间的边界。
-英文写作提示及预期图表已放入 `paper/sections/`；复现章节已有实测结果，卸载方法与其评估仍为计划。
+Original source: [CacheWise v1](https://arxiv.org/abs/2606.16824v1), citation key `Tiwari2026CacheWise`.
+Check Section 6.4 of the original paper to distinguish existing DRAM offloading from the proposed secondary-storage extension.
+English writing prompts and planned figures and tables are in `paper/sections/`; the replication section contains measured results, while the offloading methods and their evaluation remain planned work.
 
-## 已核对的实验结果（2026-11-08）
+## Verified experimental results (2026-11-08)
 
-主结果使用 `/home/ws/cachewise-coding-traces/serving_experiment/results/2026-11-04/parallel-13943/consolidated-comparison.json`。
-这是六策略各三轮的统一实验，共 18 次完整运行、1,494 次请求；每轮内六策略共享同一 GPU，不同轮使用相同型号的不同 GPU。
-已从原始 `summary.json` 的请求明细重新计算并核对全部 18 次运行的会话均值、token 数及加权缓存命中率。
+The main results use `/home/ws/cachewise-coding-traces/serving_experiment/results/2026-11-04/parallel-13943/consolidated-comparison.json`.
+This consolidated experiment includes three repeats for each of six policies, totaling 18 complete runs and 1,494 requests; the six policies use the same GPU within each repeat block, while different blocks use different GPUs of the same model.
+Session means, token counts, and weighted cache-hit rates for all 18 runs were recalculated and verified from request-level records in the original `summary.json` files.
 
-- Prefix-aware LRU 的平均会话服务时间为 337.87 秒，learned CacheWise（无排队 aging override）为 349.67 秒，后者高 3.49%。
-- FCFS 下 predictive eviction 将均值从 595.04 秒降至 529.97 秒；预测策略的效果取决于调度方式。
-- 记录工具时长的 oracle 为 349.58 秒，与 learned 方法没有一致的实质差距；它不是全知最优淘汰策略。
-- 移除本地 30 秒排队 aging override 后，均值从 599.14 秒降至 349.67 秒，但最大请求时延升高；最大值不能当成 P99。
-- 只覆盖一个 N=10 cohort；区间是三轮实际范围，不是置信区间。未命中 token 包含首次 prefill，不能全部视作重复计算。
+- Prefix-aware LRU has a mean session serving time of 337.87 seconds, versus 349.67 seconds for learned CacheWise without the queue-aging override; the latter is 3.49% higher.
+- Under FCFS, predictive eviction reduces the mean from 595.04 seconds to 529.97 seconds; its effect depends on the scheduler.
+- The oracle using recorded tool durations reaches 349.58 seconds, without a consistent substantial gap from the learned method; it is not an omniscient optimal eviction policy.
+- Removing the local 30-second queue-aging override reduces the mean from 599.14 seconds to 349.67 seconds but increases maximum request latency; the maximum must not be treated as P99.
+- Only one N=10 cohort is covered; intervals show the observed range across three repeats, not confidence intervals. Uncached tokens include first-time prefill and cannot all be counted as recomputation.
 
-独立的 job-10807 `recompute-profile.json` 包含各长度三次未命中请求计时；例如 65,536 tokens 的中位客户端时延为 19.569 秒。
-该计时不是独立 GPU prefill 时间，也不是卸载实验，不能直接证明 SSD 卸载更快。
-早期 job-10807 的五策略结果与后续统一实验有不同的 terminal-session 处理，不应混用其比值。
+The separate job-10807 `recompute-profile.json` contains three uncached-request timings at each length; for example, the median client-observed latency for 65,536 tokens is 19.569 seconds.
+These timings are neither isolated GPU prefill measurements nor offloading experiments, and cannot directly establish that SSD offloading is faster.
+The earlier five-policy job-10807 results use different terminal-session handling from the later consolidated experiment; ratios from the two studies should not be mixed.
 
-紧凑原始结果、来源版本、校验值及范围说明保存在 `experiment-evidence/`。
-当前没有已完成的 DRAM/SSD 卸载对比、完整淘汰计数或实际 KV 传输字节数；这些是下一阶段证据缺口。
+Compact raw results, source versions, checksums, and scope notes are stored in `experiment-evidence/`.
+There are currently no completed DRAM/SSD offloading comparisons, complete eviction counts, or measurements of actual KV bytes transferred; these are evidence gaps for the next stage.
 
 ## Part 1 draft, figure choices, and remaining experiments
 
@@ -115,9 +115,9 @@ The first command reads the source repository without modifying it or starting i
 It checks source-trace and workload hashes, regenerates `workload-characterization.json`, and derives `replication-additional-metrics.json` from the original 18 request summaries.
 The second command only requires the saved numeric evidence and regenerates vector figures, PNG previews, paired-effect CSV values, and figure provenance.
 
-## 记录建议
+## Record-keeping guidelines
 
-- 阅读笔记：原文链接、引用键、问题、方法、结论、局限及关键页码。
-- 讨论记录：日期、参与者、议题、决定、待办与负责人。
-- 实验记录：假设、代码版本、运行环境、参数、执行命令、原始数据位置与分析。
-- 对暂未核实的信息明确标注，避免在正文中误写为既定事实。
+- Reading notes: source link, citation key, problem, method, findings, limitations, and relevant page numbers.
+- Discussion records: date, participants, topics, decisions, action items, and owners.
+- Experiment records: hypothesis, code version, execution environment, parameters, commands, raw data location, and analysis.
+- Clearly mark unverified information so it is not presented as an established fact in the report.

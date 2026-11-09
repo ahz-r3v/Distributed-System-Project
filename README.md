@@ -1,96 +1,97 @@
 # Distributed System Project
 
-分布式系统课程报告协作仓库，采用 [USENIX 官方 LaTeX 模板](https://www.usenix.org/conferences/author-resources/paper-templates)（OSDI 使用的论文版式）。
-正文为 US Letter、双栏、10 pt，支持中英文草稿；按章节拆分，便于 teammates 并行写作。
-目前已完成 CacheWise 复现部分的正文初稿，加入已核对的六策略结果、工作负载图和匹配消融图；重计算与卸载分析及二级存储方法仍为后续工作，作者信息待填写。
+A collaborative repository for a distributed systems course report, using the [official USENIX LaTeX template](https://www.usenix.org/conferences/author-resources/paper-templates) used by OSDI.
+The report uses US Letter paper, two columns, and 10 pt text, with separate section files so teammates can write in parallel.
+The CacheWise replication section has a prose draft with verified results for six policies, workload figures, and matched ablation figures; recomputation and offloading analysis and secondary-storage methods remain future work, and author information still needs to be filled in.
 
-## 开始写作
+## Getting started
 
-1. 修改 `paper/main.tex` 中的题目、姓名、学校和学号；按人数增删作者块。
-2. 在 `notes/README.md` 记录选题、课程要求、章节分工和截止时间。
-3. 编辑 `paper/sections/` 中负责的章节，逐步替换 `\draftnote{...}` 占位内容。
-4. 将核实过的文献加入 `paper/references.bib`，用 `\cite{citation-key}` 引用。
-5. 编译并检查 PDF，通过分支和 Pull Request 合并修改。
+1. Update the title, names, affiliations, and student IDs in `paper/main.tex`; add or remove author blocks as needed.
+2. Record the topic, course requirements, section assignments, and deadlines in `notes/README.md`.
+3. Edit your assigned sections in `paper/sections/`, replacing the `\draftnote{...}` placeholders as the draft develops.
+4. Add verified sources to `paper/references.bib` and cite them with `\cite{citation-key}`.
+5. Compile and inspect the PDF, then merge changes through branches and pull requests.
 
-共享文献库已加入从原文核实的 [CacheWise 论文](https://arxiv.org/abs/2606.16824v1)。
-原论文已评估 GPU–CPU DRAM 卸载；本报告拟分析二级存储（首先考虑本地 SSD）的恢复代价与方法，避免将已有的 DRAM 卸载误写为本文贡献。
-正式写作时补充相关文献和实测结果，并清理草稿标记。
-报告语言和篇幅按老师的要求确定。
+The shared bibliography includes the [CacheWise paper](https://arxiv.org/abs/2606.16824v1), with its citation details checked against the original paper.
+The original paper already evaluates GPU–CPU DRAM offloading; this report plans to analyze recovery costs and methods for secondary storage, starting with local SSDs, without presenting existing DRAM offloading as a new contribution.
+Add relevant literature and measured results as the report develops, and remove draft markers before submission.
+Write the report in English and follow the instructor's length requirements.
 
-## 论文结构
+## Report structure
 
-1. **Introduction**：研究动机、三个研究问题及预期贡献。
-2. **Background and Related Work**：KV cache、CacheWise、内存层级及已有卸载系统。
-3. **CacheWise Replication: Experiments and Results**：复现范围、实验配置、结果、消融及与原论文的差异。
-4. **CacheWise Limitations: Recomputation versus Offloading**：剩余恢复开销、包含写入与读取的代价模型、盈亏平衡点及适用条件。
-5. **Proposed Methods for Secondary-Storage KV Offloading**：分块存储与按需恢复、异步传输与预取、基于代价的决策，以及实现范围。
-6. **Evaluation of the Proposed Offloading Methods**：端到端结果、消融、敏感性与资源代价。
-7. **Discussion and Limitations**：适用范围、失败场景及有效性威胁。
-8. **Conclusion**：按复现、代价分析、方法与评估的顺序总结已验证结论。
+1. **Introduction**: Motivation, three research questions, and expected contributions.
+2. **Background and Related Work**: KV caching, CacheWise, the memory hierarchy, and existing offloading systems.
+3. **CacheWise Replication: Experiments and Results**: Replication scope, experimental setup, results, ablations, and differences from the original paper.
+4. **CacheWise Limitations: Recomputation versus Offloading**: Remaining recovery overhead, a cost model that includes writes and reads, break-even points, and conditions under which the comparison applies.
+5. **Proposed Methods for Secondary-Storage KV Offloading**: Block storage and on-demand recovery, asynchronous transfer and prefetching, cost-based decisions, and implementation scope.
+6. **Evaluation of the Proposed Offloading Methods**: End-to-end results, ablations, sensitivity, and resource costs.
+7. **Discussion and Limitations**: Scope, failure cases, and threats to validity.
+8. **Conclusion**: Summarize verified findings in the order of replication, cost analysis, methods, and evaluation.
 
-正文中的蓝色 TODO 是写作提示，不代表已有实现或实验结论。
-“卸载更便宜”需说明比较指标与成立条件，不能先写成普遍结论。
-已核对的复现结果及独立的未命中请求计时数据保存在 `notes/experiment-evidence/`，来源与校验值见其中的 `manifest.json`。
-当前主要实验只覆盖一个 N=10 队列；没有已完成的 DRAM/SSD 卸载对比。
+Blue TODO notes in the report are writing prompts, not claims of completed implementations or experimental findings.
+Any claim that offloading is cheaper must specify the comparison metric and the conditions under which it holds; do not assume it is universally true.
+Verified replication results and separate uncached-request timings are stored in `notes/experiment-evidence/`; see its `manifest.json` for sources and checksums.
+The current main experiment covers only one N=10 cohort; no DRAM/SSD offloading comparison has been completed.
 
-## 目录
+## Repository layout
 
 ```text
 paper/
-  main.tex             # 报告入口、标题、作者、公共宏包
-  usenix2019_v3.sty    # 未修改的 USENIX 官方样式
-  TEMPLATE.md          # 官方来源、校验值与课程适配说明
-  sections/            # 摘要、引言、背景、复现、代价分析、卸载方法、评估、讨论、结论
-  references.bib       # 共享 BibTeX 文献库
-  figures/             # 图表及其可编辑源文件
-  build/               # 编译产物（不提交）
-notes/                 # 选题、分工、阅读笔记与实验记录
-.github/workflows/     # 自动编译并保存 PDF
-CONTRIBUTING.md         # 分支、审阅与写作约定
+  main.tex             # Report entry point, title, authors, and shared packages
+  usenix2019_v3.sty     # Unmodified official USENIX style
+  TEMPLATE.md          # Official sources, checksum, and course adaptations
+  sections/            # Abstract, introduction, background, replication, cost analysis,
+                       # offloading methods, evaluation, discussion, and conclusion
+  references.bib       # Shared BibTeX bibliography
+  figures/             # Figures and their editable source files
+  build/               # Build outputs (not committed)
+notes/                 # Topic selection, assignments, reading notes, and experiment records
+.github/workflows/     # Automated compilation and PDF artifacts
+CONTRIBUTING.md         # Branching, review, and writing conventions
 ```
 
-## 本地编译
+## Local compilation
 
-安装 [TeX Live](https://tug.org/texlive/)（建议完整安装），确保 `xelatex`、`latexmk`、`bibtex` 在 PATH 中。
-在仓库根目录运行，Windows PowerShell、macOS 和 Linux 使用相同命令：
+Install [TeX Live](https://tug.org/texlive/) (a full installation is recommended) and make sure `xelatex`, `latexmk`, and `bibtex` are on PATH.
+Run the following command from the repository root; it works in Windows PowerShell, macOS, and Linux:
 
 ```sh
 latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error -file-line-error -outdir=build paper/main.tex
 ```
 
-PDF 输出至 `paper/build/main.pdf`。`latexmk` 会自动运行 BibTeX 并解析交叉引用。
-使用精简 TeX 安装时，需要 `xecjk`、`fandol`、`tex-gyre`、`koma-script`（含 `scrlfile`）、`amsmath`、`amsfonts`、`graphics`、`booktabs`、`latexmk`，
-以及官方样式依赖的 `times`、`pslatex`、`microtype`、`sttools`（含 `flushend`）、`cite`、`url`、`xurl`、`xcolor`、`hyperref` 及其依赖。
+The PDF is written to `paper/build/main.pdf`. `latexmk` automatically runs BibTeX and resolves cross-references.
+For a minimal TeX installation, install `xecjk`, `fandol`, `tex-gyre`, `koma-script` (including `scrlfile`), `amsmath`, `amsfonts`, `graphics`, `booktabs`, and `latexmk`,
+along with the style and URL-handling packages `times`, `pslatex`, `microtype`, `sttools` (including `flushend`), `cite`, `url`, `xurl`, `xcolor`, `hyperref`, and their dependencies.
 
-清理编译缓存（保留最终 PDF）：
+To clean build intermediates while keeping the final PDF:
 
 ```sh
 latexmk -cd -c -outdir=build paper/main.tex
 ```
 
-VS Code 可安装仓库推荐的 LaTeX Workshop 扩展，打开 `paper/main.tex`，选择 `latexmk (XeLaTeX)` 编译配方。
-扩展仍需要本地 TeX 工具链。
+In VS Code, install the recommended LaTeX Workshop extension, open `paper/main.tex`, and select the `latexmk (XeLaTeX)` recipe.
+The extension still requires a local TeX toolchain.
 
 ## Overleaf
 
-1. 在 GitHub 选择 **Code → Download ZIP**。
-2. 在 Overleaf 选择 **New Project → Upload Project**，上传 ZIP。
-3. 将 Main document 设为 `paper/main.tex`（如果导入后多了一层目录，则选择该目录内的同一文件）。
-4. 将 Compiler 设为 **XeLaTeX**，选择可用的近期 TeX Live 版本，然后 Recompile。
+1. On GitHub, select **Code → Download ZIP**.
+2. In Overleaf, select **New Project → Upload Project** and upload the ZIP file.
+3. Set Main document to `paper/main.tex` (if the import adds an outer directory, select the same file inside that directory).
+4. Set Compiler to **XeLaTeX**, select a recent available TeX Live version, and click Recompile.
 
-建议以 GitHub 为团队共同版本来源，避免在 Overleaf 和本地同时改动同一段内容后互相覆盖。
+Use GitHub as the team's shared source of truth, and coordinate edits to avoid overwriting the same content between Overleaf and local copies.
 
-## GitHub 自动编译
+## GitHub automated builds
 
-推送、Pull Request 和手动触发都会运行 [`Build paper`](https://github.com/ahz-r3v/Distributed-System-Project/actions/workflows/build-paper.yml)。
-成功后，在该次 Actions 运行的 **Artifacts** 中下载 `paper-pdf`，解压得到 `main.pdf`，默认保存 14 天。
-同一次运行还保存 `paper-build-log` 编译日志，失败时可用来排错。
-仓库需要允许运行 GitHub Actions。
+Pushes, pull requests, and manual dispatches trigger [`Build paper`](https://github.com/ahz-r3v/Distributed-System-Project/actions/workflows/build-paper.yml).
+After a successful run, download `paper-pdf` from that run's **Artifacts** and extract `main.pdf`; artifacts are retained for 14 days by default.
+The same run also saves compilation logs as `paper-build-log` for troubleshooting failures.
+GitHub Actions must be enabled for the repository.
 
-编译使用 [latex-action](https://github.com/xu-cheng/latex-action) 的 TeX Live 2026 环境。
-PDF 不提交到 Git；图表用到的 PDF 文件可以提交。
+Compilation uses the TeX Live 2026 environment provided by [latex-action](https://github.com/xu-cheng/latex-action).
+Do not commit the compiled report PDF; PDF files used as figures may be committed.
 
-## 协作
+## Collaboration
 
-每人从 `main` 创建任务分支，例如 `writing/introduction`，完成后发 PR，由另一位 teammate 审阅正文和 PDF。
-完整流程见 [CONTRIBUTING.md](CONTRIBUTING.md)。模板来源及适配说明见 [paper/TEMPLATE.md](paper/TEMPLATE.md)。
+Create a task branch from `main`, such as `writing/introduction`, then open a PR and ask another teammate to review the source and PDF.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow and [paper/TEMPLATE.md](paper/TEMPLATE.md) for template sources and adaptations.
