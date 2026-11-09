@@ -23,12 +23,14 @@ We organize the study around three questions:
   \item Can tool-return information guide SSD placement and transfer timing to reduce exposed recovery delay without excessive I/O work?
 \end{enumerate}
 
-The completed contribution is a controlled replication with six policy settings and three repeats, totaling 18 runs and 1,494 request executions on one ten-segment cohort.
+The completed contribution is an adapted replication comprising an initial six-policy experiment with 18 runs and a separate 60-run coverage study with 6,384 request executions.
+The coverage study spans nested $N=10,20,30$ workloads and two additional held-out cohorts.
 Our primary metric is mean session serving time, excluding external tool execution.
-With LRU eviction fixed, prefix-aware scheduling reduces this metric by 43.22\% relative to FCFS.
-Predictive eviction improves it by 10.94\% under FCFS but worsens it by 3.49\% under prefix-aware scheduling.
-Oracle and queue-aging diagnostics further distinguish predictor effects from behavior of the local scheduler.
-These findings identify a scheduling--eviction interaction in this cohort; differences in hardware, model, redacted inputs, and replay preparation bound their applicability to the original CacheWise evaluation.
+Prefix-aware LRU achieves the lowest mean in all five coverage settings; adding predictive eviction increases it by 10.07--43.38\%, although predictive eviction improves FCFS.
+Full eviction-event counts support the setting-level ordering, while request-tail measurements show that lower session means do not ensure lower P99 latency.
+Historical oracle and queue-aging diagnostics further distinguish predictor effects from behavior of the local scheduler.
+The coverage study retains one observed preemption under a declared audit amendment; its extra prefill work remains unmeasured.
+These findings apply to runtime-bounded, adapted workloads; differences in hardware, model, redacted inputs, and replay preparation bound their applicability to the original CacheWise evaluation.
 
 For the recovery questions, we formulate a cost model that includes writes, reads, staging, and management, and specify matched comparisons of recomputation, DRAM restoration, and SSD restoration.
 The proposed methods build from synchronous block offloading to asynchronous transfer and reuse-guided decisions.

@@ -1,0 +1,35 @@
+{
+  "recorded_at_utc": "2026-11-08T12:29:22.937937+00:00",
+  "state": "running",
+  "full_runs_planned": 60,
+  "requests_planned": 6384,
+  "validation_job": "16289",
+  "array_job": "16293",
+  "max_concurrent_gpu_jobs": 3,
+  "remote_root": "/export/home4/wspang/cachewise-rerun/part1-coverage-20261108-v1",
+  "local_results": "experiments/cachewise_part1/results/cluster/results",
+  "protocol_sha256": "d281390347ba2342eb43b229ec0799ca9226f915e170696fb5415b28994b9002",
+  "submission": {
+    "job_id": "16293",
+    "validation_job": "16289",
+    "command": [
+      "sbatch",
+      "--parsable",
+      "--nodes=1",
+      "--ntasks=1",
+      "--gres=gpu:nvidia_rtx_pro_6000_blackwell:1",
+      "--cpus-per-task=16",
+      "--array=0-14%3",
+      "--dependency=afterok:16289",
+      "--export=ALL,CACHEWISE_STUDY_ROOT=/export/home4/wspang/cachewise-rerun/part1-coverage-20261108-v1",
+      "--chdir=/export/home4/wspang/cachewise-rerun/part1-coverage-20261108-v1",
+      "--output=/export/home4/wspang/cachewise-rerun/part1-coverage-20261108-v1/logs/coverage-%A-%a.out",
+      "/export/home4/wspang/cachewise-rerun/part1-coverage-20261108-v1/part1/array.slurm"
+    ],
+    "submitted_at_utc": "2026-11-08T12:25:25.467580+00:00",
+    "controller_sha256": "d0539cd0dbfe30336b88181130024d36d679771979d0bdb268a4f49d011803d2",
+    "protocol_sha256": "d281390347ba2342eb43b229ec0799ca9226f915e170696fb5415b28994b9002"
+  },
+  "automatic_collection": true,
+  "note": "This is a launch record, not completed results. Use results/COMPLETE plus the final comparison audit for completion."
+}

@@ -7,8 +7,12 @@
 Explain when keeping state in DRAM or recomputing it remains preferable.}
 
 \subsection{Threats to Validity}
-The present replication uses synthetic token content, tool-name prediction, one selected cohort, and three repeat blocks on different physical GPUs.
-Matched comparisons within repeats reduce hardware confounding but do not establish robustness across workloads.
+The present replication uses synthetic token content and tool-name prediction on a different hardware/model configuration from the reference paper.
+The coverage study adds nested $N=10,20,30$ selections and two source-disjoint held-out cohorts, with three matched repeats per setting.
+It remains limited to runtime-bounded complete segments; changing $N$ also changes composition, and some $N=30$ segments share source sessions.
+Matched comparisons within repeats reduce hardware confounding but do not establish performance over the full trace population.
+One actual preemption violates the original zero-preemption condition; the archived post hoc amendment retains it while enforcing the remaining integrity checks.
+Completed-request uncached usage does not count all extra execution caused by that event, and full eviction counts are not transferred KV bytes.
 The absence of actual offloading measurements currently prevents an empirical conclusion about secondary-storage savings.
 \draftnote{Discuss trace representativeness, predictor leakage or drift, replay assumptions, hardware/model differences, measurement uncertainty, and filesystem caching effects.
 State which conclusions are specific to the tested system.}

@@ -1,0 +1,1284 @@
+{
+  "settings": [
+    {
+      "id": "a-n10",
+      "cohort": "a",
+      "sessions": 10,
+      "segment_ids": [
+        "session_0087_005",
+        "session_0069_002",
+        "session_0054_001",
+        "session_0047_000",
+        "session_0038_001",
+        "session_0055_007",
+        "session_0023_000",
+        "session_0026_012",
+        "session_0094_002",
+        "session_0084_000"
+      ],
+      "source_sessions": [
+        "session_0023",
+        "session_0026",
+        "session_0038",
+        "session_0047",
+        "session_0054",
+        "session_0055",
+        "session_0069",
+        "session_0084",
+        "session_0087",
+        "session_0094"
+      ],
+      "selected_workload_sha256": "6bbdcde7520a83621cc7af57a585bcb47816862905a207219c97c87f347f7bb7",
+      "requests": 57,
+      "prompt_tokens": 2402060,
+      "initial_prompt_tokens": 403663,
+      "recorded_wait_sum_s": 46.3489990234375,
+      "first_use_prompt_tokens": 482742,
+      "output_tokens": 12486,
+      "useful_tokens": 495228,
+      "transitions": 47
+    },
+    {
+      "id": "a-n20",
+      "cohort": "a",
+      "sessions": 20,
+      "segment_ids": [
+        "session_0087_005",
+        "session_0069_002",
+        "session_0054_001",
+        "session_0047_000",
+        "session_0038_001",
+        "session_0055_007",
+        "session_0023_000",
+        "session_0026_012",
+        "session_0094_002",
+        "session_0084_000",
+        "session_0072_000",
+        "session_0010_003",
+        "session_0092_001",
+        "session_0090_000",
+        "session_0030_000",
+        "session_0062_000",
+        "session_0005_005",
+        "session_0012_000",
+        "session_0093_001",
+        "session_0011_004"
+      ],
+      "source_sessions": [
+        "session_0005",
+        "session_0010",
+        "session_0011",
+        "session_0012",
+        "session_0023",
+        "session_0026",
+        "session_0030",
+        "session_0038",
+        "session_0047",
+        "session_0054",
+        "session_0055",
+        "session_0062",
+        "session_0069",
+        "session_0072",
+        "session_0084",
+        "session_0087",
+        "session_0090",
+        "session_0092",
+        "session_0093",
+        "session_0094"
+      ],
+      "selected_workload_sha256": "c43d633109376b290c608b10c6972c1bd0af78583c906607afe942f453ae2030",
+      "requests": 150,
+      "prompt_tokens": 6458386,
+      "initial_prompt_tokens": 752411,
+      "recorded_wait_sum_s": 402.2989978790283,
+      "first_use_prompt_tokens": 971143,
+      "output_tokens": 27809,
+      "useful_tokens": 998952,
+      "transitions": 130
+    },
+    {
+      "id": "a-n30",
+      "cohort": "a",
+      "sessions": 30,
+      "segment_ids": [
+        "session_0087_005",
+        "session_0069_002",
+        "session_0054_001",
+        "session_0047_000",
+        "session_0038_001",
+        "session_0055_007",
+        "session_0023_000",
+        "session_0026_012",
+        "session_0094_002",
+        "session_0084_000",
+        "session_0072_000",
+        "session_0010_003",
+        "session_0092_001",
+        "session_0090_000",
+        "session_0030_000",
+        "session_0062_000",
+        "session_0005_005",
+        "session_0012_000",
+        "session_0093_001",
+        "session_0011_004",
+        "session_0065_004",
+        "session_0028_003",
+        "session_0036_002",
+        "session_0087_003",
+        "session_0069_000",
+        "session_0054_007",
+        "session_0047_001",
+        "session_0038_000",
+        "session_0055_001",
+        "session_0023_009"
+      ],
+      "source_sessions": [
+        "session_0005",
+        "session_0010",
+        "session_0011",
+        "session_0012",
+        "session_0023",
+        "session_0026",
+        "session_0028",
+        "session_0030",
+        "session_0036",
+        "session_0038",
+        "session_0047",
+        "session_0054",
+        "session_0055",
+        "session_0062",
+        "session_0065",
+        "session_0069",
+        "session_0072",
+        "session_0084",
+        "session_0087",
+        "session_0090",
+        "session_0092",
+        "session_0093",
+        "session_0094"
+      ],
+      "selected_workload_sha256": "43c18b62ecce3108fb98edc7bf39a571f54022d273c1ff9fd1846d11727cbcce",
+      "requests": 226,
+      "prompt_tokens": 9845811,
+      "initial_prompt_tokens": 1180493,
+      "recorded_wait_sum_s": 839.9209988117218,
+      "first_use_prompt_tokens": 1456901,
+      "output_tokens": 33560,
+      "useful_tokens": 1490461,
+      "transitions": 196
+    },
+    {
+      "id": "b-n10",
+      "cohort": "b",
+      "sessions": 10,
+      "segment_ids": [
+        "session_0004_006",
+        "session_0017_001",
+        "session_0071_000",
+        "session_0022_009",
+        "session_0091_003",
+        "session_0015_015",
+        "session_0035_001",
+        "session_0024_000",
+        "session_0076_004",
+        "session_0033_002"
+      ],
+      "source_sessions": [
+        "session_0004",
+        "session_0015",
+        "session_0017",
+        "session_0022",
+        "session_0024",
+        "session_0033",
+        "session_0035",
+        "session_0071",
+        "session_0076",
+        "session_0091"
+      ],
+      "selected_workload_sha256": "4d226551b2064e494e32a5414a40d77216662fa4cb3c38514d3c6aa8cd750e26",
+      "requests": 49,
+      "prompt_tokens": 2418162,
+      "initial_prompt_tokens": 511440,
+      "recorded_wait_sum_s": 106.00300025939941,
+      "first_use_prompt_tokens": 556289,
+      "output_tokens": 6469,
+      "useful_tokens": 562758,
+      "transitions": 39
+    },
+    {
+      "id": "c-n10",
+      "cohort": "c",
+      "sessions": 10,
+      "segment_ids": [
+        "session_0057_003",
+        "session_0068_003",
+        "session_0007_002",
+        "session_0013_001",
+        "session_0014_001",
+        "session_0079_006",
+        "session_0019_013",
+        "session_0006_005",
+        "session_0050_011",
+        "session_0067_017"
+      ],
+      "source_sessions": [
+        "session_0006",
+        "session_0007",
+        "session_0013",
+        "session_0014",
+        "session_0019",
+        "session_0050",
+        "session_0057",
+        "session_0067",
+        "session_0068",
+        "session_0079"
+      ],
+      "selected_workload_sha256": "946ca8aee15260a8e6728675dfea72354309daa7dcf8a0d43e6e982ad4127dac",
+      "requests": 50,
+      "prompt_tokens": 3421424,
+      "initial_prompt_tokens": 754340,
+      "recorded_wait_sum_s": 278.05399990081787,
+      "first_use_prompt_tokens": 781800,
+      "output_tokens": 3976,
+      "useful_tokens": 785776,
+      "transitions": 40
+    }
+  ],
+  "tasks": [
+    {
+      "task": 0,
+      "setting": "a-n10",
+      "repeat": 0
+    },
+    {
+      "task": 1,
+      "setting": "a-n10",
+      "repeat": 1
+    },
+    {
+      "task": 2,
+      "setting": "a-n10",
+      "repeat": 2
+    },
+    {
+      "task": 3,
+      "setting": "a-n20",
+      "repeat": 0
+    },
+    {
+      "task": 4,
+      "setting": "a-n20",
+      "repeat": 1
+    },
+    {
+      "task": 5,
+      "setting": "a-n20",
+      "repeat": 2
+    },
+    {
+      "task": 6,
+      "setting": "a-n30",
+      "repeat": 0
+    },
+    {
+      "task": 7,
+      "setting": "a-n30",
+      "repeat": 1
+    },
+    {
+      "task": 8,
+      "setting": "a-n30",
+      "repeat": 2
+    },
+    {
+      "task": 9,
+      "setting": "b-n10",
+      "repeat": 0
+    },
+    {
+      "task": 10,
+      "setting": "b-n10",
+      "repeat": 1
+    },
+    {
+      "task": 11,
+      "setting": "b-n10",
+      "repeat": 2
+    },
+    {
+      "task": 12,
+      "setting": "c-n10",
+      "repeat": 0
+    },
+    {
+      "task": 13,
+      "setting": "c-n10",
+      "repeat": 1
+    },
+    {
+      "task": 14,
+      "setting": "c-n10",
+      "repeat": 2
+    }
+  ],
+  "source_groups": {
+    "a": [
+      "session_0005",
+      "session_0010",
+      "session_0011",
+      "session_0012",
+      "session_0023",
+      "session_0026",
+      "session_0028",
+      "session_0030",
+      "session_0036",
+      "session_0038",
+      "session_0047",
+      "session_0054",
+      "session_0055",
+      "session_0062",
+      "session_0065",
+      "session_0069",
+      "session_0072",
+      "session_0084",
+      "session_0087",
+      "session_0090",
+      "session_0092",
+      "session_0093",
+      "session_0094"
+    ],
+    "b": [
+      "session_0004",
+      "session_0015",
+      "session_0017",
+      "session_0022",
+      "session_0024",
+      "session_0033",
+      "session_0035",
+      "session_0071",
+      "session_0076",
+      "session_0091"
+    ],
+    "c": [
+      "session_0006",
+      "session_0007",
+      "session_0013",
+      "session_0014",
+      "session_0019",
+      "session_0050",
+      "session_0057",
+      "session_0067",
+      "session_0068",
+      "session_0079"
+    ]
+  },
+  "eligible_sources": 43,
+  "eligible_segments": 247,
+  "excluded_segments": [
+    {
+      "segment": "session_0067_014",
+      "source": "session_0067",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0084_006",
+      "source": "session_0084",
+      "reasons": [
+        "turn_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0092_002",
+      "source": "session_0092",
+      "reasons": [
+        "recorded_wait_budget"
+      ]
+    },
+    {
+      "segment": "session_0019_000",
+      "source": "session_0019",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0076_001",
+      "source": "session_0076",
+      "reasons": [
+        "recorded_wait_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0067_018",
+      "source": "session_0067",
+      "reasons": [
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0005_003",
+      "source": "session_0005",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0036_000",
+      "source": "session_0036",
+      "reasons": [
+        "recorded_wait_budget"
+      ]
+    },
+    {
+      "segment": "session_0055_004",
+      "source": "session_0055",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0033_007",
+      "source": "session_0033",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0062_016",
+      "source": "session_0062",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0022_000",
+      "source": "session_0022",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0015_013",
+      "source": "session_0015",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0007_001",
+      "source": "session_0007",
+      "reasons": [
+        "turn_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0030_001",
+      "source": "session_0030",
+      "reasons": [
+        "turn_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0011_001",
+      "source": "session_0011",
+      "reasons": [
+        "turn_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0062_007",
+      "source": "session_0062",
+      "reasons": [
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0055_003",
+      "source": "session_0055",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0062_005",
+      "source": "session_0062",
+      "reasons": [
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0028_001",
+      "source": "session_0028",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0011_000",
+      "source": "session_0011",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0026_010",
+      "source": "session_0026",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0091_005",
+      "source": "session_0091",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0050_006",
+      "source": "session_0050",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0015_016",
+      "source": "session_0015",
+      "reasons": [
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0084_009",
+      "source": "session_0084",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0065_001",
+      "source": "session_0065",
+      "reasons": [
+        "recorded_wait_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0067_009",
+      "source": "session_0067",
+      "reasons": [
+        "turn_budget",
+        "recorded_wait_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0062_002",
+      "source": "session_0062",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0079_004",
+      "source": "session_0079",
+      "reasons": [
+        "recorded_wait_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0026_021",
+      "source": "session_0026",
+      "reasons": [
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0010_000",
+      "source": "session_0010",
+      "reasons": [
+        "recorded_wait_budget"
+      ]
+    },
+    {
+      "segment": "session_0036_004",
+      "source": "session_0036",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0005_000",
+      "source": "session_0005",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0094_010",
+      "source": "session_0094",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0069_009",
+      "source": "session_0069",
+      "reasons": [
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0033_004",
+      "source": "session_0033",
+      "reasons": [
+        "recorded_wait_budget"
+      ]
+    },
+    {
+      "segment": "session_0022_004",
+      "source": "session_0022",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0022_001",
+      "source": "session_0022",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0087_006",
+      "source": "session_0087",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0035_002",
+      "source": "session_0035",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0014_000",
+      "source": "session_0014",
+      "reasons": [
+        "turn_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0062_010",
+      "source": "session_0062",
+      "reasons": [
+        "recorded_wait_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0068_005",
+      "source": "session_0068",
+      "reasons": [
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0067_016",
+      "source": "session_0067",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0026_008",
+      "source": "session_0026",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0067_011",
+      "source": "session_0067",
+      "reasons": [
+        "turn_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0067_004",
+      "source": "session_0067",
+      "reasons": [
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0015_005",
+      "source": "session_0015",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0084_003",
+      "source": "session_0084",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0007_006",
+      "source": "session_0007",
+      "reasons": [
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0026_009",
+      "source": "session_0026",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0022_013",
+      "source": "session_0022",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0067_013",
+      "source": "session_0067",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0094_009",
+      "source": "session_0094",
+      "reasons": [
+        "output_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0010_001",
+      "source": "session_0010",
+      "reasons": [
+        "recorded_wait_budget"
+      ]
+    },
+    {
+      "segment": "session_0079_009",
+      "source": "session_0079",
+      "reasons": [
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0006_001",
+      "source": "session_0006",
+      "reasons": [
+        "turn_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0026_001",
+      "source": "session_0026",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0015_008",
+      "source": "session_0015",
+      "reasons": [
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0004_004",
+      "source": "session_0004",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0019_008",
+      "source": "session_0019",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0059_000",
+      "source": "session_0059",
+      "reasons": [
+        "turn_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0065_000",
+      "source": "session_0065",
+      "reasons": [
+        "turn_budget",
+        "recorded_wait_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0055_008",
+      "source": "session_0055",
+      "reasons": [
+        "recorded_wait_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0067_002",
+      "source": "session_0067",
+      "reasons": [
+        "turn_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0015_014",
+      "source": "session_0015",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0004_000",
+      "source": "session_0004",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0092_005",
+      "source": "session_0092",
+      "reasons": [
+        "recorded_wait_budget",
+        "output_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0067_001",
+      "source": "session_0067",
+      "reasons": [
+        "turn_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0072_001",
+      "source": "session_0072",
+      "reasons": [
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0065_008",
+      "source": "session_0065",
+      "reasons": [
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0079_002",
+      "source": "session_0079",
+      "reasons": [
+        "recorded_wait_budget"
+      ]
+    },
+    {
+      "segment": "session_0079_008",
+      "source": "session_0079",
+      "reasons": [
+        "turn_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0028_007",
+      "source": "session_0028",
+      "reasons": [
+        "turn_budget",
+        "recorded_wait_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0084_004",
+      "source": "session_0084",
+      "reasons": [
+        "turn_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0087_009",
+      "source": "session_0087",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0033_005",
+      "source": "session_0033",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0015_003",
+      "source": "session_0015",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0007_000",
+      "source": "session_0007",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0013_002",
+      "source": "session_0013",
+      "reasons": [
+        "recorded_wait_budget"
+      ]
+    },
+    {
+      "segment": "session_0067_000",
+      "source": "session_0067",
+      "reasons": [
+        "turn_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0067_008",
+      "source": "session_0067",
+      "reasons": [
+        "turn_budget",
+        "recorded_wait_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0069_005",
+      "source": "session_0069",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0079_010",
+      "source": "session_0079",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0026_003",
+      "source": "session_0026",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0067_003",
+      "source": "session_0067",
+      "reasons": [
+        "turn_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0010_002",
+      "source": "session_0010",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0069_004",
+      "source": "session_0069",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0079_000",
+      "source": "session_0079",
+      "reasons": [
+        "turn_budget",
+        "recorded_wait_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0076_002",
+      "source": "session_0076",
+      "reasons": [
+        "recorded_wait_budget"
+      ]
+    },
+    {
+      "segment": "session_0026_013",
+      "source": "session_0026",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0050_000",
+      "source": "session_0050",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0062_009",
+      "source": "session_0062",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0087_008",
+      "source": "session_0087",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0094_012",
+      "source": "session_0094",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0006_007",
+      "source": "session_0006",
+      "reasons": [
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0010_004",
+      "source": "session_0010",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0072_003",
+      "source": "session_0072",
+      "reasons": [
+        "output_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0069_001",
+      "source": "session_0069",
+      "reasons": [
+        "turn_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0015_010",
+      "source": "session_0015",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0068_002",
+      "source": "session_0068",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0006_006",
+      "source": "session_0006",
+      "reasons": [
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0042_000",
+      "source": "session_0042",
+      "reasons": [
+        "turn_budget",
+        "recorded_wait_budget"
+      ]
+    },
+    {
+      "segment": "session_0094_005",
+      "source": "session_0094",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0094_000",
+      "source": "session_0094",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0023_006",
+      "source": "session_0023",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0055_005",
+      "source": "session_0055",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0094_003",
+      "source": "session_0094",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0087_007",
+      "source": "session_0087",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0079_005",
+      "source": "session_0079",
+      "reasons": [
+        "recorded_wait_budget"
+      ]
+    },
+    {
+      "segment": "session_0023_005",
+      "source": "session_0023",
+      "reasons": [
+        "recorded_wait_budget"
+      ]
+    },
+    {
+      "segment": "session_0013_003",
+      "source": "session_0013",
+      "reasons": [
+        "recorded_wait_budget"
+      ]
+    },
+    {
+      "segment": "session_0006_000",
+      "source": "session_0006",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0076_005",
+      "source": "session_0076",
+      "reasons": [
+        "turn_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0013_000",
+      "source": "session_0013",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0068_007",
+      "source": "session_0068",
+      "reasons": [
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0092_003",
+      "source": "session_0092",
+      "reasons": [
+        "recorded_wait_budget",
+        "output_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0023_008",
+      "source": "session_0023",
+      "reasons": [
+        "turn_budget",
+        "prompt_work_budget"
+      ]
+    },
+    {
+      "segment": "session_0015_004",
+      "source": "session_0015",
+      "reasons": [
+        "turn_budget"
+      ]
+    },
+    {
+      "segment": "session_0087_002",
+      "source": "session_0087",
+      "reasons": [
+        "turn_budget"
+      ]
+    }
+  ],
+  "exclusion_reason_counts": {
+    "turn_budget": 85,
+    "prompt_work_budget": 43,
+    "recorded_wait_budget": 24,
+    "output_work_budget": 4
+  },
+  "full_runs": 60,
+  "frozen_at_utc": "2026-11-08T11:50:53.165046+00:00",
+  "protocol_sha256": "d281390347ba2342eb43b229ec0799ca9226f915e170696fb5415b28994b9002",
+  "original_workload_sha256": "362771933edf1d36bdc4e373c193b7fd5eadd537be058e0d86aa204e1854cd51",
+  "bootstrap_sha256": "00bc7912d76a7c2d5a9fa45cccd5153d63f597639f590496556ec4d4df0f96eb",
+  "historical_source_sessions": [
+    "session_0010",
+    "session_0047",
+    "session_0054",
+    "session_0065",
+    "session_0072",
+    "session_0084",
+    "session_0092",
+    "session_0094"
+  ],
+  "selector_sha256": "cb6cc90df52e217a09dad7512eb5d0bcabc3803c52416cf9e18fbe37cc8e35b4",
+  "outcome_data_used_for_selection": false
+}

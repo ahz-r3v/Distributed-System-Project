@@ -1,0 +1,22 @@
+{
+  "inputs": {
+    "notes/experiment-evidence/part1-coverage-comparison.json": "ece9e43fc8ca9e12691ca0311fe5f222d1f3cdec48dcfbb21a6152ea2174292c",
+    "notes/experiment-evidence/part1-coverage-completion.json": "637825d6b46096dbce58513dd506b9ae84ac21ac0739ec34bc24d97ce69e7c77",
+    "notes/experiment-evidence/part1-coverage-measurements.csv": "b3f6d177e44be1c02063bcb404a88abb2e764c765235e99d7e0a1e1069534a31",
+    "notes/experiment-evidence/part1-preemption-audit-amendment.json": "244e25efe66bd429cef3fc3039a281371049dc64748cd0b860c9f4f1a67581ff"
+  },
+  "script_sha256": "7cd96205b638bb26b4ccfccd33998a591e818e831284bb14106e5b4d4a9bc7f2",
+  "matplotlib_version": "3.11.2",
+  "numpy_version": "2.5.4",
+  "outputs": {
+    "replication-coverage-serving.pdf": "611a67764cedd24fdfd658a791f30b5cd4e9dc25be2022f3ec319c7ef2b74809",
+    "replication-coverage-serving.png": "081189b356f54cc2933e3bdb7b4009c0c1868ff9194c642a053003b63b9a34a4",
+    "replication-coverage-accounting.pdf": "3aff1709cd1b4848a262b0fac584ad2f55d986c79b8f43933e7f8ef5867fca77",
+    "replication-coverage-accounting.png": "e40bffaf13f198b05293e26e143c0a75412a0f8ae29cde07ccec8be982e7a81c",
+    "replication-coverage-workloads.tex": "bc6aeaae18d3480180d531ea30372b2268c4b37a72932cafc57dc92775d66504",
+    "replication-coverage-results.tex": "7b0101f9dda1ad986cba08d4f6aa64177f4cc50ed1e054657e6a082a2db27f44",
+    "replication-coverage-paired-effects.csv": "c29a983cb21e08ef5a0c0e45577c6bbd53329c673a90d0029bc6385faba0c07d",
+    "replication-coverage-summary.json": "db02234bfaf7ad256ba5b194d1de2d9234d55b4e050abed5b5fe474bbfff8411"
+  },
+  "method": "Equal-weight means over three repeats; whiskers show observed minimum and maximum. Matched percentage effects use policy pairs from the same setting and GPU repeat. Repeat markers are circles, squares, triangles. The single preemption is retained. No confidence intervals, exact executed-prefill, or offloading claims are implied."
+}

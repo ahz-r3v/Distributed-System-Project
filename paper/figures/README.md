@@ -19,13 +19,41 @@ For each experimental figure, record the input data location, version, generatio
 | Method evaluation | End-to-end results, ablation plots, and sensitivity plots | Results for each storage method under a fixed policy, plus I/O and resource overhead |
 
 The report includes a six-policy results table and a separate uncached-request timing table; source snapshots and checksums are in `notes/experiment-evidence/`.
-Part 1 includes two figures with documented data sources and generation scripts:
+Part 1 includes four figures with documented data sources and generation scripts:
 
 - `replication-workload.pdf`: Deduplicated input/output lengths, message counts, and durations for common tools.
-- `replication-serving.pdf`: Session times from the latest six-policy study and policy effects matched within each repeat block.
+- `replication-serving.pdf`: Session times from the historical six-policy study and policy effects matched within each repeat block.
+- `replication-coverage-serving.pdf`: Coverage-study concurrency curves and matched predictive-eviction effects across all five settings.
+- `replication-coverage-accounting.pdf`: Full allocation-eviction events, completed-request uncached prompt usage, and per-run P99 request latency across all five settings.
 
 `prepare_replication_data.py` produces compact numeric evidence from the experiment repository; `plot_replication.py` can regenerate the figures using only the evidence saved in this repository.
 See the Part 1 records in `notes/README.md` for commands, figure decisions, and remaining experiments.
 `replication-figure-provenance.json` records checksums for inputs and the plotting script; `replication-paired-effects.csv` stores the per-repeat comparison values shown in the figure.
 Existing job-10807 figures correspond to the earlier five-policy experiment and must not be reused as figures for the latest consolidated six-policy study.
 Other proposed figures remain to be generated; do not fill them with fabricated data.
+
+## Completed coverage study
+
+Run `python paper/figures/plot_coverage.py` from the repository root with NumPy
+and Matplotlib installed. It uses only archived evidence in this repository;
+no cluster access or inference job is required.
+
+The generator verifies comparison/completion/CSV/amendment hashes, all 60
+registered setting/repeat/policy rows, the 6,384-request total, workload/token
+accounting, and the retained single preemption. It produces vector PDFs, PNG
+previews, the workload/results LaTeX tables used by the paper, a numeric summary,
+and a CSV of matched effects. `replication-coverage-provenance.json` records input,
+script, and output hashes plus library versions.
+
+All points are equal-weight three-repeat means unless individual repeats are
+shown. Whiskers span observed minima and maxima; they are not confidence
+intervals. Percentage changes in the matched-effects CSV compare policies in
+the same GPU block; prose/table comparisons use ratios of the corresponding
+three-repeat means. First-use marks count prompt growth once per segment,
+excluding prior output already counted as generated tokens.
+
+The coverage study remains separate from the historical six-policy study.
+Its final status is `complete_with_protocol_deviation`: A20 repeat 0 has one
+preemption under prefix-aware/predictive eviction. The original rejection is
+preserved. Uncached usage is not all executed prefill, additional preemption
+work is unknown, and eviction-event counts are not bytes transferred.
