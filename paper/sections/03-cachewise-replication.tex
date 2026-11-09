@@ -45,28 +45,32 @@ Prefix caching and 512-token chunked prefill are enabled.
 The KV budget is 17,981 blocks of 16 tokens, equivalent to 287,696 tokens.
 The ten initial prompts total 487,696 tokens, approximately 1.70 times this capacity.
 Thus, $N=10$ already creates memory pressure on this testbed; equal session counts do not imply equal contention across different hardware configurations.
-Table~\ref{tab:replication-setup} summarizes the principal differences from the reference experiment.
+Table~\ref{tab:replication-setup} summarizes the experimental configuration used in this study.
 
 \begin{table}[t]
   \centering
   \small
   \setlength{\tabcolsep}{3pt}
   \hyphenpenalty=10000
-  \begin{tabular}{>{\raggedright\arraybackslash}p{0.23\columnwidth}>{\raggedright\arraybackslash}p{0.32\columnwidth}>{\raggedright\arraybackslash}p{0.32\columnwidth}}
+  \begin{tabular}{>{\raggedright\arraybackslash}p{0.32\columnwidth}>{\raggedright\arraybackslash}p{0.60\columnwidth}}
     \toprule
-    Setting & Reference & This study \\
+    Setting & Configuration \\
     \midrule
-    Accelerator & Two H200 GPUs & One RTX Pro 6000 per repeat \\
-    Model size & 32B & 14B \\
-    Tensor parallelism & Two & One \\
-    Prefill chunk & 512 tokens & 512 tokens \\
-    Predictor inputs & Tool names and arguments & Tool names; arguments redacted \\
-    Training membership & 80\% of sessions & 34 of 94 source traces \\
-    Serving loads & Multiple values of $N$ & $N=10,20,30$; three coverage cohorts \\
+    Accelerator & One RTX Pro 6000 Blackwell Max-Q GPU per repeat block \\
+    Model & Qwen2.5-Coder-14B-Instruct \\
+    Precision & BF16 \\
+    Tensor parallelism & One \\
+    Prefix caching & Enabled \\
+    KV budget & 17,981 blocks of 16 tokens \\
+    Prefill chunk & 512 tokens \\
+    Predictor inputs & Tool names; arguments redacted \\
+    Training sources & 34 of 94 source traces; excluded from serving evaluation \\
+    Serving loads & Initial $N=10$; coverage A: $N=10,20,30$, B/C: $N=10$ \\
+    Repeats & Three per policy and workload setting \\
     \bottomrule
   \end{tabular}
-  \caption{Selected configuration differences from CacheWise~\cite{Tiwari2026CacheWise}.
-  Exact membership of the reference serving split is unavailable; the local training fraction uses the 94 available source traces as its denominator.}
+  \caption{Experimental configuration and evaluation loads used in this study.
+  Workload selection and replay procedures are described in the text.}
   \label{tab:replication-setup}
 \end{table}
 
