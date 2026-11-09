@@ -12,7 +12,7 @@ and KV cache recovery
 
 This work asks how a coding-agent server should manage reusable attention state when GPU memory is limited. I will cover three parts: our adapted CacheWise replication, the tradeoff between recomputing a prefix and restoring a saved copy, and a host-cache extension with fetch-aware scheduling. The main theme is that scheduling, eviction, and recovery need to be considered together. The measured recovery tier is host DRAM; SSD storage remains future work.
 
-Evidence: 
+Evidence: Six-page report, abstract and §1
 
 ## 2. The same prefix is useful again
 

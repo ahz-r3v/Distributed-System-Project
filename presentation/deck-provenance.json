@@ -5,11 +5,11 @@
     "notes/experiment-evidence/part1-coverage-comparison.json": "ece9e43fc8ca9e12691ca0311fe5f222d1f3cdec48dcfbb21a6152ea2174292c",
     "notes/experiment-evidence/host-dram-reported-results.json": "8126bea2a77ad959e6e109b5157463b05cd23d09db33753609c80f7e9975baaf"
   },
-  "script_sha256": "090a3771bff40557a7e81843e2e748241d5a263fc6d9f04fe840855f3cd38814",
+  "script_sha256": "503362c740d36795901f45f409d8913883c50746db0479cf404769199a4555d8",
   "outputs": {
-    "presentation/cachewise-10-minute-talk.pptx": "680b980fe1519447dd99ab9c8b836117a6f9796cc96aea7e430e2098bd151b46",
-    "presentation/cachewise-10-minute-talk.pdf": "2526993675e050859b5a2c843d21b41970d347732498dbe24f249f1e9c2d6e06",
-    "presentation/cachewise-10-minute-speaker-notes.md": "451a27b4df06b098899abf6f92136cc633e128784131cfefe8d464bfac71cb60",
+    "presentation/cachewise-10-minute-talk.pptx": "64325fd8fbec0742006baed3ef222d957bac039c576415705771a71e9d27035f",
+    "presentation/cachewise-10-minute-talk.pdf": "8a0287862445cab9d48c9a17cb3d8fe31fc04a52160a4bdeef989036a0ce678b",
+    "presentation/cachewise-10-minute-speaker-notes.md": "5e01a1a4f9d6e7e342f084bb695321343c89c9c51b5b57debffbdd91925ec4af",
     "presentation/assets/host-ablation.png": "84d30c5997762a0b7b6ef8bc3a7cfd2a760345d16d9a37e3db1d13c22abf5227",
     "presentation/assets/host-recovery.png": "53c321b6924f1d51c89c87530b218ba49c9cce323f090f5d3ed7254d44dd2904",
     "presentation/assets/replication-interaction.png": "00ab9be44370dd89055bad2859534de3bac0e4309035051cfa8849599d123740",

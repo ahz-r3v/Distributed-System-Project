@@ -148,7 +148,7 @@ def wrapped(text, width, size, bold=False):
 class Slide:
     def __init__(self, title, section, seconds, notes, source=''):
         self.items = []
-        self.title, self.section, self.seconds, self.notes, self.source = title, section, seconds, notes, source
+        self.title, self.section, self.seconds, self.notes, self.source = title, section, seconds, notes, source or 'Six-page report, abstract and §1'
 
     def box(self, x, y, w, h, fill='#ffffff', stroke=None, radius=0):
         self.items.append(dict(kind='box', x=x, y=y, w=w, h=h, fill=fill, stroke=stroke, radius=radius))
