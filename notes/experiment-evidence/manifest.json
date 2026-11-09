@@ -55,7 +55,7 @@
       "sha256": "637825d6b46096dbce58513dd506b9ae84ac21ac0739ec34bc24d97ce69e7c77"
     }
   ],
-  "scope": "Consolidated six-policy study is the primary replication evidence. The separate job-10807 profile is uncached client wall time with max_tokens=1, not isolated GPU prefill or an offloading measurement.",
+  "scope": "Replication evidence includes a historical consolidated six-policy study and a separate completed 60-run coverage study with a declared preemption deviation. Their workloads and instrumentation differ and measurements must not be pooled. The job-10807 profile is uncached client wall time with max_tokens=1, not isolated GPU prefill or an offloading measurement.",
   "derived_artifacts": [
     {
       "file": "workload-characterization.json",

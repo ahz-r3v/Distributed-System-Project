@@ -11,7 +11,7 @@
 | 报告格式 | USENIX / OSDI 官方双栏样式；用于课程报告 |
 | 写作语言与篇幅限制 | 待确认 |
 | 作者与章节分工 | 待确认 |
-| 基线、实验指标与数据来源 | 已核对 cachewise-coding-traces 的六策略、三轮、N=10 实验；卸载对比待测 |
+| 基线、实验指标与数据来源 | 已核对历史六策略实验及新增 60 次运行、N=10/20/30 和额外 cohort 的覆盖实验；卸载对比待测 |
 | 初稿、审阅与提交时间 | 待安排 |
 
 ## 当前论文主线
@@ -26,7 +26,7 @@
 
 ## 已核对的实验结果（2026-11-08）
 
-主结果使用 `/home/ws/cachewise-coding-traces/serving_experiment/results/2026-11-04/parallel-13943/consolidated-comparison.json`。
+历史六策略结果使用 `/home/ws/cachewise-coding-traces/serving_experiment/results/2026-11-04/parallel-13943/consolidated-comparison.json`；新增覆盖实验单独报告，见下方记录。
 这是六策略各三轮的统一实验，共 18 次完整运行、1,494 次请求；每轮内六策略共享同一 GPU，不同轮使用相同型号的不同 GPU。
 已从原始 `summary.json` 的请求明细重新计算并核对全部 18 次运行的会话均值、token 数及加权缓存命中率。
 
@@ -74,6 +74,7 @@ The smaller serving cohort still has ten segments, eight source sessions, and 83
 
 The existing data is sufficient for a bounded adapted-replication report.
 The following follow-ups are needed for stronger coverage or more specific mechanism claims, rather than to make the existing measurements valid.
+This table records the priorities before the coverage execution: the concurrency sweep, two additional cohorts, and full eviction instrumentation are now complete, subject to the computation-accounting limit documented below.
 
 | Priority | Follow-up | Question answered | Practical design |
 | --- | --- | --- | --- |
@@ -144,8 +145,9 @@ Historical measurements are retained separately.
 
 The passive observer counts every successful cached-block hash removal during allocation, distinguishing cache invalidation outside allocation and excluding unsuccessful removals or fresh blocks.
 It leaves the policy result and allocation order unchanged and keeps the existing 1% lifetime sampling as a separate diagnostic.
-Computed prompt tokens are checked against both server counters and completed-request usage.
-First-use prompt tokens and excess computed tokens are reported separately; alignment and last-token overhead are not mislabeled as an exact recomputation count.
+The original plan checked the engine's named computed-prefill metric against completed-request usage.
+Inspection during the preemption repair established that these are the same usage-derived accounting, rather than independent execution measurements.
+The final analysis reports uncached usage and first-use prompt tokens separately; alignment and last-token overhead and extra preemption work prevent an exact recomputation claim.
 Per-run P50/P90/P99, maxima, TTFT, goodput, cache hits, preemptions, source hashes, and physical GPU identity are audited.
 
 The suite uses isolated copies of the existing runner and engine, a fresh server per policy, at most three GPU jobs concurrently, and one physical GPU for all four policies within each repeat block.
@@ -172,7 +174,8 @@ Compact artifacts are synchronized into the ignored local directory `experiments
 The cluster collector reread completion files after querying Slurm and allowed a 120-second shared-filesystem visibility grace period.
 It ran separately from the immutable GPU worker directory and did not change policy execution or submitted jobs.
 The collector, local synchronizer, and monitoring process exited after verifying completion; no jobs from this study remain active.
-Compact final results are archived below; the manuscript and historical figures have not yet been updated with the new study.
+Compact final results are archived below and incorporated into the manuscript and two new coverage figures.
+The historical figures and their numeric evidence remain a separate study.
 
 For an immediate compact-results refresh:
 
@@ -220,7 +223,7 @@ At 15:13 UTC, all six A-N10/A-N20 blocks (24 policy runs) had been validated und
 The three N=30 tasks were running, with the additional cohorts still queued.
 This is a progress snapshot, not a completed-study finding.
 The amended collector is process 3678117; the replaced collector's code/state and process record are preserved in the remote `control/` directory.
-Local synchronization was updated to recognize the separate results, and the monitoring agent continues to check failures and process health.
+Local synchronization was updated to recognize the separate results, and the monitoring agent continued checking failures and process health until final completion.
 
 Successful amended completion requires `results-observed/COMPLETE_WITH_PROTOCOL_DEVIATION`, a comparison status of `complete_with_protocol_deviation`, all 60 rows, and `original_protocol_fully_satisfied: false`.
 The original strict `results/COMPLETE` marker must not be created for this execution.
@@ -252,6 +255,38 @@ Observed repeat ranges in the saved rows are not confidence intervals, and the u
 - `experiment-evidence/part1-coverage-comparison.json`: all 60 numeric rows, frozen selection, and declared amendment.
 - `experiment-evidence/part1-coverage-measurements.csv`: the same run-level measurements in tabular form.
 - `experiment-evidence/part1-coverage-completion.json`: completion checks, block audit references/hashes, environments, frozen source hashes, and original rejection.
+
+### Coverage results incorporated into the report (2026-11-09)
+
+Section 3 now reports the frozen cohort-selection rule, all five workloads, the
+60-run results, and the audit deviation separately from the historical study.
+The abstract, contribution summary, threats to validity, and conclusion reflect
+the expanded Part 1 evidence; the offloading sections remain plans.
+
+`paper/figures/plot_coverage.py` generates two new publication figures and two
+numeric-evidence-derived LaTeX tables:
+
+- `replication-coverage-serving.pdf`: nested A-cohort load curves and matched
+  predictive-versus-LRU effects for both schedulers across all settings.
+- `replication-coverage-accounting.pdf`: full allocation-eviction counts,
+  completed-request uncached usage with first-use references, and P99 request
+  latency, with observed repeat ranges.
+
+Prefix-aware LRU has the lowest mean session serving time in all five settings.
+Predictive eviction helps FCFS in all 15 matched comparisons and raises time
+under prefix-aware scheduling in all 15. These are descriptive findings from
+three repeats per setting, not population significance claims.
+At N=20 and N=30, prefix-aware LRU improves mean session time but has higher
+request P99 than FCFS/LRU; the text and figures explicitly retain this tradeoff.
+The one preemption is retained, and reported uncached tokens are not relabeled
+as all executed or redundant computation.
+
+To regenerate the new figures, tables, numeric summary, matched effects, and
+hash provenance using only this repository's archived evidence:
+
+```sh
+python paper/figures/plot_coverage.py
+```
 
 - 阅读笔记：原文链接、引用键、问题、方法、结论、局限及关键页码。
 - 讨论记录：日期、参与者、议题、决定、待办与负责人。

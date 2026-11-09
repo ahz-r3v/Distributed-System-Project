@@ -13,8 +13,11 @@ This paper is organized around three research questions:
   \item Under what workload and hardware conditions does KV cache offloading cost less than prefix recomputation?
   \item How should a secondary-storage offloading mechanism exploit those conditions while controlling I/O overhead?
 \end{enumerate}
-\draftnote{Present the completed contributions as a replication study, a measured tradeoff analysis, and an implemented offloading method with an evaluation.
-Until those steps are complete, describe them as research objectives.}
+The completed contribution is an adapted replication with an initial six-policy study and a separate 60-run coverage study.
+It identifies a scheduler-dependent eviction effect across the tested loads and cohorts, reports full eviction-event counts, and distinguishes average session improvements from request-tail behavior.
+The coverage study retains one observed preemption with a declared protocol deviation and an explicit limit on computation accounting.
+\draftnote{Add a measured recovery-cost analysis and an implemented offloading method as completed contributions only after their respective evaluations.
+They currently remain research objectives.}
 
 \subsection{Paper Organization}
 Section~\ref{sec:related-work} introduces the necessary background.
