@@ -353,3 +353,30 @@ material in backup. Parts 2 and 3 appear as a short research handoff.
 - Discussion records: date, participants, topics, decisions, action items, and owners.
 - Experiment records: hypothesis, code version, execution environment, parameters, commands, raw data location, and analysis.
 - Clearly mark unverified information so it is not presented as an established fact in the report.
+
+## Six-page report and ten-minute presentation (2026-11-09)
+
+The concise report is six pages including references, using the unchanged USENIX style, two columns, and 10 pt body text.
+Repeated background, setup descriptions, historical tables, and metric-by-metric plots were reduced.
+The report contains three figures and one compact results table:
+
+| Included item | Purpose |
+| --- | --- |
+| Coverage serving figure | Load-sweep means and matched predictive-eviction effects |
+| Compact coverage table | Absolute means for all five settings, including B/C |
+| Host architecture | Implemented save/restore path and nominal capacities |
+| Consolidated host figure | Recovery comparison and policy ablation with additional observations |
+
+Corpus, historical six-policy, coverage accounting, and separate host figures and tables remain in `paper/figures/` as supporting artifacts.
+The older uncached timing profile remains archived but is omitted because it cannot be combined with the host study into a controlled recovery ratio.
+Historical oracle/aging and request-tail findings remain in the text.
+The preemption amendment, metric definitions, added-capacity qualification, sparse host repetitions, and unimplemented SSD scope are retained.
+
+`paper/figures/plot_compact_results.py` verifies the frozen coverage evidence through the existing loader, then generates the compact table and consolidated host figure.
+Its input/script/output hashes are in `paper/figures/compact-figure-provenance.json`.
+Existing detailed figure generators remain unchanged.
+
+`presentation/` contains the whole-study PowerPoint and PDF, ten-slide timing plan, embedded and Markdown speaker notes, chart assets, and generation source.
+Plots are redrawn at larger type sizes from the same evidence.
+The slide timings total 600 seconds, excluding questions; rehearse to adjust pacing.
+This revision executes document builds and rendering only, with no new experiments, replays, model calls, or correctness runs.

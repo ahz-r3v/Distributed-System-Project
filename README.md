@@ -2,19 +2,19 @@
 
 A collaborative repository for a distributed systems course report, using the [official USENIX LaTeX template](https://www.usenix.org/conferences/author-resources/paper-templates) used by OSDI.
 The report uses US Letter paper, two columns, and 10 pt text, with separate section files so teammates can write in parallel.
-The report, **CacheWise Replication and Fetch-Aware KV Cache Recovery**, includes a historical six-policy experiment, a separate 60-run coverage study, and an analysis of existing Mini-SGLang host-restoration results. It describes the implemented pinned-host cache and fetch-aware scheduling, with architecture, performance, and ablation figures. SSD support remains future work, and author information still needs to be filled in.
+The report, **CacheWise Replication and Fetch-Aware KV Cache Recovery**, includes a historical six-policy experiment, a separate 60-run coverage study, and an analysis of existing Mini-SGLang host-restoration results. The concise report is **six pages including references**, with three selected figures and one results table. It describes the implemented pinned-host cache and fetch-aware scheduling. SSD support remains future work, and author information still needs to be filled in.
 
 ## Getting started
 
 1. Update the title, names, affiliations, and student IDs in `paper/main.tex`; add or remove author blocks as needed.
 2. Record the topic, course requirements, section assignments, and deadlines in `notes/README.md`.
-3. Edit your assigned sections in `paper/sections/`, replacing the `\draftnote{...}` placeholders as the draft develops.
+3. Edit your assigned sections in `paper/sections/`, preserving the six-page target and evidence qualifications.
 4. Add verified sources to `paper/references.bib` and cite them with `\cite{citation-key}`.
 5. Compile and inspect the PDF, then merge changes through branches and pull requests.
 
 The shared bibliography includes the [CacheWise paper](https://arxiv.org/abs/2606.16824v1), with its citation details checked against the original paper.
 The original paper already evaluates GPU–CPU DRAM offloading. This report analyzes reported GPU–host recovery behavior and a fetch-aware scheduling extension, while keeping persistent secondary storage outside the completed implementation scope.
-Add relevant literature and measured results as the report develops, and remove draft markers before submission.
+The concise report and presentation use existing measurements; no further experiments were run.
 Write the report in English and follow the instructor's length requirements.
 
 ## Report structure
@@ -22,9 +22,9 @@ Write the report in English and follow the instructor's length requirements.
 1. **Introduction**: Motivation, three research questions, and expected contributions.
 2. **Background and Related Work**: KV caching, CacheWise, the memory hierarchy, and existing offloading systems.
 3. **CacheWise Replication: Experiments and Results**: Replication scope, experimental setup, results, ablations, and differences from the original paper.
-4. **Recovery Costs: Recomputation and Host Restoration**: Prior-prefix deficits, cost modeling, existing uncached timings, and reported host-restoration operating points.
+4. **Recovery Costs: Recomputation or Restoration**: Serial and expected-work cost models, with explicit limits on host and SSD conclusions.
 5. **Host-DRAM Offloading and Fetch-Aware Scheduling**: Page offload/restoration, inclusive copies, predictive prefetch, request ordering, and implementation limits.
-6. **Evaluation of Host Restoration and Scheduling**: Reported host comparisons and ablations, explicit sample sizes, capacity changes, and transfer accounting.
+6. **Host Recovery Evaluation**: Reported comparisons and ablations, sample sizes, capacity changes, and metric definitions.
 7. **Discussion and Limitations**: Scope, failure cases, and threats to validity.
 8. **Conclusion**: Summarize verified findings in the order of replication, cost analysis, methods, and evaluation.
 
@@ -35,6 +35,10 @@ One real preemption violated the original zero-preemption condition; the origina
 The vLLM eviction counts do not measure transferred KV bytes. The separate Mini-SGLang artifact reports host-transfer bytes and DRAM restoration results; it contains no SSD I/O path.
 `notes/experiment-evidence/host-dram-reported-results.json` maps the plotted rounded observations to a pinned artifact revision and individual result files. It is a transcription of existing reported results, not a new benchmark or independent audit of all raw requests.
 The configured 196,608 host slots at 196,608 bytes per token equal **36 GiB of nominal KV payload**; the upstream prose's 37.5 GiB label is corrected explicitly in the report. Other allocation and staging overhead is not measured.
+
+## Presentation
+
+The [ten-slide whole-study deck](presentation/README.md) includes an [editable PowerPoint](presentation/cachewise-10-minute-talk.pptx), [PDF](presentation/cachewise-10-minute-talk.pdf), and [timed speaker notes](presentation/cachewise-10-minute-speaker-notes.md) for approximately ten minutes.
 
 ## Repository layout
 
@@ -48,6 +52,7 @@ paper/
   references.bib       # Shared BibTeX bibliography
   figures/             # Figures and their editable source files
   build/               # Build outputs (not committed)
+presentation/          # Ten-minute deck, editable source, notes, and charts
 notes/                 # Topic selection, assignments, reading notes, and experiment records
 .github/workflows/     # Automated compilation and PDF artifacts
 CONTRIBUTING.md         # Branching, review, and writing conventions
