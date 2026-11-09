@@ -115,6 +115,12 @@ The first command reads the source repository without modifying it or starting i
 It checks source-trace and workload hashes, regenerates `workload-characterization.json`, and derives `replication-additional-metrics.json` from the original 18 request summaries.
 The second command only requires the saved numeric evidence and regenerates vector figures, PNG previews, paired-effect CSV values, and figure provenance.
 
+## Offloading literature and research scope
+
+The [2026-11-09 related-work notes](2026-11-09-offloading-related-work.md) record verified primary sources, publication versions, claim boundaries, and the controlled comparisons needed for the secondary-storage study.
+The Introduction now connects this scope to the completed replication: its 18-run count, 1,494 request executions, and 43.22%, 10.94%, and 3.49% comparisons come from the consolidated results presented in Section 3.
+It explicitly identifies the recovery model, candidate methods, and offloading evaluation as the framework and remaining experimental work, without claiming an SSD benefit.
+
 ## Record-keeping guidelines
 
 - Reading notes: source link, citation key, problem, method, findings, limitations, and relevant page numbers.

@@ -3,22 +3,41 @@
 \label{sec:introduction}
 
 \subsection{Motivation and Problem}
-\draftnote{Introduce KV cache reuse across coding-agent turns, finite accelerator memory, and the work required to recover evicted prefixes.
-Motivate the question: when should a serving system preserve KV state in secondary storage instead of recomputing it?}
+Coding agents alternate language-model inference with external operations such as reading files, running commands, and editing code.
+Successive requests can share a growing prompt prefix, making its attention key--value (KV) state valuable across turns~\cite{Tiwari2026CacheWise}.
+During tool execution, however, keeping that state on the GPU consumes capacity that other requests could use.
+Evicting it releases memory but creates a recovery decision when the agent resumes: recompute the missing prefix or restore a compatible saved copy.
+InferCept already uses interruption information to guide preservation, CPU swapping, and recomputation~\cite{Abhyankar2024InferCept}.
 
-\subsection{Research Questions and Intended Contributions}
-This paper is organized around three research questions:
+CacheWise combines prefix-aware scheduling with predictive eviction based on tool-call metadata, and also evaluates GPU--CPU offloading~\cite{Tiwari2026CacheWise}.
+We first examine these scheduling and eviction mechanisms in an adapted replay, then ask how recovery should change when GPU and CPU memory are both bounded.
+SSDs offer another storage tier, but their capacity alone does not establish a serving-time benefit.
+Writing KV state, staging transfers through host memory, and restoring it later can cost more than recomputation, especially when reuse is uncertain or transfers compete with active requests.
+Systems such as CachedAttention already support hierarchical KV storage~\cite{Gao2024CachedAttention}; our objective is to characterize when that approach is useful for the replicated coding-agent workload and what additional policy decisions the evidence supports.
+
+\subsection{Research Questions and Contributions}
+We organize the study around three questions:
 \begin{enumerate}
-  \item Which CacheWise findings can we reproduce under our experimental setup?
-  \item Under what workload and hardware conditions does KV cache offloading cost less than prefix recomputation?
-  \item How should a secondary-storage offloading mechanism exploit those conditions while controlling I/O overhead?
+  \item How much of CacheWise's serving benefit comes from scheduling and eviction in our adapted setup?
+  \item When does a complete offload-and-restore cycle cost less than recovering the same missing prefix through recomputation, with DRAM restoration as an intermediate baseline?
+  \item Can tool-return information guide SSD placement and transfer timing to reduce exposed recovery delay without excessive I/O work?
 \end{enumerate}
-\draftnote{Present the completed contributions as a replication study, a measured tradeoff analysis, and an implemented offloading method with an evaluation.
-Until those steps are complete, describe them as research objectives.}
+
+The completed contribution is a controlled replication with six policy settings and three repeats, totaling 18 runs and 1,494 request executions on one ten-segment cohort.
+Our primary metric is mean session serving time, excluding external tool execution.
+With LRU eviction fixed, prefix-aware scheduling reduces this metric by 43.22\% relative to FCFS.
+Predictive eviction improves it by 10.94\% under FCFS but worsens it by 3.49\% under prefix-aware scheduling.
+Oracle and queue-aging diagnostics further distinguish predictor effects from behavior of the local scheduler.
+These findings identify a scheduling--eviction interaction in this cohort; differences in hardware, model, redacted inputs, and replay preparation bound their applicability to the original CacheWise evaluation.
+
+For the recovery questions, we formulate a cost model that includes writes, reads, staging, and management, and specify matched comparisons of recomputation, DRAM restoration, and SSD restoration.
+The proposed methods build from synchronous block offloading to asynchronous transfer and reuse-guided decisions.
+This part remains an experimental agenda: the current artifacts contain uncached-request timings but no completed offloading comparison or validated SSD policy.
+Accordingly, we report the replication findings and recovery framework without claiming an SSD speedup.
 
 \subsection{Paper Organization}
-Section~\ref{sec:related-work} introduces the necessary background.
+Section~\ref{sec:related-work} introduces the background and positions the study against existing offloading systems.
 Section~\ref{sec:replication} presents the CacheWise replication study.
 Section~\ref{sec:tradeoff} examines recovery costs and the motivation for secondary storage.
-Section~\ref{sec:offloading} presents the proposed methods, followed by their evaluation in Section~\ref{sec:evaluation}.
+Section~\ref{sec:offloading} outlines candidate methods, and Section~\ref{sec:evaluation} specifies their planned evaluation.
 Sections~\ref{sec:discussion} and~\ref{sec:conclusion} discuss limitations and conclude.
