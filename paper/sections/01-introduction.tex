@@ -10,17 +10,18 @@ Evicting it releases memory but creates a recovery decision when the agent resum
 InferCept already uses interruption information to guide preservation, CPU swapping, and recomputation~\cite{Abhyankar2024InferCept}.
 
 CacheWise combines prefix-aware scheduling with predictive eviction based on tool-call metadata, and also evaluates GPU--CPU offloading~\cite{Tiwari2026CacheWise}.
-We first examine these scheduling and eviction mechanisms in an adapted replay, then ask how recovery should change when GPU and CPU memory are both bounded.
-SSDs offer another storage tier, but their capacity alone does not establish a serving-time benefit.
-Writing KV state, staging transfers through host memory, and restoring it later can cost more than recomputation, especially when reuse is uncertain or transfers compete with active requests.
-Systems such as CachedAttention already support hierarchical KV storage~\cite{Gao2024CachedAttention}; our objective is to characterize when that approach is useful for the replicated coding-agent workload and what additional policy decisions the evidence supports.
+We first examine these scheduling and eviction mechanisms in an adapted replay, then study recovery through a bounded pinned-host cache in a separate Mini-SGLang implementation.
+Saving and restoring KV state competes with recomputation and consumes transfer bandwidth and backing memory.
+An offloading policy therefore needs to account for where a prefix resides when deciding which request to serve.
+Systems such as CachedAttention already support hierarchical KV storage~\cite{Gao2024CachedAttention}; our focus is the interaction of scheduling and host restoration in the available coding-agent replay.
+SSDs offer a further tier, but their implementation and evaluation remain outside the completed study.
 
 \subsection{Research Questions and Contributions}
 We organize the study around three questions:
 \begin{enumerate}
   \item How much of CacheWise's serving benefit comes from scheduling and eviction in our adapted setup?
-  \item When does a complete offload-and-restore cycle cost less than recovering the same missing prefix through recomputation, with DRAM restoration as an intermediate baseline?
-  \item Can tool-return information guide SSD placement and transfer timing to reduce exposed recovery delay without excessive I/O work?
+  \item How does adding host-DRAM restoration change recovery work and session serving time under GPU memory pressure?
+  \item What additional behavior is observed when host-aware request ordering and predictive prefetching are added to that recovery path?
 \end{enumerate}
 
 The completed contribution is an adapted replication comprising an initial six-policy experiment with 18 runs and a separate 60-run coverage study with 6,384 request executions.
@@ -32,14 +33,17 @@ Historical oracle and queue-aging diagnostics further distinguish predictor effe
 The coverage study retains one observed preemption under a declared audit amendment; its extra prefill work remains unmeasured.
 These findings apply to runtime-bounded, adapted workloads; differences in hardware, model, redacted inputs, and replay preparation bound their applicability to the original CacheWise evaluation.
 
-For the recovery questions, we formulate a cost model that includes writes, reads, staging, and management, and specify matched comparisons of recomputation, DRAM restoration, and SSD restoration.
-The proposed methods build from synchronous block offloading to asynchronous transfer and reuse-guided decisions.
-This part remains an experimental agenda: the current artifacts contain uncached-request timings but no completed offloading comparison or validated SSD policy.
-Accordingly, we report the replication findings and recovery framework without claiming an SSD speedup.
+For the recovery questions, we describe the implemented Mini-SGLang host tier and analyze existing reported results from its versioned artifact~\cite{MiniSGLang2026Artifact}.
+With LRU+FCFS fixed and 24~GiB of GPU KV payload, adding 36~GiB of nominal host KV capacity reduces reported mean session time from 821 to 90.7~s at $N=28$ and from 1,060 to 222~s at $N=36$.
+The comparison explicitly adds backing capacity; it does not isolate an equal-total-memory algorithmic gain.
+Two reported $N=36$ observations per configuration favor CacheWise-Fetch over predictive prefix scheduling without fetch-aware ordering, while single-run ablations suggest that prefetching alone is insufficient.
+We preserve the small sample sizes and distinguish usage-derived prefix deficits from exclusive GPU computation.
+The two engines have different cache budgets, prefill chunks, and replay preparation, so their measurements are analyzed separately.
+Our cost model describes the measured host path and the additional costs a future SSD path would need to include; it does not establish an SSD speedup or an empirical SSD break-even boundary.
 
 \subsection{Paper Organization}
 Section~\ref{sec:related-work} introduces the background and positions the study against existing offloading systems.
 Section~\ref{sec:replication} presents the CacheWise replication study.
-Section~\ref{sec:tradeoff} examines recovery costs and the motivation for secondary storage.
-Section~\ref{sec:offloading} outlines candidate methods, and Section~\ref{sec:evaluation} specifies their planned evaluation.
+Section~\ref{sec:tradeoff} examines recovery costs and the observed host-restoration regime.
+Section~\ref{sec:offloading} describes the implemented host tier and scheduling policy, and Section~\ref{sec:evaluation} analyzes their reported evaluation.
 Sections~\ref{sec:discussion} and~\ref{sec:conclusion} discuss limitations and conclude.

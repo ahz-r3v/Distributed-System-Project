@@ -1,0 +1,14 @@
+source_path,source_git_blob_sha1,n,policy,recovery,session_s,observations
+cachewise_exp/results/exp1_recompute/vllm_lru_fcfs_n28.json,c1f578076d5f8cbc1b6f3760ca8bc60b0c43c16b,28,LRU + FCFS,Recompute,821,1
+cachewise_exp/results/exp2_fetchback/offload_lru_fcfs_n28.json,56d832404a8c1131bda9e5a8a73ac8f85a858d5f,28,LRU + FCFS,Host restore,90.7,1
+cachewise_exp/results/exp1_recompute/vllm_lru_fcfs_n36.json,c61f1776e4fa65d0acc216ea276bb29eae0b1ae2,36,LRU + FCFS,Recompute,1060,1
+cachewise_exp/results/exp2_fetchback/offload_lru_fcfs_n36.json,629a0533056e76a07a3f4ce9b9f6e7bb895d63e4,36,LRU + FCFS,Host restore,222,1
+cachewise_exp/results/exp2_fetchback/offload_lru_fcfs_n36.json,629a0533056e76a07a3f4ce9b9f6e7bb895d63e4,36,LRU + FCFS,Host restore,222,1
+cachewise_exp/results/exp2_fetchback/offload_lru_prefix_n36.json,2113aa8bd8535eec8f7db8d09fee5ec0b92eb2a9,36,LRU + prefix,Host restore,159,1
+cachewise_exp/results/exp2_fetchback/offload_cachewise_n36.json,577b14aa76bf1b6f83f872406f89e025e6a68563,36,Predictive + prefix,Host restore,158,1
+cachewise_exp/results/exp2_fetchback/offload_cachewise_prefetch_n36.json,10cb68f2ca2ae91e276f30596fa4cec508f1ee37,36,+ prefetch,Host restore,172,1
+cachewise_exp/results/exp2_fetchback/cachewise_fetch_n36.json,d6b8d15981ceaa79f90fe57b9aaf0cf4e91651c2,36,+ fetch-aware,Host restore,136,1
+cachewise_exp/results/exp2_fetchback/offload_cachewise_n36.json,577b14aa76bf1b6f83f872406f89e025e6a68563,36,Predictive + prefix,Host restore,158,1
+cachewise_exp/results/exp2_fetchback/offload_cachewise_rep_n36.json,5ce8f674d606cb047800507ebe411a0983619294,36,Predictive + prefix,Host restore,175,1
+cachewise_exp/results/exp2_fetchback/cachewise_fetch_n36.json,d6b8d15981ceaa79f90fe57b9aaf0cf4e91651c2,36,CacheWise-Fetch,Host restore,136,1
+cachewise_exp/results/exp2_fetchback/cachewise_fetch_rep_n36.json,644c40037768f6efa9b4cdedbacc0e8d0569bf25,36,CacheWise-Fetch,Host restore,135,1

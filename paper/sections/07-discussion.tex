@@ -5,8 +5,8 @@
 \subsection{Applicability and Failure Regimes}
 Offloading is attractive only when avoided recomputation exceeds write, restore, and management cost.
 Short prefixes, low reuse probability, saturated links, or an undersized backing tier can make recomputation preferable; severe host pressure already produces two-level thrashing in the $N=48$ LRU+FCFS run.
-Pinned DRAM is preferable when its capacity suffices because it avoids filesystem latency.
-Prediction errors can waste prefetch bandwidth, although the conservative exchange guard keeps measured speculative volume small.
+The observed DRAM benefit depends on available pinned capacity and host-device bandwidth, and includes the effect of adding backing memory.
+Prediction errors can waste prefetch bandwidth; the reported speculative volume is small, but the exchange guard does not guarantee a benefit.
 An SSD policy must price current queueing rather than reuse the fixed host fetch ratio.
 
 \subsection{Threats to Validity}
@@ -16,16 +16,19 @@ It remains limited to runtime-bounded complete segments; changing $N$ also chang
 Matched comparisons within repeats reduce hardware confounding but do not establish performance over the full trace population.
 One actual preemption violates the original zero-preemption condition; the archived post hoc amendment retains it while enforcing the remaining integrity checks.
 Completed-request uncached usage does not count all extra execution caused by that event, and full eviction counts are not transferred KV bytes.
-The absence of actual offloading measurements currently prevents an empirical conclusion about secondary-storage savings.
+The vLLM replication and Mini-SGLang recovery study use different engine implementations, cache budgets, prefill chunks, and replay transformations; their timings and token-accounting metrics must not be pooled.
 The host study uses 43 held-out source sessions, while predictor training uses a disjoint 34-session split, limiting direct leakage but not distribution drift.
 Synthetic token identities, a shared 2,048-token prefix, 0.2 context scaling, shortened outputs, and scaled tool delays change attention work and arrival timing.
 The single 14B model, one Blackwell GPU, and PCIe Gen5 host link bound external validity.
-Most configurations run once; repeated high-pressure runs indicate roughly 10\% variation, so small single-run differences remain unresolved.
-The statement above about absent offloading measurements applies to secondary storage: the separate artifact measures host DRAM only.
-Filesystem caching effects are entirely unevaluated.
+Most host configurations run once.
+The predictive-prefix control's two reported $N=36$ times, 158 and 175~s, illustrate variation without defining a general noise threshold or confidence interval.
+Small single-run differences and precise component attribution remain unresolved.
+The host figures reproduce rounded reported observations, with source-file and revision mappings; they are not an independent audit of all request-level records or new experimental runs.
+Nominal KV payload capacity excludes staging, model weights, allocator metadata, and other process memory.
+The separate host study provides no SSD or filesystem measurements, so secondary-storage savings and page-cache effects remain unevaluated.
 
 \subsection{Limitations and Future Work}
 The prototype extends Mini-SGLang with a process-local pinned-host cache; it does not change CacheWise's broader design claims.
 It lacks SSD or distributed storage, persistent compatibility metadata, bounded staging independent of cache capacity, direct I/O, page-cache controls, compression, cancellation, crash recovery, and cross-process reuse.
-Future work should implement that path and run matched repeated experiments across storage devices, models, independent workload cohorts, prefix lengths, reuse intervals, and queue depths.
-Until then, only host restoration and its scheduling policies are established results.
+These are directions for a future secondary-storage study.
+The present conclusions remain bounded to the adapted vLLM replication and the reported host-restoration observations.

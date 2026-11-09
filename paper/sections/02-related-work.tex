@@ -22,7 +22,7 @@ Its decisions account for interruption duration and estimated GPU memory waste; 
 Tool-aware retention and recovery thus have precedent.
 CachedAttention extends multi-turn conversation caching across GPU memory, host DRAM, and SSDs~\cite{Gao2024CachedAttention}.
 It overlaps layer-wise loading and asynchronous saving with computation, and uses look-ahead windows in the request queue to guide disk-to-DRAM prefetching and eviction.
-Its unit of fetching and eviction is a conversation's KV state, whereas our planned baseline uses prefix blocks.
+Its unit of fetching and eviction is a conversation's KV state, whereas the evaluated host prototype uses prefix pages.
 
 \paragraph{Shared storage and transfer mechanisms.}
 Mooncake separates prefill and decode, pooling CPU, DRAM, SSD, and network resources for distributed KV reuse~\cite{Qin2025Mooncake}.
@@ -40,11 +40,10 @@ Recovery can therefore combine loading and recomputation; our serial cost model 
 \paragraph{Scope of our study.}
 Recent simulation-based work also compares recency, reuse frequency, predicted reuse, and prefetching across GPU, CPU, and SSD tiers~\cite{Tumkur2026Placement}.
 Its results separate capacity gains from policy effects and show that prefetching can waste bandwidth.
-Our question is empirical: for the adapted CacheWise coding-agent workload, when does saving an evicted prefix to SSD reduce recovery delay and session serving time relative to recomputation or DRAM restoration?
-CacheWise already evaluates GPU--CPU swapping~\cite{Tiwari2026CacheWise}; the additional question is the value of secondary storage under bounded DRAM capacity.
-
-We plan to fix request scheduling and GPU eviction, compare identical missing prefixes, and measure complete write, read, staging, and management costs under controlled file-cache conditions and concurrent load.
-We will separate total transfer work from delay exposed after a tool batch returns, using the interval until the next model request as the overlap window.
-A policy using CacheWise's reuse estimates must improve on synchronous offloading and asynchronous transfer without those estimates at matching tier capacities.
-The intended contribution is a measured operating region and, if supported, a workload-specific recovery policy.
-SSD support, prefetching, and cost-aware recovery are established ideas; the current replication results do not yet validate an offloading benefit.
+The completed recovery study examines GPU--host restoration and host-aware request ordering in a Mini-SGLang coding-agent replay.
+CacheWise already evaluates GPU--CPU swapping~\cite{Tiwari2026CacheWise}; host offloading itself is therefore not a new design claim.
+Our contribution is a bounded empirical analysis of the reported recovery comparisons and the implemented fetch-aware scheduling extension.
+The host-restoration comparison fixes LRU+FCFS while explicitly adding backing capacity; policy comparisons retain the same tier capacities.
+The available repetitions and ablations support descriptive observations rather than population-wide significance or isolated attribution of every gain.
+An SSD extension would need additional storage writes and reads, bounded staging, and controlled filesystem caching.
+Those requirements remain future work and cannot be inferred from host-copy bandwidth or from the vLLM replication's uncached-token counts.

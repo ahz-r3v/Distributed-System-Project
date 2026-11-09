@@ -53,6 +53,11 @@
       "snapshot": "part1-coverage-completion.json",
       "source_relative_path": "cluster study part1-coverage-20261108-v1/completion verification",
       "sha256": "637825d6b46096dbce58513dd506b9ae84ac21ac0739ec34bc24d97ce69e7c77"
+    },
+    {
+      "snapshot": "host-dram-reported-results.json",
+      "source_relative_path": "Mini-SGLang 3f9aee7: rounded reported observations with per-file mappings",
+      "sha256": "8126bea2a77ad959e6e109b5157463b05cd23d09db33753609c80f7e9975baaf"
     }
   ],
   "scope": "Replication evidence includes a historical consolidated six-policy study and a separate completed 60-run coverage study with a declared preemption deviation. Their workloads and instrumentation differ and measurements must not be pooled. The job-10807 profile is uncached client wall time with max_tokens=1, not isolated GPU prefill or an offloading measurement.",
@@ -78,5 +83,13 @@
     "comparison": "part1-coverage-comparison.json",
     "measurements": "part1-coverage-measurements.csv",
     "provenance": "part1-coverage-completion.json"
+  },
+  "host_study": {
+    "evidence": "host-dram-reported-results.json",
+    "artifact_revision": "3f9aee7362004126e937ba88085ff72f9ad6083a",
+    "scope": "Existing rounded reported observations; no new experiment or independent full request audit",
+    "nominal_gpu_kv_gib": 24,
+    "nominal_host_kv_gib": 36,
+    "provenance": "paper/figures/host-figure-provenance.json"
   }
 }

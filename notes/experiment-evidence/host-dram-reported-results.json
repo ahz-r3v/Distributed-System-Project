@@ -1,0 +1,41 @@
+{
+  "study": "Mini-SGLang host-DRAM restoration",
+  "repository": "https://github.com/BoxuanYang/MiniSGLangs",
+  "revision": "3f9aee7362004126e937ba88085ff72f9ad6083a",
+  "source_summary": "cachewise_exp/RESULTS.md",
+  "source_summary_git_blob_sha1": "3a56e7e7f94deda93885d3f6b09ff8f0cf2f7dc3",
+  "provenance_scope": "Rounded observations transcribed from the existing manuscript and the versioned artifact summary. This snapshot is not a new experiment or an independent audit of all raw request records. Raw files remain at the pinned repository revision.",
+  "gpu_kv_tokens": 131072,
+  "gpu_kv_gib": 24,
+  "host_kv_tokens": 196608,
+  "host_kv_gib": 36,
+  "capacity_correction": "The upstream prose and previous manuscript call the host pool 37.5 GiB. The recorded 196608 token slots times 196608 bytes/token equal 38654705664 bytes, or 36 GiB of nominal KV tensor payload. This paper uses that arithmetic capacity; allocator/staging overhead is not measured.",
+  "tokens_per_page": 16,
+  "kv_bytes_per_token": 196608,
+  "primary_observations": [
+    {"n": 28, "recovery": "Recompute", "policy": "LRU + FCFS", "session_s": 821, "goodput_tokens_s": 347, "prior_prefix_deficit_mtokens": 4.691, "request_p90_s": 93.2, "observations": 1, "source_path": "cachewise_exp/results/exp1_recompute/vllm_lru_fcfs_n28.json", "source_git_blob_sha1": "c1f578076d5f8cbc1b6f3760ca8bc60b0c43c16b"},
+    {"n": 28, "recovery": "Host restore", "policy": "LRU + FCFS", "session_s": 90.7, "goodput_tokens_s": 1060, "prior_prefix_deficit_mtokens": 0.073, "request_p90_s": 11.0, "observations": 1, "source_path": "cachewise_exp/results/exp2_fetchback/offload_lru_fcfs_n28.json", "source_git_blob_sha1": "56d832404a8c1131bda9e5a8a73ac8f85a858d5f"},
+    {"n": 36, "recovery": "Recompute", "policy": "LRU + FCFS", "session_s": 1060, "goodput_tokens_s": 326, "prior_prefix_deficit_mtokens": 6.160, "request_p90_s": 108.0, "observations": 1, "source_path": "cachewise_exp/results/exp1_recompute/vllm_lru_fcfs_n36.json", "source_git_blob_sha1": "c61f1776e4fa65d0acc216ea276bb29eae0b1ae2"},
+    {"n": 36, "recovery": "Host restore", "policy": "LRU + FCFS", "session_s": 222, "goodput_tokens_s": 927, "prior_prefix_deficit_mtokens": 0.710, "request_p90_s": 23.6, "observations": 1, "source_path": "cachewise_exp/results/exp2_fetchback/offload_lru_fcfs_n36.json", "source_git_blob_sha1": "629a0533056e76a07a3f4ce9b9f6e7bb895d63e4"}
+  ],
+  "n36_policy_observations": [
+    {"policy": "LRU + FCFS", "session_s": 222, "source_path": "cachewise_exp/results/exp2_fetchback/offload_lru_fcfs_n36.json", "source_git_blob_sha1": "629a0533056e76a07a3f4ce9b9f6e7bb895d63e4"},
+    {"policy": "LRU + prefix", "session_s": 159, "source_path": "cachewise_exp/results/exp2_fetchback/offload_lru_prefix_n36.json", "source_git_blob_sha1": "2113aa8bd8535eec8f7db8d09fee5ec0b92eb2a9"},
+    {"policy": "Predictive + prefix", "session_s": 158, "source_path": "cachewise_exp/results/exp2_fetchback/offload_cachewise_n36.json", "source_git_blob_sha1": "577b14aa76bf1b6f83f872406f89e025e6a68563"},
+    {"policy": "+ prefetch", "session_s": 172, "source_path": "cachewise_exp/results/exp2_fetchback/offload_cachewise_prefetch_n36.json", "source_git_blob_sha1": "10cb68f2ca2ae91e276f30596fa4cec508f1ee37"},
+    {"policy": "+ fetch-aware", "session_s": 136, "source_path": "cachewise_exp/results/exp2_fetchback/cachewise_fetch_n36.json", "source_git_blob_sha1": "d6b8d15981ceaa79f90fe57b9aaf0cf4e91651c2"}
+  ],
+  "n36_repeated_observations": [
+    {"policy": "Predictive + prefix", "session_s": 158, "source_path": "cachewise_exp/results/exp2_fetchback/offload_cachewise_n36.json", "source_git_blob_sha1": "577b14aa76bf1b6f83f872406f89e025e6a68563"},
+    {"policy": "Predictive + prefix", "session_s": 175, "source_path": "cachewise_exp/results/exp2_fetchback/offload_cachewise_rep_n36.json", "source_git_blob_sha1": "5ce8f674d606cb047800507ebe411a0983619294"},
+    {"policy": "CacheWise-Fetch", "session_s": 136, "source_path": "cachewise_exp/results/exp2_fetchback/cachewise_fetch_n36.json", "source_git_blob_sha1": "d6b8d15981ceaa79f90fe57b9aaf0cf4e91651c2"},
+    {"policy": "CacheWise-Fetch", "session_s": 135, "source_path": "cachewise_exp/results/exp2_fetchback/cachewise_fetch_rep_n36.json", "source_git_blob_sha1": "644c40037768f6efa9b4cdedbacc0e8d0569bf25"}
+  ],
+  "accounting": {
+    "session_s": "Mean across completed episodes of summed request latency, excluding external tool waits.",
+    "prior_prefix_deficit_mtokens": "The artifact's recomputed_tokens, divided by 1e6: sum(max(previous_prompt_length - cached_at_admit, 0)) within each episode. Includes alignment effects; not an exclusive GPU-time or all-executed-prefill measurement.",
+    "goodput_tokens_s": "Artifact token_goodput: prompt growth plus configured output tokens divided by makespan. Not pooled with the vLLM study's goodput.",
+    "request_p90_s": "Artifact order statistic at sorted index min(n-1, int(0.9*n)); differs from the vLLM study's interpolated percentiles."
+  },
+  "limitations": ["Restoration adds 36 GiB of nominal host KV payload capacity; comparisons are not equal-total-memory experiments.", "Most configurations have one observation; the two reported N=36 repetitions do not establish confidence intervals or fully balanced matched blocks.", "Context scaling, output truncation, tool-delay adaptation, shared prefixes, and engine configuration differ from the vLLM replication.", "No SSD, filesystem, or storage-device I/O results are included."]
+}

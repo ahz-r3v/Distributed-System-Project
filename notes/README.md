@@ -7,11 +7,11 @@ Use filenames such as `YYYY-MM-DD-topic.md`, and record sources and decisions fo
 
 | Item | Current status |
 | --- | --- |
-| Title and research questions | Working title: Beyond CacheWise; focus on replication, recomputation and offloading costs, and secondary-storage offloading methods |
+| Title and research questions | CacheWise Replication and Fetch-Aware KV Cache Recovery; adapted replication and reported GPU–host restoration/scheduling behavior |
 | Report format | Official USENIX / OSDI two-column style, used for a course report |
 | Language and length limit | English; length limit to be confirmed |
 | Authors and section assignments | To be confirmed |
-| Baselines, metrics, and data sources | Verified the historical six-policy experiment and the separate 60-run N=10/20/30 and additional-cohort coverage study; offloading comparisons remain to be measured |
+| Baselines, metrics, and data sources | Verified historical/coverage replication evidence; separate Mini-SGLang host observations are mapped to a pinned artifact revision and retained as reported results |
 | Draft, review, and submission dates | To be scheduled |
 
 ## Current report outline
@@ -22,7 +22,7 @@ Use filenames such as `YYYY-MM-DD-topic.md`, and record sources and decisions fo
 
 Original source: [CacheWise v1](https://arxiv.org/abs/2606.16824v1), citation key `Tiwari2026CacheWise`.
 Check Section 6.4 of the original paper to distinguish existing DRAM offloading from the proposed secondary-storage extension.
-English writing prompts and planned figures and tables are in `paper/sections/`; the replication section contains measured results, while the offloading methods and their evaluation remain planned work.
+The manuscript contains the completed adapted replication and an analysis of the existing reported Mini-SGLang host-DRAM results. SSD support remains future work.
 
 ## Verified experimental results (2026-11-08)
 
@@ -41,13 +41,13 @@ These timings are neither isolated GPU prefill measurements nor offloading exper
 The earlier five-policy job-10807 results use different terminal-session handling from the later consolidated experiment; ratios from the two studies should not be mixed.
 
 Compact raw results, source versions, checksums, and scope notes are stored in `experiment-evidence/`.
-The historical consolidated experiment lacks complete eviction counts; the new coverage study has completed and archived those counts. DRAM/SSD offloading comparisons and measurements of actual KV bytes transferred remain outstanding.
+The historical consolidated experiment lacks complete eviction counts; the coverage study has completed and archived those counts. The separate Mini-SGLang artifact reports host-DRAM restoration and transferred bytes, while SSD I/O remains unimplemented.
 
 ## Part 1 draft, figure choices, and remaining experiments
 
 Part 1 now has a prose draft covering workload characterization, setup, metric definitions, the six-policy comparison, matched scheduling/eviction effects, oracle and queue-aging diagnostics, and replication limits.
 The supporting KV-cache and CacheWise background is also drafted.
-Parts 2 and 3 retain their existing plans; their proposed mechanisms and measurements are not claimed as completed work.
+This paragraph records the initial Part 1 writing revision. The later manuscript update incorporates the separate reported host-DRAM study into Parts 2 and 3, as documented below.
 No new GPU jobs were launched for that prose-and-figures revision; the subsequent execution study is recorded below.
 
 ### Figure decisions
@@ -99,9 +99,9 @@ Re-run controls when workload preparation, engine configuration, instrumentation
 
 ### Handoff to Parts 2 and 3
 
-The Part 2 owner needs matched recomputation, DRAM restore, and SSD write/restore timings for the same prefix states, including staging, file-cache controls, and contention.
-The Part 3 owner needs an implemented offloading method, end-to-end comparisons against recomputation and simple offloading, and ablations of each optimization.
-These are separate from the user's Part 1 replication scope.
+The original handoff requested recovery measurements and an implemented offloading method beyond Part 1.
+The current report incorporates the existing Mini-SGLang GPU–host implementation and reported comparisons, while keeping that study separate from the vLLM replication.
+An SSD path, controlled storage costs, and persistent recovery remain future work; they are not additional experiments scheduled for this writing revision.
 
 ### Reproducing this revision's offline analysis
 
@@ -268,7 +268,7 @@ Observed repeat ranges in the saved rows are not confidence intervals, and the u
 Section 3 now reports the frozen cohort-selection rule, all five workloads, the
 60-run results, and the audit deviation separately from the historical study.
 The abstract, contribution summary, threats to validity, and conclusion reflect
-the expanded Part 1 evidence; the offloading sections remain plans.
+the expanded Part 1 evidence. At that revision the offloading sections remained plans; the subsequent host-study writing update is recorded below.
 
 `paper/figures/plot_coverage.py` generates two new publication figures and two
 numeric-evidence-derived LaTeX tables:
@@ -294,6 +294,50 @@ hash provenance using only this repository's archived evidence:
 ```sh
 python paper/figures/plot_coverage.py
 ```
+
+## Host-study writing completion
+
+The report is now framed as **CacheWise Replication and Fetch-Aware KV Cache Recovery**.
+Its completed recovery scope is GPU–host DRAM; SSD storage remains future work.
+The introduction, related-work scope, methods, evaluation, discussion, and conclusion
+have been made consistent with the existing implementation and reported results.
+No new experiment, replay, correctness run, or benchmark was launched for this writing revision.
+
+`experiment-evidence/host-dram-reported-results.json` is a compact transcription
+of rounded values already reported in the manuscript and the Mini-SGLang artifact
+at revision `3f9aee7362004126e937ba88085ff72f9ad6083a`.
+Every plotted observation maps to an upstream JSON path and Git blob identifier.
+The snapshot does not claim an independent audit of all 43 raw result files.
+Main baseline/restoration cells each have one observation; the N=36 policy comparison
+shows both available observations and does not infer confidence intervals or matched blocks.
+
+The upstream prose's 37.5 GiB host-capacity label was corrected by arithmetic:
+196,608 token slots × 196,608 bytes/token = 38,654,705,664 bytes = **36 GiB**.
+That is nominal KV tensor payload, not measured total process memory.
+The same payload calculation gives 24 GiB for the GPU KV pool.
+The reported time/throughput observations were not altered.
+
+Source inspection clarified the fetch-aware score's `d_i` (input-prompt tokens)
+and the prefetch exchange guard's `tau` (estimated seconds until the candidate returns).
+It also clarified that the host artifact's `recomputed_tokens` is a prior-prefix
+deficit estimate, including alignment effects, and that its percentile definition
+differs from the vLLM study. No physical recomputation count or exclusive GPU-time
+claim is inferred from it.
+
+`paper/figures/plot_host_results.py` renders an architecture diagram, a two-panel
+restoration comparison, a policy/repetition comparison, and the corresponding
+LaTeX table and CSV directly from those reported observations.
+Input/script/output hashes are in `paper/figures/host-figure-provenance.json`.
+The original vLLM evidence and figures are unchanged.
+Regenerate these writing artifacts with:
+
+```sh
+python paper/figures/plot_host_results.py
+```
+
+The review PDF omits author identities rather than displaying fictional names.
+Actual author names, affiliations/student IDs, and the course page limit still
+need to be supplied before submission.
 
 ## Part 1 presentation planning
 

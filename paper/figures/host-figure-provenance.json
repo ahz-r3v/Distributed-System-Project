@@ -1,0 +1,19 @@
+{
+  "input": "notes/experiment-evidence/host-dram-reported-results.json",
+  "input_sha256": "8126bea2a77ad959e6e109b5157463b05cd23d09db33753609c80f7e9975baaf",
+  "script_sha256": "b1f0beff0b19131a3ed57a527341b057ad2de98daede7d6a8c3cdcdb1ae7a0ff",
+  "artifact_revision": "3f9aee7362004126e937ba88085ff72f9ad6083a",
+  "matplotlib_version": "3.11.2",
+  "numpy_version": "2.5.4",
+  "outputs": {
+    "host-cache-architecture.pdf": "9bff7ddb39dc2da7c73790f5464cb7f4283936beaf269cda486b5aa3ffa61ac3",
+    "host-cache-architecture.png": "48c0a0593f3398688504c8b0f78ec61328b197f81cfc20b74d6dfb22b1995259",
+    "host-restoration-results.pdf": "c67abeeb497da29faf6dd5eb0b388fe417895e15599667c0b57a139b63871707",
+    "host-restoration-results.png": "ae2a8335de48e8291a505e106c100693d3d6854278caabc002355cfbed104608",
+    "host-policy-ablation.pdf": "c0d0de9555b29e0dd68eeb0414120c427d11940d32669753c9d515254637f03d",
+    "host-policy-ablation.png": "9865a3e91dc1382bfda95d0ae1d3d6d660c7edece3677982b5f4b491c2d1962a",
+    "host-restoration-table.tex": "f53d795a35edc31dd9a60f3e6072d9afdb62794dd767d5b53a30a98d6f833ccd",
+    "host-reported-observations.csv": "ba53311c9fc7d1ec2995d729827b42bf4cd19f3580065976f6e03c2a4b795d76"
+  },
+  "scope": "Figures and table render existing rounded reported observations only. No experiment, model execution, or benchmark is run. No confidence intervals or matched-repeat guarantees are inferred from the two N=36 observations."
+}

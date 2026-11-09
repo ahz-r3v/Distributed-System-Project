@@ -1,14 +1,14 @@
 % !TeX root = ../main.tex
-\section{CacheWise Limitations: Recomputation versus Offloading}
+\section{Recovery Costs: Recomputation and Host Restoration}
 \label{sec:tradeoff}
 
 \subsection{Residual Recovery Costs and the Scope of the Gap}
 CacheWise already evaluates GPU--CPU DRAM offloading as an alternative to recomputation in Section~6.4 of the original paper~\cite{Tiwari2026CacheWise}.
-Our proposed extension examines recovery through secondary storage and the conditions under which it is preferable to recomputation.
-The Mini-SGLang replay measures this residual work directly.
-At $N=28$ and $N=36$, LRU+FCFS recomputes 4.69 and 6.16 million tokens; full CacheWise still recomputes 2.81 and 3.23 million.
-The tested extension therefore preserves evicted state in host DRAM after GPU capacity is exhausted.
-It complements CacheWise's offloading study rather than replacing it; a lower storage tier would address capacity beyond bounded DRAM, but is not implemented here.
+The recovery study examines the implemented GPU--host path in Mini-SGLang~\cite{MiniSGLang2026Artifact}.
+Its LRU+FCFS replay reports 4.691 and 6.160 million prior-prefix deficit tokens at $N=28$ and $N=36$.
+This metric sums the shortfall between an episode's preceding prompt length and the prefix available at admission; it estimates missing reuse and includes page-alignment effects.
+The host extension preserves evicted KV state after GPU capacity is exhausted.
+It complements the existing offloading literature with a concrete replay and fetch-aware scheduling policy, rather than introducing host offloading as a new mechanism.
 
 \subsection{Existing Recomputation-Side Measurements}
 % Evidence: notes/experiment-evidence/recompute-profile.json (job 10807).
@@ -35,19 +35,22 @@ The measured quantity is client wall-clock request latency, including serving ov
   \label{tab:recompute-profile}
 \end{table}
 
-The existing artifacts contain no completed DRAM or SSD offloading comparison.
-They establish a measurable uncached-prefill cost, but do not yet establish that offloading is cheaper or locate its break-even point.
+This older profile contains no restoration measurements.
+It establishes an uncached-request cost on the vLLM path, whereas the host comparisons below use a different Mini-SGLang configuration.
+The two timings cannot be combined into a controlled recovery-speedup estimate.
 
 \subsection{Cost Model and Break-Even Condition}
 Let $n$ denote the missing prefix tokens to recover and $S$ the size of their stored KV state.
 Let $T_{\mathrm{rec}}(n)$ denote the measured prefill time to recover that state, conditional on any valid resident prefix.
-For an initially uncached storage copy, a serial offload-and-restore cycle costs
+For one newly saved copy, a serial offload-and-restore cycle costs
 \begin{equation}
   T_{\mathrm{off}}(S) = T_{\mathrm{out}}(S)
     + T_{\mathrm{in}}(S) + T_{\mathrm{mgr}},
   \label{eq:offload-cost}
 \end{equation}
-where $T_{\mathrm{out}}$ includes GPU-to-host transfer and storage writes, $T_{\mathrm{in}}$ includes storage reads and host-to-GPU transfer, and $T_{\mathrm{mgr}}$ covers additional management work.
+where $T_{\mathrm{out}}$ is the cost of preserving KV state, $T_{\mathrm{in}}$ is restoration cost, and $T_{\mathrm{mgr}}$ covers lookup, allocation, locking, and management.
+For the implemented DRAM tier, the first two terms are device-to-host and host-to-device transfers.
+A future SSD tier would additionally include storage writes and reads and any staging costs.
 In this serial, single-reuse model, offloading is cheaper in elapsed service time when $T_{\mathrm{off}}(S) < T_{\mathrm{rec}}(n)$.
 
 If a saved prefix is reused with probability $p$ before its storage copy is discarded, a simple expected-work comparison is
@@ -59,21 +62,23 @@ If a saved prefix is reused with probability $p$ before its storage copy is disc
 This model assumes one write, at most one subsequent reuse, and no overlap or resource contention.
 The host prototype reports 196,608 bytes per KV token.
 In the $N=28$ LRU+FCFS restoration run, 309~GB of host-to-device traffic takes 5.99~s (51.6~GB/s), while device-to-host traffic reaches about 45~GB/s.
-An 8,192-token region is therefore about 1.5~GiB and takes roughly 31~ms to restore before management and queueing.
+An 8,192-token region is therefore 1.5~GiB; dividing by that reported bandwidth gives a roughly 31-ms copy-time estimate before management and queueing, rather than a separately measured recovery latency.
 CUDA-event times measure transfer work and may overlap execution; mean session time measures exposed delay.
 The artifact records neither energy nor monetary prices.
 
 \subsection{Controlled Recomputation--Offloading Experiments}
-The available matched experiment holds LRU+FCFS fixed and changes recovery from recomputation to a 37.5~GiB pinned-host tier, while retaining a 24~GiB GPU KV pool.
-At $N=28$, mean session time falls from 821 to 90.7~s and recomputation from 4.691 to 0.073 million tokens; at $N=36$, the corresponding changes are 1,060 to 222~s and 6.160 to 0.710 million.
+The reported comparison holds LRU+FCFS fixed and changes recovery from recomputation to a nominal 36~GiB pinned-host KV tier, while retaining a 24~GiB GPU KV pool.
+At $N=28$, mean session time falls from 821 to 90.7~s and the prior-prefix deficit from 4.691 to 0.073 million tokens; at $N=36$, the corresponding changes are 1,060 to 222~s and 6.160 to 0.710 million.
 Useful-token goodput rises from 347 to 1,060 tokens/s and from 326 to 927 tokens/s.
 These are added-capacity DRAM comparisons, not equal-memory or SSD results.
 The repository contains no filesystem, storage read/write, direct-I/O, queue-depth, or page-cache experiment, so an SSD break-even curve cannot be reported.
 
-The measured operating points establish a favorable host-DRAM regime for long reusable prefixes under pressure.
-A valid SSD extension must repeat the comparison with complete writes and reads, bounded staging, controlled filesystem caching, and sweeps over prefix length, reuse interval, concurrency, and effective bandwidth; both wins and regressions should be reported.
+These single-run operating points support a favorable host-DRAM regime for the tested long-prefix replay, with the capacity increase made explicit.
+They do not trace an empirical break-even boundary over missing-prefix length or establish an SSD operating region.
+A future secondary-storage evaluation would need complete writes and reads, bounded staging, and controlled filesystem caching.
 
 \subsection{Implications for Method Design}
-Four requirements follow.
-Placement must include the initial write cost because never-reused blocks cannot repay it; clean inclusive copies should be retained to avoid repeated writes; scheduling must distinguish a cheap host hit from a complete miss; and recomputation must remain available after capacity eviction, allocation failure, or an unfavorable recovery estimate.
-Section~\ref{sec:offloading} implements these principles for host DRAM and states what an SSD tier would additionally require.
+The implemented policy retains clean inclusive host copies to avoid repeated offload transfers and distinguishes a host hit from a complete miss in request ordering.
+Recomputation remains the fallback after backing-cache eviction or allocation failure.
+The cost model also motivates accounting for an initial save that may never be reused, although the current host policy does not implement a calibrated expected-cost write-admission rule.
+Section~\ref{sec:offloading} describes the implemented mechanisms and their limits.

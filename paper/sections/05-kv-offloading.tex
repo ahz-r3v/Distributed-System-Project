@@ -1,17 +1,24 @@
 % !TeX root = ../main.tex
-\section{Proposed Methods for Secondary-Storage KV Offloading}
+\section{Host-DRAM Offloading and Fetch-Aware Scheduling}
 \label{sec:offloading}
 
-The following subsections organize candidate methods; they do not claim that the mechanisms are implemented or validated.
-The evaluated subset uses pinned host DRAM: block offload, on-demand restoration, asynchronous predictive prefetching, inclusive clean copies, two-tier eviction, and fetch-aware scheduling are implemented.
-The SSD-specific portions below remain design requirements and are not presented as measured contributions.
+The Mini-SGLang artifact implements page offload, on-demand restoration, asynchronous predictive prefetching, inclusive clean copies, two-tier eviction, and fetch-aware scheduling using pinned host DRAM~\cite{MiniSGLang2026Artifact}.
+This section describes that implemented subset.
+Secondary-storage mechanisms remain future work.
 
 \subsection{Architecture and Design Goals}
 One radix tree tracks both GPU and host residency.
 Each node may hold GPU pages, host pages, or a host-only suffix; GPU-resident nodes remain prefix-closed.
-The pinned host pool stores 16-token pages in page-major form and serves as the implemented capacity tier.
+The pinned host pool stores 16-token pages in page-major form and serves as the implemented capacity tier (Figure~\ref{fig:host-cache-architecture}).
 CacheWise priority orders GPU and host eviction, while the scheduler restores host matches before prefill.
-A future SSD tier would sit below a bounded pinned staging pool, with versioned blocks and explicit read/write queues; the current 37.5~GiB pinned pool is not such a staging design.
+A future SSD tier would require a bounded staging pool, versioned blocks, and explicit read/write queues; the current nominal 36~GiB pinned pool is the backing cache itself.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{host-cache-architecture.pdf}
+  \caption{Implemented Mini-SGLang recovery path. A radix index tracks GPU and host residency. Dirty GPU evictions copy state to pinned DRAM (D2H); reuse restores it to the GPU (H2D), either on demand or through prefetch. Capacities denote KV payload, excluding model weights, staging, and allocator overhead. No SSD tier is implemented.}
+  \label{fig:host-cache-architecture}
+\end{figure}
 
 \subsection{Method 1: Block-Based Offload and On-Demand Restore}
 The implemented baseline operates on 16-token pages.
@@ -28,20 +35,31 @@ Persistent SSD blocks would additionally need model and tokenizer revisions, KV 
 On-demand copies are ordered on the engine CUDA stream; predictive prefetch uses a side stream after the current forward pass, with events protecting later reads and host-slot reuse.
 Transfers coalesce contiguous host runs and process at most 256 pages per staging chunk.
 Inactive sessions predicted to return within 30~s are considered, with an 8,192-token per-step budget.
-Prefetch exchanges GPU pages only when enough victims have predicted return later than $2\tau+1$~s, limiting thrashing.
+Let $\tau$ be the candidate session's estimated time until return, in seconds.
+When free pages are insufficient, prefetch proceeds only if enough evictable victim tokens have estimated return later than $2\tau+1$ seconds.
+This conservative exchange guard aims to limit thrashing; it is not a guarantee under prediction error.
 The prototype has no SSD I/O queue or cancellation; those controls, partial-I/O handling, and bounded staging backpressure remain future work.
 
-\subsection{Method 3: Cost-Aware Offload and Recovery Decisions}
+\subsection{Method 3: Fetch-Aware Request Scheduling}
 The implemented policy uses CacheWise return-time estimates for eviction and prefetch ordering, not as calibrated reuse probabilities.
-For scheduling, request $i$ has cost $c_i=(d_i-k_i)-(1-\alpha)h_i$, where $k_i$ is the GPU prefix, $h_i$ the additional host prefix, and $\alpha=0.05$ the assumed fetch-to-recompute cost ratio.
-Thus host-resident tokens are cheaper than missing tokens.
+For scheduling, request $i$ has priority cost
+\begin{equation}
+  c_i=(d_i-k_i)-(1-\alpha)h_i,
+  \label{eq:fetch-aware-priority}
+\end{equation}
+where $d_i$ is its input-prompt length, $k_i$ is the matched GPU prefix length, $h_i$ is the additional matched host prefix length, and $\alpha=0.05$ is an assumed fetch-to-recompute cost ratio.
+All lengths are in tokens, with $0\leq k_i+h_i\leq d_i$.
+Waiting requests are ordered by increasing $c_i$, breaking ties by arrival; in-progress chunked requests retain their place.
+The score makes a host hit cheaper than a complete miss, while admission still reserves GPU space for the restored tokens and output.
+The fixed ratio is a heuristic, not a measured latency predictor or a calibrated reuse probability.
 Restoration is used when a host match exists; otherwise the engine recomputes.
 An SSD policy must replace fixed $\alpha$ with queue-aware measured cost and admit a write only when expected avoided recomputation covers both write and later read cost.
 
 \subsection{Implementation Scope and Reproducibility}
-The artifact is Mini-SGLang commit \texttt{3f9aee7}.\footnote{\url{https://github.com/BoxuanYang/MiniSGLangs}}
+The artifact is Mini-SGLang commit \texttt{3f9aee7}, pinned in the software citation~\cite{MiniSGLang2026Artifact}.
 The radix cache and host pool implement residency and copies; scheduler cache and prefill modules implement restoration, prefetch, and fetch-aware ordering.
 Experiments use \texttt{replay.py} and \texttt{run\_experiments.py}.
 Configuration exposes host capacity, policy, predictor, 30-s horizon, 8,192-token prefetch budget, and fetch ratio.
-Randomized cache tests and a real-model checker validate restored KV and greedy output.
+The artifact includes cache tests and a real-model checker for comparing greedy outputs after restoration with a never-evicted reference.
+The checker and cache implementation provide a correctness-validation route; benchmark completion alone is not a proof of KV equivalence.
 SSD I/O, durable metadata, a persistent index, direct I/O, page-cache control, bounded staging independent of cache capacity, compression, failure recovery, and cross-process reuse are unimplemented.

@@ -8,7 +8,7 @@
 - **Scope:** Completed CacheWise replication and its implications for the next parts of the project.
 - **Central message:** In our adapted setup, prefix-aware LRU has the lowest mean session serving time in every coverage setting. Predictive eviction helps FCFS, while adding it to prefix-aware scheduling increases the mean. Request tails expose a separate tradeoff.
 
-Focus the main presentation on the completed **60-run coverage study**. Keep the historical six-policy experiment separate and available as backup. Parts 2 and 3 are a short research handoff; this talk does not present completed offloading measurements.
+Focus the main presentation on the completed **60-run coverage study**. Keep the historical six-policy experiment separate and available as backup. The paper now also analyzes reported host-DRAM restoration results in Parts 2 and 3; this Part 1 talk keeps that work to a brief handoff, while SSD support remains future work.
 
 If the allocated 15 minutes excludes questions, add one minute to the KV-cache explanation and one minute to the results discussion, keeping the same slide sequence.
 
@@ -152,7 +152,7 @@ If the allocated 15 minutes excludes questions, add one minute to the KV-cache e
 
 **Visual:** Three takeaway lines and one handoff question: **“When does restoring KV state from secondary storage cost less than recomputing a prefix?”**
 
-**Presenter emphasis:** The next parts require matched recomputation, DRAM restore, and SSD write/restore measurements. Part 1 motivates that comparison but does not prove secondary-storage offloading is cheaper. Existing DRAM offloading is already part of CacheWise's evaluated scope.
+**Presenter emphasis:** Parts 2 and 3 analyze existing host-DRAM restoration observations and fetch-aware scheduling in a separate Mini-SGLang artifact. SSD support and full storage write/restore measurements remain future work. Part 1 does not prove secondary-storage offloading is cheaper; host offloading is already part of CacheWise's evaluated scope.
 
 ### 13. Questions
 
