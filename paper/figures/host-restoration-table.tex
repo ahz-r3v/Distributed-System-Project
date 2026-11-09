@@ -1,0 +1,17 @@
+% Generated from existing rounded reported observations by plot_host_results.py.
+\begin{table*}[t]
+  \centering
+  \small
+  \begin{tabular}{rllrrrr}
+    \toprule
+    $N$ & Recovery & Policy & Session (s) & Goodput (tok/s) & \shortstack{Prior-prefix\\deficit (M)} & P90 (s) \\
+    \midrule
+    28 & Recompute & LRU+FCFS & 821 & 347 & 4.691 & 93.2 \\
+    28 & Host restore & LRU+FCFS & 90.7 & 1,060 & 0.073 & 11.0 \\
+    36 & Recompute & LRU+FCFS & 1060 & 326 & 6.160 & 108.0 \\
+    36 & Host restore & LRU+FCFS & 222 & 927 & 0.710 & 23.6 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Reported Mini-SGLang observations with LRU+FCFS fixed; one run per cell. Restoration adds 36~GiB of nominal pinned-host KV payload to the common 24~GiB GPU KV pool. Values retain the artifact summary's rounding. Prior-prefix deficit estimates missing reuse at admission and includes page-alignment effects; it is not exclusive GPU compute time.}
+  \label{tab:host-restore-results}
+\end{table*}

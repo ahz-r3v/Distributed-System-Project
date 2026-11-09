@@ -57,3 +57,27 @@ Its final status is `complete_with_protocol_deviation`: A20 repeat 0 has one
 preemption under prefix-aware/predictive eviction. The original rejection is
 preserved. Uncached usage is not all executed prefill, additional preemption
 work is unknown, and eviction-event counts are not bytes transferred.
+
+## Host-DRAM recovery figures
+
+`python paper/figures/plot_host_results.py` creates:
+
+- `host-cache-architecture.pdf`: implemented queue/radix index, GPU cache,
+  pinned-host cache, and the offload/restore paths.
+- `host-restoration-results.pdf`: existing reported LRU+FCFS recovery timings
+  and prior-prefix deficit estimates at N=28 and N=36.
+- `host-policy-ablation.pdf`: reported N=36 component observations and both
+  available observations for the predictive-prefix and CacheWise-Fetch policies.
+- `host-restoration-table.tex`, `host-reported-observations.csv`, PNG previews,
+  and `host-figure-provenance.json` with input/script/output hashes.
+
+The input is `notes/experiment-evidence/host-dram-reported-results.json`.
+It contains rounded values from the existing manuscript and the versioned
+Mini-SGLang artifact, with per-observation file/blob mappings. Generating these
+figures executes no model, replay, correctness experiment, or benchmark.
+The single-run bars have no uncertainty intervals; the two N=36 observations
+are plotted individually and are not asserted to be matched GPU blocks.
+The figures use **36 GiB nominal host KV payload**, computed from the recorded
+token capacity and bytes per token; the input documents the upstream 37.5 GiB
+label discrepancy. These results do not evaluate SSD storage and must not be
+pooled with the vLLM replication.

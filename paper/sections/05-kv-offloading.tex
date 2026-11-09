@@ -1,47 +1,44 @@
 % !TeX root = ../main.tex
-\section{Proposed Methods for Secondary-Storage KV Offloading}
+\section{Host Offloading and Fetch-Aware Scheduling}
 \label{sec:offloading}
 
-The following subsections organize candidate methods; they do not claim that the mechanisms are implemented or validated.
-The evaluated subset uses pinned host DRAM: block offload, on-demand restoration, asynchronous predictive prefetching, inclusive clean copies, two-tier eviction, and fetch-aware scheduling are implemented.
-The SSD-specific portions below remain design requirements and are not presented as measured contributions.
+The Mini-SGLang artifact implements a pinned-host cache, on-demand restoration, predictive prefetching, and fetch-aware request ordering~\cite{MiniSGLang2026Artifact}.
+One radix index tracks GPU and host residency at 16-token page granularity (Figure~\ref{fig:host-cache-architecture}).
+GPU residency remains prefix-closed; the host tier can preserve an evicted suffix.
 
-\subsection{Architecture and Design Goals}
-One radix tree tracks both GPU and host residency.
-Each node may hold GPU pages, host pages, or a host-only suffix; GPU-resident nodes remain prefix-closed.
-The pinned host pool stores 16-token pages in page-major form and serves as the implemented capacity tier.
-CacheWise priority orders GPU and host eviction, while the scheduler restores host matches before prefill.
-A future SSD tier would sit below a bounded pinned staging pool, with versioned blocks and explicit read/write queues; the current 37.5~GiB pinned pool is not such a staging design.
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{host-cache-architecture.pdf}
+  \caption{Implemented host recovery path. Dirty GPU evictions are saved to pinned DRAM; clean inclusive copies avoid another save. Host matches are restored before use. Capacities denote nominal KV payload. SSD storage is outside the implementation.}
+  \label{fig:host-cache-architecture}
+\end{figure}
 
-\subsection{Method 1: Block-Based Offload and On-Demand Restore}
-The implemented baseline operates on 16-token pages.
-When GPU allocation needs space, unreferenced radix leaves are split at a page boundary and evicted by the selected priority.
-A dirty node receives host pages and a device-to-host copy; a node with a clean inclusive host copy drops its GPU pages without another write.
-Prefix lookup returns the deepest GPU handle plus any compatible host suffix, which is locked, allocated new GPU pages, copied back, and reattached before use.
+\paragraph{Page offload and restoration.}
+When allocation needs GPU space, the engine evicts unreferenced radix leaves according to its eviction priority.
+Dirty pages are copied to host memory; a clean inclusive host copy lets the engine release GPU pages without rewriting them.
+Lookup identifies the deepest GPU prefix and any compatible host suffix.
+Restoration locks that suffix, allocates GPU pages, copies it back, and reattaches it before prefill.
+Locks and CUDA events protect reads and page reuse.
+Host pressure first evicts host-only leaves; allocation failure discards the subtree for later recomputation.
 
-Host locks prevent reclamation during restoration, and host pressure evicts host-only leaves before clean copies of GPU-resident nodes.
-If host allocation fails, the subtree is discarded and later recomputed.
-Identity is process-local to the radix key and fixed engine configuration.
-Persistent SSD blocks would additionally need model and tokenizer revisions, KV dtype/layout, layer geometry, token-prefix digest, positions, length, checksum, and format version; incomplete or incompatible blocks must be invalidated.
+\paragraph{Predictive prefetch.}
+On-demand copies use the engine stream; speculative prefetch uses a side stream after the current forward pass.
+Transfers process at most 256 pages per staging chunk.
+The predictor considers sessions returning within 30~s, subject to an 8,192-token per-step budget.
+For predicted return $\tau$ seconds away, replacement is allowed only when enough victims are predicted to return later than $2\tau+1$ seconds.
+This exchange guard limits speculation but cannot guarantee benefit under prediction error.
 
-\subsection{Method 2: Asynchronous Transfers and Prefetching}
-On-demand copies are ordered on the engine CUDA stream; predictive prefetch uses a side stream after the current forward pass, with events protecting later reads and host-slot reuse.
-Transfers coalesce contiguous host runs and process at most 256 pages per staging chunk.
-Inactive sessions predicted to return within 30~s are considered, with an 8,192-token per-step budget.
-Prefetch exchanges GPU pages only when enough victims have predicted return later than $2\tau+1$~s, limiting thrashing.
-The prototype has no SSD I/O queue or cancellation; those controls, partial-I/O handling, and bounded staging backpressure remain future work.
+\paragraph{Fetch-aware priority.}
+For input length $d_i$, matched GPU prefix $k_i$, and additional host prefix $h_i$, request $i$ receives cost
+\begin{equation}
+ c_i=(d_i-k_i)-(1-\alpha)h_i,\qquad \alpha=0.05.
+ \label{eq:fetch-aware-priority}
+\end{equation}
+Waiting requests are ordered by increasing cost, breaking ties by arrival; in-progress chunked requests retain their place.
+A host hit is discounted relative to recomputation, while admission still reserves GPU capacity for restoration and output.
+The fixed fetch ratio is a heuristic, not a calibrated latency predictor.
 
-\subsection{Method 3: Cost-Aware Offload and Recovery Decisions}
-The implemented policy uses CacheWise return-time estimates for eviction and prefetch ordering, not as calibrated reuse probabilities.
-For scheduling, request $i$ has cost $c_i=(d_i-k_i)-(1-\alpha)h_i$, where $k_i$ is the GPU prefix, $h_i$ the additional host prefix, and $\alpha=0.05$ the assumed fetch-to-recompute cost ratio.
-Thus host-resident tokens are cheaper than missing tokens.
-Restoration is used when a host match exists; otherwise the engine recomputes.
-An SSD policy must replace fixed $\alpha$ with queue-aware measured cost and admit a write only when expected avoided recomputation covers both write and later read cost.
-
-\subsection{Implementation Scope and Reproducibility}
-The artifact is Mini-SGLang commit \texttt{3f9aee7}.\footnote{\url{https://github.com/BoxuanYang/MiniSGLangs}}
-The radix cache and host pool implement residency and copies; scheduler cache and prefill modules implement restoration, prefetch, and fetch-aware ordering.
-Experiments use \texttt{replay.py} and \texttt{run\_experiments.py}.
-Configuration exposes host capacity, policy, predictor, 30-s horizon, 8,192-token prefetch budget, and fetch ratio.
-Randomized cache tests and a real-model checker validate restored KV and greedy output.
-SSD I/O, durable metadata, a persistent index, direct I/O, page-cache control, bounded staging independent of cache capacity, compression, failure recovery, and cross-process reuse are unimplemented.
+Residency identity is process-local to the radix key and fixed engine configuration.
+The artifact includes cache tests and an output-equivalence checker, which were not rerun for this report revision.
+An SSD extension would need persistent compatibility metadata, checksums, bounded staging, explicit read/write queues, and failure recovery.
+Those mechanisms and a calibrated expected-cost write-admission rule are unimplemented.

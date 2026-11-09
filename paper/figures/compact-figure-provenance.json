@@ -1,0 +1,18 @@
+{
+  "scope": "Existing evidence only; no new experiment or model run. Host values are rounded reported observations, not a raw-data re-audit. Diamonds identify the two additional observations, not confidence intervals.",
+  "inputs": {
+    "notes/experiment-evidence/part1-coverage-comparison.json": "ece9e43fc8ca9e12691ca0311fe5f222d1f3cdec48dcfbb21a6152ea2174292c",
+    "notes/experiment-evidence/part1-coverage-completion.json": "637825d6b46096dbce58513dd506b9ae84ac21ac0739ec34bc24d97ce69e7c77",
+    "notes/experiment-evidence/part1-coverage-measurements.csv": "b3f6d177e44be1c02063bcb404a88abb2e764c765235e99d7e0a1e1069534a31",
+    "notes/experiment-evidence/part1-preemption-audit-amendment.json": "244e25efe66bd429cef3fc3039a281371049dc64748cd0b860c9f4f1a67581ff",
+    "notes/experiment-evidence/host-dram-reported-results.json": "8126bea2a77ad959e6e109b5157463b05cd23d09db33753609c80f7e9975baaf"
+  },
+  "script_sha256": "4ba14422ef5d374d58d10adb95581b794b33985fae64df74123767f330a3ccf5",
+  "outputs": {
+    "paper/figures/compact-coverage-table.tex": "227c40129bd0c9b2a5dbc1593267b6c01b4ab603a3acd44fbc812f29991d135c",
+    "paper/figures/compact-host-results.pdf": "0c28a38eb5ec73cda61b54a0ce10401389d84d93806ff2ebe0e85dd01786af3c",
+    "paper/figures/compact-host-results.png": "d5efd249a8709bf52a10d10ed9e4e31ba9a2866871b49226ebd9441f85a8c5ad"
+  },
+  "matplotlib_version": "3.11.2",
+  "numpy_version": "2.5.4"
+}
