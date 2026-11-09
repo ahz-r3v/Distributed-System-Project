@@ -5,8 +5,11 @@ The whole-study deck accompanies the six-page report and covers CacheWise replic
 - [Editable PowerPoint](cachewise-10-minute-talk.pptx)
 - [Presentation PDF](cachewise-10-minute-talk.pdf)
 - [Speaker notes](cachewise-10-minute-speaker-notes.md), also embedded in the PowerPoint
+- Full spoken script: [editable Markdown](cachewise-10-minute-script.md) · [printable PDF](cachewise-10-minute-script.pdf)
 
 The deck has ten 16:9 slides, with 10:00 of planned speaking time. Questions follow the talk.
+The full script has about 1,100 spoken words, plus slide cues and transitions, following the same timing plan.
+Italic instructions are delivery cues, not spoken text.
 Rehearse once to adjust the pacing to your speaking speed.
 
 | Slide | Topic | Time |
@@ -35,11 +38,13 @@ On Linux with Python and DejaVu Sans installed:
 python -m venv /tmp/cachewise-slides-venv
 /tmp/cachewise-slides-venv/bin/python -m pip install -r presentation/requirements-presentation.txt
 /tmp/cachewise-slides-venv/bin/python presentation/build_deck.py
+/tmp/cachewise-slides-venv/bin/python presentation/export_script.py
 ```
 
 The generator reads the frozen coverage JSON and rounded host-study snapshot.
 It creates four chart images, PowerPoint, PDF, speaker notes, and `deck-provenance.json` with input/script/output checksums.
 It checks the 60-run count, request count, retained preemption, host capacity, 600-second schedule, and text/slide bounds.
 It launches no experiment, model, replay, or correctness run.
+`export_script.py` renders the hand-written Markdown script as a printable PDF; it does not change the deck or report.
 
 The older [15-minute Part 1 outline](part1-15-minute-outline.md) remains as historical planning material; it is not used by this ten-minute whole-study deck.
