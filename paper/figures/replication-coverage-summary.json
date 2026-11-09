@@ -1,0 +1,1601 @@
+{
+  "status": "complete_with_protocol_deviation",
+  "policy_runs": 60,
+  "requests": 6384,
+  "reported_preemptions": 1,
+  "statistics": [
+    {
+      "setting": "a-n10",
+      "policy": "baseline",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 547.3504416250003,
+        "min": 539.3514277527808,
+        "max": 552.9509622785263
+      },
+      "elapsed_s": {
+        "mean": 715.7704481019949,
+        "min": 706.3242389119696,
+        "max": 722.9921619729139
+      },
+      "useful_tokens_per_s": {
+        "mean": 691.9472052940664,
+        "min": 684.9700813472348,
+        "max": 701.1340864683551
+      },
+      "requests_per_s": {
+        "mean": 0.07964208546722275,
+        "min": 0.07883902896603662,
+        "max": 0.08069948171084075
+      },
+      "request_p50_s": {
+        "mean": 98.6759574750128,
+        "min": 96.97919190907851,
+        "max": 99.5695851710625
+      },
+      "request_p90_s": {
+        "mean": 170.75891526116368,
+        "min": 167.6464254257269,
+        "max": 172.3182888656389
+      },
+      "request_p99_s": {
+        "mean": 377.16326420352783,
+        "min": 370.29063418409777,
+        "max": 380.7290177241246
+      },
+      "maximum_request_s": {
+        "mean": 404.6425004959262,
+        "min": 397.16405036090873,
+        "max": 408.65983200096525
+      },
+      "ttft_p50_s": {
+        "mean": 91.37310400799227,
+        "min": 89.67125048395246,
+        "max": 92.25934083410539
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.32000532875948146,
+        "min": 0.32000532875948146,
+        "max": 0.32000532875948146
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 1633388,
+        "min": 1633388,
+        "max": 1633388
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 1150646,
+        "min": 1150646,
+        "max": 1150646
+      },
+      "full_cached_block_evictions": {
+        "mean": 84875,
+        "min": 84875,
+        "max": 84875
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "a-n10",
+      "policy": "eviction_only",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 481.72864342820833,
+        "min": 478.2307914990932,
+        "max": 484.1088320409646
+      },
+      "elapsed_s": {
+        "mean": 639.4914479629757,
+        "min": 633.6921579949558,
+        "max": 643.1724577250425
+      },
+      "useful_tokens_per_s": {
+        "mean": 774.4418554218419,
+        "min": 769.9770008057636,
+        "max": 781.4961787864543
+      },
+      "requests_per_s": {
+        "mean": 0.08913709596195082,
+        "min": 0.08862319789254348,
+        "max": 0.08994903800033095
+      },
+      "request_p50_s": {
+        "mean": 86.19631666333105,
+        "min": 84.99874410708435,
+        "max": 86.8983446219936
+      },
+      "request_p90_s": {
+        "mean": 159.3490362845206,
+        "min": 156.95944377295672,
+        "max": 160.7459996170364
+      },
+      "request_p99_s": {
+        "mean": 318.6984887218381,
+        "min": 313.52339485567984,
+        "max": 321.79109651576715
+      },
+      "maximum_request_s": {
+        "mean": 352.12936113534187,
+        "min": 346.709451175062,
+        "max": 355.26556501397863
+      },
+      "ttft_p50_s": {
+        "mean": 73.40743436610016,
+        "min": 72.69922928512096,
+        "max": 73.80538163008168
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.4215515016277695,
+        "min": 0.4215515016277695,
+        "max": 0.4215515016277695
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 1389468,
+        "min": 1389468,
+        "max": 1389468
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 906726,
+        "min": 906726,
+        "max": 906726
+      },
+      "full_cached_block_evictions": {
+        "mean": 69613,
+        "min": 69613,
+        "max": 69613
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "a-n10",
+      "policy": "prefix_only_no_aging",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 227.77966595268032,
+        "min": 224.9861664719414,
+        "max": 229.3383875861764
+      },
+      "elapsed_s": {
+        "mean": 399.79828479140997,
+        "min": 393.63479008711874,
+        "max": 403.4000691981055
+      },
+      "useful_tokens_per_s": {
+        "mean": 1238.844385045649,
+        "min": 1227.6348910510444,
+        "max": 1258.090017628769
+      },
+      "requests_per_s": {
+        "mean": 0.14258913055724232,
+        "min": 0.14129893461175363,
+        "max": 0.14480427400074275
+      },
+      "request_p50_s": {
+        "mean": 22.6130236343015,
+        "min": 21.95796712487936,
+        "max": 23.4108505488839
+      },
+      "request_p90_s": {
+        "mean": 99.5311708433864,
+        "min": 97.93882090551779,
+        "max": 100.59127425141632
+      },
+      "request_p99_s": {
+        "mean": 235.60962645766628,
+        "min": 232.47555644525207,
+        "max": 237.69778588740147
+      },
+      "maximum_request_s": {
+        "mean": 256.5021326436351,
+        "min": 253.56020708801225,
+        "max": 258.62815468991175
+      },
+      "ttft_p50_s": {
+        "mean": 7.479225452058017,
+        "min": 7.449156363029033,
+        "max": 7.530879602069035
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.735188962806924,
+        "min": 0.735188962806924,
+        "max": 0.735188962806924
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 636092,
+        "min": 636092,
+        "max": 636092
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 153350,
+        "min": 153350,
+        "max": 153350
+      },
+      "full_cached_block_evictions": {
+        "mean": 22543,
+        "min": 22543,
+        "max": 22543
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "a-n10",
+      "policy": "cachewise_no_aging",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 256.6041159907511,
+        "min": 226.95944278964308,
+        "max": 271.77015967636834
+      },
+      "elapsed_s": {
+        "mean": 445.8274721700388,
+        "min": 411.9062383880373,
+        "max": 462.9375349660404
+      },
+      "useful_tokens_per_s": {
+        "mean": 1114.1589712628008,
+        "min": 1069.7512355232295,
+        "max": 1202.2833204421372
+      },
+      "requests_per_s": {
+        "mean": 0.12823802644838267,
+        "min": 0.12312676267259542,
+        "max": 0.13838100685987428
+      },
+      "request_p50_s": {
+        "mean": 25.701815161698807,
+        "min": 21.655371233122423,
+        "max": 27.786374357063323
+      },
+      "request_p90_s": {
+        "mean": 100.37806431918095,
+        "min": 95.44344300995581,
+        "max": 103.07000071159564
+      },
+      "request_p99_s": {
+        "mean": 278.4635781761041,
+        "min": 248.18333471423935,
+        "max": 294.0757461180537
+      },
+      "maximum_request_s": {
+        "mean": 302.8058569826341,
+        "min": 273.755537429126,
+        "max": 317.8835064708255
+      },
+      "ttft_p50_s": {
+        "mean": 7.65014798201931,
+        "min": 5.884026826126501,
+        "max": 8.572534922044724
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.6869414863353399,
+        "min": 0.6709507672581034,
+        "max": 0.7189229244898129
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 751985.3333333334,
+        "min": 675164,
+        "max": 790396
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 269243.3333333333,
+        "min": 192422,
+        "max": 307654
+      },
+      "full_cached_block_evictions": {
+        "mean": 29770.333333333332,
+        "min": 24969,
+        "max": 32171
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "a-n20",
+      "policy": "baseline",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 1352.302898381507,
+        "min": 1336.9833889783943,
+        "max": 1369.1321418760695
+      },
+      "elapsed_s": {
+        "mean": 2026.3148330506713,
+        "min": 2003.787221007049,
+        "max": 2050.7653994930442
+      },
+      "useful_tokens_per_s": {
+        "mean": 493.0338602507135,
+        "min": 487.11178774858604,
+        "max": 498.5319746165233
+      },
+      "requests_per_s": {
+        "mean": 0.07403266527081083,
+        "min": 0.07314342246903545,
+        "max": 0.07485824763600103
+      },
+      "request_p50_s": {
+        "mean": 191.29255166638177,
+        "min": 189.1877538220724,
+        "max": 193.50355896248948
+      },
+      "request_p90_s": {
+        "mean": 302.3828668727462,
+        "min": 298.16534141122827,
+        "max": 306.2849410159048
+      },
+      "request_p99_s": {
+        "mean": 594.0319418860813,
+        "min": 586.334163267633,
+        "max": 601.4107371960437
+      },
+      "maximum_request_s": {
+        "mean": 760.6156790476913,
+        "min": 750.6214817280415,
+        "max": 771.1146904870402
+      },
+      "ttft_p50_s": {
+        "mean": 176.04436996024256,
+        "min": 174.00674944347702,
+        "max": 178.17663365916815
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.17796149068823078,
+        "min": 0.17796149068823078,
+        "max": 0.17796149068823078
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 5309042,
+        "min": 5309042,
+        "max": 5309042
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 4337899,
+        "min": 4337899,
+        "max": 4337899
+      },
+      "full_cached_block_evictions": {
+        "mean": 315518,
+        "min": 315518,
+        "max": 315518
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "a-n20",
+      "policy": "eviction_only",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 1281.9249478943802,
+        "min": 1248.3927212669864,
+        "max": 1300.8380802457455
+      },
+      "elapsed_s": {
+        "mean": 1886.0108910576284,
+        "min": 1836.9275084498804,
+        "max": 1913.44940989092
+      },
+      "useful_tokens_per_s": {
+        "mean": 529.8465605566163,
+        "min": 522.0686759922999,
+        "max": 543.8167785091209
+      },
+      "requests_per_s": {
+        "mean": 0.07956036334427724,
+        "min": 0.07839245669345972,
+        "max": 0.08165809445936155
+      },
+      "request_p50_s": {
+        "mean": 171.1372371839825,
+        "min": 170.49625192547683,
+        "max": 171.59657441545278
+      },
+      "request_p90_s": {
+        "mean": 288.05349057889543,
+        "min": 266.6365784811322,
+        "max": 299.3554311419604
+      },
+      "request_p99_s": {
+        "mean": 597.6236399005722,
+        "min": 595.2810060145724,
+        "max": 600.6246056945922
+      },
+      "maximum_request_s": {
+        "mean": 642.8049976723269,
+        "min": 614.4430725490674,
+        "max": 657.773113731062
+      },
+      "ttft_p50_s": {
+        "mean": 151.22160801485492,
+        "min": 146.86989639594685,
+        "max": 159.7206952481065
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.25127103479620655,
+        "min": 0.24348622086075375,
+        "max": 0.2657753810317315
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 4835580.666666667,
+        "min": 4741906,
+        "max": 4885858
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 3864437.6666666665,
+        "min": 3770763,
+        "max": 3914715
+      },
+      "full_cached_block_evictions": {
+        "mean": 285904.6666666667,
+        "min": 280050,
+        "max": 289047
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "a-n20",
+      "policy": "prefix_only_no_aging",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 517.334704778487,
+        "min": 507.14571195470637,
+        "max": 525.3288410980022
+      },
+      "elapsed_s": {
+        "mean": 1119.8375760007184,
+        "min": 1107.0974174591247,
+        "max": 1144.5287401790265
+      },
+      "useful_tokens_per_s": {
+        "mean": 892.2653951536419,
+        "min": 872.8063917763608,
+        "max": 902.3162589365198
+      },
+      "requests_per_s": {
+        "mean": 0.13398022054417658,
+        "min": 0.13105830787310513,
+        "max": 0.13548943176496767
+      },
+      "request_p50_s": {
+        "mean": 25.248720158318367,
+        "min": 24.760219129966572,
+        "max": 25.798067805473693
+      },
+      "request_p90_s": {
+        "mean": 171.5187949694536,
+        "min": 154.48576191388977,
+        "max": 181.2357580692273
+      },
+      "request_p99_s": {
+        "mean": 755.2766140207378,
+        "min": 720.2586589624062,
+        "max": 813.559324203089
+      },
+      "maximum_request_s": {
+        "mean": 965.6254116869532,
+        "min": 923.9504755109083,
+        "max": 1028.5300844518933
+      },
+      "ttft_p50_s": {
+        "mean": 11.661093918451419,
+        "min": 11.073795789387077,
+        "max": 12.376928339479491
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.6693965540822945,
+        "min": 0.6632170947973689,
+        "max": 0.6755421555788087
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 2135164.6666666665,
+        "min": 2095474,
+        "max": 2175074
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 1164021.6666666667,
+        "min": 1124331,
+        "max": 1203931
+      },
+      "full_cached_block_evictions": {
+        "mean": 117138.33333333333,
+        "min": 114661,
+        "max": 119631
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "a-n20",
+      "policy": "cachewise_no_aging",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 589.7995155255543,
+        "min": 570.8085020897095,
+        "max": 600.7701356838922
+      },
+      "elapsed_s": {
+        "mean": 1289.4934823159128,
+        "min": 1232.0573329080362,
+        "max": 1328.9956992447842
+      },
+      "useful_tokens_per_s": {
+        "mean": 775.5061634209819,
+        "min": 751.659317308299,
+        "max": 810.7999305861558
+      },
+      "requests_per_s": {
+        "mean": 0.11644796197729951,
+        "min": 0.11286718240340363,
+        "max": 0.12174758105286677
+      },
+      "request_p50_s": {
+        "mean": 29.394211967048857,
+        "min": 27.61672799231019,
+        "max": 31.30622850882355
+      },
+      "request_p90_s": {
+        "mean": 184.47543294458492,
+        "min": 177.16840914918575,
+        "max": 196.3146783455973
+      },
+      "request_p99_s": {
+        "mean": 820.3007322783233,
+        "min": 770.6402755897782,
+        "max": 866.3982337970491
+      },
+      "maximum_request_s": {
+        "mean": 1230.6616455597493,
+        "min": 1185.1077008631546,
+        "max": 1284.3791650820058
+      },
+      "ttft_p50_s": {
+        "mean": 14.034524567696886,
+        "min": 12.678143018041737,
+        "max": 14.902057402068749
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.5920529783550668,
+        "min": 0.5769986495077872,
+        "max": 0.6135452417988023
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 2634679.3333333335,
+        "min": 2495874,
+        "max": 2731906
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 1663536.3333333333,
+        "min": 1524731,
+        "max": 1760763
+      },
+      "full_cached_block_evictions": {
+        "mean": 149419.66666666666,
+        "min": 139673,
+        "max": 157639
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "a-n30",
+      "policy": "baseline",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 1997.345169238723,
+        "min": 1971.362184516131,
+        "max": 2012.1643708900626
+      },
+      "elapsed_s": {
+        "mean": 3196.4122018993367,
+        "min": 3155.2221160999034,
+        "max": 3219.5735178890172
+      },
+      "useful_tokens_per_s": {
+        "mean": 466.3310294604665,
+        "min": 462.9374020249902,
+        "max": 472.3791052283584
+      },
+      "requests_per_s": {
+        "mean": 0.0707102115775357,
+        "min": 0.0701956326650934,
+        "max": 0.07162728698141649
+      },
+      "request_p50_s": {
+        "mean": 275.60167118674144,
+        "min": 271.5572872895282,
+        "max": 277.86988903407473
+      },
+      "request_p90_s": {
+        "mean": 416.68422528829734,
+        "min": 410.35996729147155,
+        "max": 419.84760658745654
+      },
+      "request_p99_s": {
+        "mean": 712.53074894861,
+        "min": 702.579806302907,
+        "max": 718.9109791022493
+      },
+      "maximum_request_s": {
+        "mean": 845.9771515220249,
+        "min": 832.8559065770824,
+        "max": 853.0843095630407
+      },
+      "ttft_p50_s": {
+        "mean": 263.61430842235376,
+        "min": 259.5278850160539,
+        "max": 265.71620288456324
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.08201823090043064,
+        "min": 0.08201823090043064,
+        "max": 0.08201823090043064
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 9038275,
+        "min": 9038275,
+        "max": 9038275
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 7581374,
+        "min": 7581374,
+        "max": 7581374
+      },
+      "full_cached_block_evictions": {
+        "mean": 548909,
+        "min": 548909,
+        "max": 548909
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "a-n30",
+      "policy": "eviction_only",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 1929.4873650991074,
+        "min": 1907.8374199373725,
+        "max": 1966.8494367705425
+      },
+      "elapsed_s": {
+        "mean": 3016.606465688363,
+        "min": 2963.1636949158274,
+        "max": 3088.027676265221
+      },
+      "useful_tokens_per_s": {
+        "mean": 494.23402386014965,
+        "min": 482.6579151008843,
+        "max": 502.9965109782227
+      },
+      "requests_per_s": {
+        "mean": 0.07494116880105808,
+        "min": 0.0731858725674807,
+        "max": 0.0762698329450273
+      },
+      "request_p50_s": {
+        "mean": 257.87878109406057,
+        "min": 249.9886637245072,
+        "max": 265.28471143112984
+      },
+      "request_p90_s": {
+        "mean": 414.38106388916884,
+        "min": 408.8126061538933,
+        "max": 417.9757855925709
+      },
+      "request_p99_s": {
+        "mean": 713.914200928101,
+        "min": 704.2981840138091,
+        "max": 722.0376783502288
+      },
+      "maximum_request_s": {
+        "mean": 842.657250977975,
+        "min": 835.9127512120176,
+        "max": 851.7001683309209
+      },
+      "ttft_p50_s": {
+        "mean": 249.60714334412478,
+        "min": 242.46259499236476,
+        "max": 256.90592263499275
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.15336579857836663,
+        "min": 0.14032363611286058,
+        "max": 0.1732310319586675
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 8335800.333333333,
+        "min": 8140211,
+        "max": 8464211
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 6878899.333333333,
+        "min": 6683310,
+        "max": 7007310
+      },
+      "full_cached_block_evictions": {
+        "mean": 504987.3333333333,
+        "min": 492763,
+        "max": 513013
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "a-n30",
+      "policy": "prefix_only_no_aging",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 699.8329829735112,
+        "min": 684.9010324715559,
+        "max": 713.2292817022186
+      },
+      "elapsed_s": {
+        "mean": 1651.050581403232,
+        "min": 1617.974426175002,
+        "max": 1682.2886815248057
+      },
+      "useful_tokens_per_s": {
+        "mean": 902.9642371613517,
+        "min": 885.9721975000537,
+        "max": 921.1894674525529
+      },
+      "requests_per_s": {
+        "mean": 0.1369173145747963,
+        "min": 0.13434079565651977,
+        "max": 0.13968082334544613
+      },
+      "request_p50_s": {
+        "mean": 27.256054969814915,
+        "min": 26.467540641897358,
+        "max": 28.019992721499875
+      },
+      "request_p90_s": {
+        "mean": 169.34570469680088,
+        "min": 161.82337986398488,
+        "max": 179.9958033208968
+      },
+      "request_p99_s": {
+        "mean": 1292.4289821013808,
+        "min": 1276.4790130663896,
+        "max": 1305.29133662628
+      },
+      "maximum_request_s": {
+        "mean": 1613.7413356963855,
+        "min": 1580.9370355650317,
+        "max": 1645.0586017479654
+      },
+      "ttft_p50_s": {
+        "mean": 14.029401422866309,
+        "min": 12.193595441058278,
+        "max": 15.259875244926661
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.6455282691627265,
+        "min": 0.6396856490542019,
+        "max": 0.6484495792169889
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 3490061.6666666665,
+        "min": 3461299,
+        "max": 3547587
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 2033160.6666666667,
+        "min": 2004398,
+        "max": 2090686
+      },
+      "full_cached_block_evictions": {
+        "mean": 202129.66666666666,
+        "min": 200332,
+        "max": 205725
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "a-n30",
+      "policy": "cachewise_no_aging",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 777.5295927909151,
+        "min": 745.6160413572642,
+        "max": 803.5902240390424
+      },
+      "elapsed_s": {
+        "mean": 1813.158514836415,
+        "min": 1757.697518079076,
+        "max": 1860.179912293097
+      },
+      "useful_tokens_per_s": {
+        "mean": 822.474645847121,
+        "min": 801.2456161633668,
+        "max": 847.9621690704046
+      },
+      "requests_per_s": {
+        "mean": 0.1247126023166318,
+        "min": 0.12149362462548224,
+        "max": 0.12857729937912596
+      },
+      "request_p50_s": {
+        "mean": 29.158911719957057,
+        "min": 27.552723522414453,
+        "max": 30.431087193544954
+      },
+      "request_p90_s": {
+        "mean": 196.5666113505528,
+        "min": 179.14532813511323,
+        "max": 223.38058178208303
+      },
+      "request_p99_s": {
+        "mean": 1428.617070334556,
+        "min": 1322.679101926973,
+        "max": 1557.6811287995079
+      },
+      "maximum_request_s": {
+        "mean": 1746.9570555373405,
+        "min": 1656.9469478160609,
+        "max": 1854.1493605121505
+      },
+      "ttft_p50_s": {
+        "mean": 15.295156303211115,
+        "min": 14.804237348143943,
+        "max": 15.871360228513367
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.5883398195097048,
+        "min": 0.5805449647570932,
+        "max": 0.5992168649184917
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 4053128.3333333335,
+        "min": 3946035,
+        "max": 4129875
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 2596227.3333333335,
+        "min": 2489134,
+        "max": 2672974
+      },
+      "full_cached_block_evictions": {
+        "mean": 237320.33333333334,
+        "min": 230627,
+        "max": 242117
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "b-n10",
+      "policy": "baseline",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 447.560241717853,
+        "min": 443.0215466771973,
+        "max": 450.8036827352131
+      },
+      "elapsed_s": {
+        "mean": 615.369621372704,
+        "min": 609.1106785810553,
+        "max": 619.3328480429482
+      },
+      "useful_tokens_per_s": {
+        "mean": 914.5526813268157,
+        "min": 908.6519498816815,
+        "max": 923.9010573759182
+      },
+      "requests_per_s": {
+        "mean": 0.07963117607393226,
+        "min": 0.0791173924567974,
+        "max": 0.08044515015587515
+      },
+      "request_p50_s": {
+        "mean": 53.467225465225056,
+        "min": 53.038083269959316,
+        "max": 53.913221784867346
+      },
+      "request_p90_s": {
+        "mean": 184.82937576087815,
+        "min": 182.62105408152567,
+        "max": 185.9932524368633
+      },
+      "request_p99_s": {
+        "mean": 473.55803355802396,
+        "min": 468.58599638127646,
+        "max": 476.210579679589
+      },
+      "maximum_request_s": {
+        "mean": 562.4403594547572,
+        "min": 556.6429807611275,
+        "max": 566.128956173081
+      },
+      "ttft_p50_s": {
+        "mean": 33.76943021500483,
+        "min": 33.64139614300802,
+        "max": 33.906065467977896
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.4119161578091129,
+        "min": 0.4119161578091129,
+        "max": 0.4119161578091129
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 1422082,
+        "min": 1422082,
+        "max": 1422082
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 865793,
+        "min": 865793,
+        "max": 865793
+      },
+      "full_cached_block_evictions": {
+        "mean": 71297,
+        "min": 71297,
+        "max": 71297
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "b-n10",
+      "policy": "eviction_only",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 417.7163467254645,
+        "min": 412.380386299477,
+        "max": 421.2849108587252
+      },
+      "elapsed_s": {
+        "mean": 567.7958816525837,
+        "min": 560.6410293998197,
+        "max": 572.0446563819423
+      },
+      "useful_tokens_per_s": {
+        "mean": 991.2074026960734,
+        "min": 983.765854154327,
+        "max": 1003.77598229378
+      },
+      "requests_per_s": {
+        "mean": 0.08630559269189882,
+        "min": 0.08565764832052503,
+        "max": 0.08739995367883747
+      },
+      "request_p50_s": {
+        "mean": 33.89534834267882,
+        "min": 33.651346845086664,
+        "max": 34.118120291037485
+      },
+      "request_p90_s": {
+        "mean": 183.75684969699947,
+        "min": 181.65716193565171,
+        "max": 185.9345166829881
+      },
+      "request_p99_s": {
+        "mean": 426.74374960162913,
+        "min": 421.34047655081304,
+        "max": 429.59019899445514
+      },
+      "maximum_request_s": {
+        "mean": 516.2898799687003,
+        "min": 509.8335705487989,
+        "max": 520.2781896151137
+      },
+      "ttft_p50_s": {
+        "mean": 23.94938717371163,
+        "min": 23.741824716096744,
+        "max": 24.07316826703027
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.4711457159059925,
+        "min": 0.4710023563351008,
+        "max": 0.47143243504777593
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 1278855.3333333333,
+        "min": 1278162,
+        "max": 1279202
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 722566.3333333334,
+        "min": 721873,
+        "max": 722913
+      },
+      "full_cached_block_evictions": {
+        "mean": 62324.333333333336,
+        "min": 62281,
+        "max": 62346
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "b-n10",
+      "policy": "prefix_only_no_aging",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 256.58629044772437,
+        "min": 229.8739787847735,
+        "max": 270.5296560101444
+      },
+      "elapsed_s": {
+        "mean": 445.08379817303893,
+        "min": 410.5275465401355,
+        "max": 466.7840117691085
+      },
+      "useful_tokens_per_s": {
+        "mean": 1268.438064099824,
+        "min": 1205.6068455882855,
+        "max": 1370.8166595465757
+      },
+      "requests_per_s": {
+        "mean": 0.11044439197824178,
+        "min": 0.10497360398932755,
+        "max": 0.11935861652394496
+      },
+      "request_p50_s": {
+        "mean": 24.381331120695297,
+        "min": 21.29694162704982,
+        "max": 26.034191634040326
+      },
+      "request_p90_s": {
+        "mean": 112.20524606400484,
+        "min": 94.25879819900737,
+        "max": 122.63289417573253
+      },
+      "request_p99_s": {
+        "mean": 410.5868057694532,
+        "min": 376.22760697904016,
+        "max": 431.932785539841
+      },
+      "maximum_request_s": {
+        "mean": 443.8564036159466,
+        "min": 409.3124633820262,
+        "max": 465.56396689801477
+      },
+      "ttft_p50_s": {
+        "mean": 16.166866522670414,
+        "min": 13.110397879965603,
+        "max": 17.84298073593527
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.6312827676557651,
+        "min": 0.6151912072061343,
+        "max": 0.6572793716880838
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 891618,
+        "min": 828754,
+        "max": 930530
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 335329,
+        "min": 272465,
+        "max": 374241
+      },
+      "full_cached_block_evictions": {
+        "mean": 38136,
+        "min": 34208,
+        "max": 40566
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "b-n10",
+      "policy": "cachewise_no_aging",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 282.4193558813849,
+        "min": 272.4674310272094,
+        "max": 296.5741789673222
+      },
+      "elapsed_s": {
+        "mean": 502.86385557373677,
+        "min": 488.1971510979347,
+        "max": 522.0703394471202
+      },
+      "useful_tokens_per_s": {
+        "mean": 1119.9877924128687,
+        "min": 1077.9352081100194,
+        "max": 1152.7269234045737
+      },
+      "requests_per_s": {
+        "mean": 0.09751865247269796,
+        "min": 0.09385708456812866,
+        "max": 0.10036928705913395
+      },
+      "request_p50_s": {
+        "mean": 24.29077851267842,
+        "min": 23.702488702023402,
+        "max": 25.17336770100519
+      },
+      "request_p90_s": {
+        "mean": 119.60787792351722,
+        "min": 116.42783115049825,
+        "max": 123.44187718112964
+      },
+      "request_p99_s": {
+        "mean": 468.34160850803653,
+        "min": 453.70572727450144,
+        "max": 487.8424005104412
+      },
+      "maximum_request_s": {
+        "mean": 501.5900454659325,
+        "min": 486.8612482820172,
+        "max": 520.8154932348989
+      },
+      "ttft_p50_s": {
+        "mean": 16.428813621634617,
+        "min": 15.857902026036754,
+        "max": 17.071375617058948
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.5629289242545923,
+        "min": 0.548059228455331,
+        "max": 0.570363772154223
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 1056908.6666666667,
+        "min": 1038930,
+        "max": 1092866
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 500619.6666666667,
+        "min": 482641,
+        "max": 536577
+      },
+      "full_cached_block_evictions": {
+        "mean": 48452.666666666664,
+        "min": 47329,
+        "max": 50700
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "c-n10",
+      "policy": "baseline",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 630.5190525532932,
+        "min": 621.1411764507648,
+        "max": 640.2719465949573
+      },
+      "elapsed_s": {
+        "mean": 950.5469557681741,
+        "min": 938.7223728462122,
+        "max": 961.950453278143
+      },
+      "useful_tokens_per_s": {
+        "mean": 826.7391101927815,
+        "min": 816.8570401128518,
+        "max": 837.0696413866457
+      },
+      "requests_per_s": {
+        "mean": 0.05260653864414168,
+        "min": 0.051977729029192274,
+        "max": 0.053263884452225935
+      },
+      "request_p50_s": {
+        "mean": 87.44286723004188,
+        "min": 86.60961702349596,
+        "max": 88.09327674354427
+      },
+      "request_p90_s": {
+        "mean": 297.8754078146226,
+        "min": 292.66983683949803,
+        "max": 303.4653746119002
+      },
+      "request_p99_s": {
+        "mean": 342.6734515587682,
+        "min": 337.61889628450143,
+        "max": 348.41798306635104
+      },
+      "maximum_request_s": {
+        "mean": 371.38093992897,
+        "min": 366.6134325999301,
+        "max": 377.19173964089714
+      },
+      "ttft_p50_s": {
+        "mean": 84.13776206981856,
+        "min": 83.36070466495585,
+        "max": 84.74564133048989
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.3772604623104298,
+        "min": 0.3772604623104298,
+        "max": 0.3772604623104298
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 2130656,
+        "min": 2130656,
+        "max": 2130656
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 1348856,
+        "min": 1348856,
+        "max": 1348856
+      },
+      "full_cached_block_evictions": {
+        "mean": 115429,
+        "min": 115429,
+        "max": 115429
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "c-n10",
+      "policy": "eviction_only",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 600.2174456883378,
+        "min": 591.3674093887676,
+        "max": 607.4290194369853
+      },
+      "elapsed_s": {
+        "mean": 881.7640644976249,
+        "min": 870.9771800870076,
+        "max": 889.9139199499041
+      },
+      "useful_tokens_per_s": {
+        "mean": 891.213671989844,
+        "min": 882.9797830831028,
+        "max": 902.1774829066172
+      },
+      "requests_per_s": {
+        "mean": 0.05670914306302585,
+        "min": 0.056185209467017494,
+        "max": 0.05740678532473741
+      },
+      "request_p50_s": {
+        "mean": 76.81338215219633,
+        "min": 76.37072770902887,
+        "max": 77.24745738960337
+      },
+      "request_p90_s": {
+        "mean": 297.32742649599294,
+        "min": 292.2933890852379,
+        "max": 302.2309410722461
+      },
+      "request_p99_s": {
+        "mean": 342.12425469390803,
+        "min": 336.9676118450308,
+        "max": 347.09848833343233
+      },
+      "maximum_request_s": {
+        "mean": 370.8376000826247,
+        "min": 365.6833601449616,
+        "max": 375.8384988058824
+      },
+      "ttft_p50_s": {
+        "mean": 73.26894925057422,
+        "min": 72.41768620349467,
+        "max": 73.88123237364925
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.43533218917035715,
+        "min": 0.43533218917035715,
+        "max": 0.43533218917035715
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 1931968,
+        "min": 1931968,
+        "max": 1931968
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 1150168,
+        "min": 1150168,
+        "max": 1150168
+      },
+      "full_cached_block_evictions": {
+        "mean": 102988,
+        "min": 102988,
+        "max": 102988
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "c-n10",
+      "policy": "prefix_only_no_aging",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 265.61580842937497,
+        "min": 261.5875206165947,
+        "max": 269.8106212589191
+      },
+      "elapsed_s": {
+        "mean": 483.2022051940051,
+        "min": 477.87513371906243,
+        "max": 488.83633862109855
+      },
+      "useful_tokens_per_s": {
+        "mean": 1626.324313924431,
+        "min": 1607.4418735245908,
+        "max": 1644.3123832050007
+      },
+      "requests_per_s": {
+        "mean": 0.10348523713656506,
+        "min": 0.10228372166651761,
+        "max": 0.10462984255086696
+      },
+      "request_p50_s": {
+        "mean": 26.064507977222092,
+        "min": 25.803826668532565,
+        "max": 26.448368733515963
+      },
+      "request_p90_s": {
+        "mean": 140.1811161595785,
+        "min": 137.8425589654362,
+        "max": 141.74942397663838
+      },
+      "request_p99_s": {
+        "mean": 366.09272194591404,
+        "min": 360.1835068833919,
+        "max": 371.8988695616785
+      },
+      "maximum_request_s": {
+        "mean": 423.9421745343134,
+        "min": 417.1182848128956,
+        "max": 430.1907224650495
+      },
+      "ttft_p50_s": {
+        "mean": 14.810718810690256,
+        "min": 14.616982354549691,
+        "max": 15.014314766041934
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.6927875644760778,
+        "min": 0.6927875644760778,
+        "max": 0.6927875644760778
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 1051104,
+        "min": 1051104,
+        "max": 1051104
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 269304,
+        "min": 269304,
+        "max": 269304
+      },
+      "full_cached_block_evictions": {
+        "mean": 47942,
+        "min": 47942,
+        "max": 47942
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    },
+    {
+      "setting": "c-n10",
+      "policy": "cachewise_no_aging",
+      "repeats": 3,
+      "mean_session_serving_s": {
+        "mean": 380.82774625692207,
+        "min": 375.59428230137564,
+        "max": 384.4102197452914
+      },
+      "elapsed_s": {
+        "mean": 695.204546097666,
+        "min": 686.4011667890009,
+        "max": 700.6842500269413
+      },
+      "useful_tokens_per_s": {
+        "mean": 1130.3732796270851,
+        "min": 1121.4409343007023,
+        "max": 1144.776608810088
+      },
+      "requests_per_s": {
+        "mean": 0.0719271955129124,
+        "min": 0.07135881818105302,
+        "max": 0.07284369901919173
+      },
+      "request_p50_s": {
+        "mean": 43.059860954798445,
+        "min": 42.2578861300135,
+        "max": 43.606532448902726
+      },
+      "request_p90_s": {
+        "mean": 156.6505064074804,
+        "min": 154.9727352824761,
+        "max": 158.54539051528556
+      },
+      "request_p99_s": {
+        "mean": 482.9408159381101,
+        "min": 476.5544373269865,
+        "max": 486.99890847380703
+      },
+      "maximum_request_s": {
+        "mean": 564.3088531649361,
+        "min": 556.7969305778388,
+        "max": 568.9719729109202
+      },
+      "ttft_p50_s": {
+        "mean": 32.158797336393036,
+        "min": 31.57607290148735,
+        "max": 32.627682671067305
+      },
+      "completed_request_prefix_hit_fraction": {
+        "mean": 0.5452388635063451,
+        "min": 0.5446714584336814,
+        "max": 0.5458218566304556
+      },
+      "reported_uncached_prompt_tokens": {
+        "mean": 1555930.6666666667,
+        "min": 1553936,
+        "max": 1557872
+      },
+      "reported_uncached_minus_first_use_tokens": {
+        "mean": 774130.6666666666,
+        "min": 772136,
+        "max": 776072
+      },
+      "full_cached_block_evictions": {
+        "mean": 79485.66666666667,
+        "min": 79361,
+        "max": 79607
+      },
+      "cached_block_invalidations_outside_allocation": {
+        "mean": 0,
+        "min": 0,
+        "max": 0
+      }
+    }
+  ],
+  "effects": [
+    {
+      "setting": "a-n10",
+      "treatment": "prefix_only_no_aging",
+      "control": "baseline",
+      "ratio_of_means_change_percent": -58.38504025383864
+    },
+    {
+      "setting": "a-n10",
+      "treatment": "eviction_only",
+      "control": "baseline",
+      "ratio_of_means_change_percent": -11.988991550270933
+    },
+    {
+      "setting": "a-n10",
+      "treatment": "cachewise_no_aging",
+      "control": "prefix_only_no_aging",
+      "ratio_of_means_change_percent": 12.654531701727434
+    },
+    {
+      "setting": "a-n20",
+      "treatment": "prefix_only_no_aging",
+      "control": "baseline",
+      "ratio_of_means_change_percent": -61.744169490603404
+    },
+    {
+      "setting": "a-n20",
+      "treatment": "eviction_only",
+      "control": "baseline",
+      "ratio_of_means_change_percent": -5.204303752610306
+    },
+    {
+      "setting": "a-n20",
+      "treatment": "cachewise_no_aging",
+      "control": "prefix_only_no_aging",
+      "ratio_of_means_change_percent": 14.007336078118971
+    },
+    {
+      "setting": "a-n30",
+      "treatment": "prefix_only_no_aging",
+      "control": "baseline",
+      "ratio_of_means_change_percent": -64.96184065970687
+    },
+    {
+      "setting": "a-n30",
+      "treatment": "eviction_only",
+      "control": "baseline",
+      "ratio_of_means_change_percent": -3.397399967952419
+    },
+    {
+      "setting": "a-n30",
+      "treatment": "cachewise_no_aging",
+      "control": "prefix_only_no_aging",
+      "ratio_of_means_change_percent": 11.102164617517719
+    },
+    {
+      "setting": "b-n10",
+      "treatment": "prefix_only_no_aging",
+      "control": "baseline",
+      "ratio_of_means_change_percent": -42.669999135115475
+    },
+    {
+      "setting": "b-n10",
+      "treatment": "eviction_only",
+      "control": "baseline",
+      "ratio_of_means_change_percent": -6.6681291613034706
+    },
+    {
+      "setting": "b-n10",
+      "treatment": "cachewise_no_aging",
+      "control": "prefix_only_no_aging",
+      "ratio_of_means_change_percent": 10.06798351875453
+    },
+    {
+      "setting": "c-n10",
+      "treatment": "prefix_only_no_aging",
+      "control": "baseline",
+      "ratio_of_means_change_percent": -57.87346831887774
+    },
+    {
+      "setting": "c-n10",
+      "treatment": "eviction_only",
+      "control": "baseline",
+      "ratio_of_means_change_percent": -4.805819386781229
+    },
+    {
+      "setting": "c-n10",
+      "treatment": "cachewise_no_aging",
+      "control": "prefix_only_no_aging",
+      "ratio_of_means_change_percent": 43.375406949161686
+    }
+  ],
+  "scope": "Means and observed three-repeat ranges, not confidence intervals. No pooling with the historical study. Usage-derived tokens do not measure all executed or redundant prefill; extra preemption work is unknown."
+}

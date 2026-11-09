@@ -1,0 +1,3182 @@
+{
+  "status": "complete_with_protocol_deviation",
+  "protocol_sha256": "d281390347ba2342eb43b229ec0799ca9226f915e170696fb5415b28994b9002",
+  "selection": {
+    "settings": [
+      {
+        "id": "a-n10",
+        "cohort": "a",
+        "sessions": 10,
+        "segment_ids": [
+          "session_0087_005",
+          "session_0069_002",
+          "session_0054_001",
+          "session_0047_000",
+          "session_0038_001",
+          "session_0055_007",
+          "session_0023_000",
+          "session_0026_012",
+          "session_0094_002",
+          "session_0084_000"
+        ],
+        "source_sessions": [
+          "session_0023",
+          "session_0026",
+          "session_0038",
+          "session_0047",
+          "session_0054",
+          "session_0055",
+          "session_0069",
+          "session_0084",
+          "session_0087",
+          "session_0094"
+        ],
+        "selected_workload_sha256": "6bbdcde7520a83621cc7af57a585bcb47816862905a207219c97c87f347f7bb7",
+        "requests": 57,
+        "prompt_tokens": 2402060,
+        "initial_prompt_tokens": 403663,
+        "recorded_wait_sum_s": 46.3489990234375,
+        "first_use_prompt_tokens": 482742,
+        "output_tokens": 12486,
+        "useful_tokens": 495228,
+        "transitions": 47
+      },
+      {
+        "id": "a-n20",
+        "cohort": "a",
+        "sessions": 20,
+        "segment_ids": [
+          "session_0087_005",
+          "session_0069_002",
+          "session_0054_001",
+          "session_0047_000",
+          "session_0038_001",
+          "session_0055_007",
+          "session_0023_000",
+          "session_0026_012",
+          "session_0094_002",
+          "session_0084_000",
+          "session_0072_000",
+          "session_0010_003",
+          "session_0092_001",
+          "session_0090_000",
+          "session_0030_000",
+          "session_0062_000",
+          "session_0005_005",
+          "session_0012_000",
+          "session_0093_001",
+          "session_0011_004"
+        ],
+        "source_sessions": [
+          "session_0005",
+          "session_0010",
+          "session_0011",
+          "session_0012",
+          "session_0023",
+          "session_0026",
+          "session_0030",
+          "session_0038",
+          "session_0047",
+          "session_0054",
+          "session_0055",
+          "session_0062",
+          "session_0069",
+          "session_0072",
+          "session_0084",
+          "session_0087",
+          "session_0090",
+          "session_0092",
+          "session_0093",
+          "session_0094"
+        ],
+        "selected_workload_sha256": "c43d633109376b290c608b10c6972c1bd0af78583c906607afe942f453ae2030",
+        "requests": 150,
+        "prompt_tokens": 6458386,
+        "initial_prompt_tokens": 752411,
+        "recorded_wait_sum_s": 402.2989978790283,
+        "first_use_prompt_tokens": 971143,
+        "output_tokens": 27809,
+        "useful_tokens": 998952,
+        "transitions": 130
+      },
+      {
+        "id": "a-n30",
+        "cohort": "a",
+        "sessions": 30,
+        "segment_ids": [
+          "session_0087_005",
+          "session_0069_002",
+          "session_0054_001",
+          "session_0047_000",
+          "session_0038_001",
+          "session_0055_007",
+          "session_0023_000",
+          "session_0026_012",
+          "session_0094_002",
+          "session_0084_000",
+          "session_0072_000",
+          "session_0010_003",
+          "session_0092_001",
+          "session_0090_000",
+          "session_0030_000",
+          "session_0062_000",
+          "session_0005_005",
+          "session_0012_000",
+          "session_0093_001",
+          "session_0011_004",
+          "session_0065_004",
+          "session_0028_003",
+          "session_0036_002",
+          "session_0087_003",
+          "session_0069_000",
+          "session_0054_007",
+          "session_0047_001",
+          "session_0038_000",
+          "session_0055_001",
+          "session_0023_009"
+        ],
+        "source_sessions": [
+          "session_0005",
+          "session_0010",
+          "session_0011",
+          "session_0012",
+          "session_0023",
+          "session_0026",
+          "session_0028",
+          "session_0030",
+          "session_0036",
+          "session_0038",
+          "session_0047",
+          "session_0054",
+          "session_0055",
+          "session_0062",
+          "session_0065",
+          "session_0069",
+          "session_0072",
+          "session_0084",
+          "session_0087",
+          "session_0090",
+          "session_0092",
+          "session_0093",
+          "session_0094"
+        ],
+        "selected_workload_sha256": "43c18b62ecce3108fb98edc7bf39a571f54022d273c1ff9fd1846d11727cbcce",
+        "requests": 226,
+        "prompt_tokens": 9845811,
+        "initial_prompt_tokens": 1180493,
+        "recorded_wait_sum_s": 839.9209988117218,
+        "first_use_prompt_tokens": 1456901,
+        "output_tokens": 33560,
+        "useful_tokens": 1490461,
+        "transitions": 196
+      },
+      {
+        "id": "b-n10",
+        "cohort": "b",
+        "sessions": 10,
+        "segment_ids": [
+          "session_0004_006",
+          "session_0017_001",
+          "session_0071_000",
+          "session_0022_009",
+          "session_0091_003",
+          "session_0015_015",
+          "session_0035_001",
+          "session_0024_000",
+          "session_0076_004",
+          "session_0033_002"
+        ],
+        "source_sessions": [
+          "session_0004",
+          "session_0015",
+          "session_0017",
+          "session_0022",
+          "session_0024",
+          "session_0033",
+          "session_0035",
+          "session_0071",
+          "session_0076",
+          "session_0091"
+        ],
+        "selected_workload_sha256": "4d226551b2064e494e32a5414a40d77216662fa4cb3c38514d3c6aa8cd750e26",
+        "requests": 49,
+        "prompt_tokens": 2418162,
+        "initial_prompt_tokens": 511440,
+        "recorded_wait_sum_s": 106.00300025939941,
+        "first_use_prompt_tokens": 556289,
+        "output_tokens": 6469,
+        "useful_tokens": 562758,
+        "transitions": 39
+      },
+      {
+        "id": "c-n10",
+        "cohort": "c",
+        "sessions": 10,
+        "segment_ids": [
+          "session_0057_003",
+          "session_0068_003",
+          "session_0007_002",
+          "session_0013_001",
+          "session_0014_001",
+          "session_0079_006",
+          "session_0019_013",
+          "session_0006_005",
+          "session_0050_011",
+          "session_0067_017"
+        ],
+        "source_sessions": [
+          "session_0006",
+          "session_0007",
+          "session_0013",
+          "session_0014",
+          "session_0019",
+          "session_0050",
+          "session_0057",
+          "session_0067",
+          "session_0068",
+          "session_0079"
+        ],
+        "selected_workload_sha256": "946ca8aee15260a8e6728675dfea72354309daa7dcf8a0d43e6e982ad4127dac",
+        "requests": 50,
+        "prompt_tokens": 3421424,
+        "initial_prompt_tokens": 754340,
+        "recorded_wait_sum_s": 278.05399990081787,
+        "first_use_prompt_tokens": 781800,
+        "output_tokens": 3976,
+        "useful_tokens": 785776,
+        "transitions": 40
+      }
+    ],
+    "tasks": [
+      {
+        "task": 0,
+        "setting": "a-n10",
+        "repeat": 0
+      },
+      {
+        "task": 1,
+        "setting": "a-n10",
+        "repeat": 1
+      },
+      {
+        "task": 2,
+        "setting": "a-n10",
+        "repeat": 2
+      },
+      {
+        "task": 3,
+        "setting": "a-n20",
+        "repeat": 0
+      },
+      {
+        "task": 4,
+        "setting": "a-n20",
+        "repeat": 1
+      },
+      {
+        "task": 5,
+        "setting": "a-n20",
+        "repeat": 2
+      },
+      {
+        "task": 6,
+        "setting": "a-n30",
+        "repeat": 0
+      },
+      {
+        "task": 7,
+        "setting": "a-n30",
+        "repeat": 1
+      },
+      {
+        "task": 8,
+        "setting": "a-n30",
+        "repeat": 2
+      },
+      {
+        "task": 9,
+        "setting": "b-n10",
+        "repeat": 0
+      },
+      {
+        "task": 10,
+        "setting": "b-n10",
+        "repeat": 1
+      },
+      {
+        "task": 11,
+        "setting": "b-n10",
+        "repeat": 2
+      },
+      {
+        "task": 12,
+        "setting": "c-n10",
+        "repeat": 0
+      },
+      {
+        "task": 13,
+        "setting": "c-n10",
+        "repeat": 1
+      },
+      {
+        "task": 14,
+        "setting": "c-n10",
+        "repeat": 2
+      }
+    ],
+    "source_groups": {
+      "a": [
+        "session_0005",
+        "session_0010",
+        "session_0011",
+        "session_0012",
+        "session_0023",
+        "session_0026",
+        "session_0028",
+        "session_0030",
+        "session_0036",
+        "session_0038",
+        "session_0047",
+        "session_0054",
+        "session_0055",
+        "session_0062",
+        "session_0065",
+        "session_0069",
+        "session_0072",
+        "session_0084",
+        "session_0087",
+        "session_0090",
+        "session_0092",
+        "session_0093",
+        "session_0094"
+      ],
+      "b": [
+        "session_0004",
+        "session_0015",
+        "session_0017",
+        "session_0022",
+        "session_0024",
+        "session_0033",
+        "session_0035",
+        "session_0071",
+        "session_0076",
+        "session_0091"
+      ],
+      "c": [
+        "session_0006",
+        "session_0007",
+        "session_0013",
+        "session_0014",
+        "session_0019",
+        "session_0050",
+        "session_0057",
+        "session_0067",
+        "session_0068",
+        "session_0079"
+      ]
+    },
+    "eligible_sources": 43,
+    "eligible_segments": 247,
+    "excluded_segments": [
+      {
+        "segment": "session_0067_014",
+        "source": "session_0067",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0084_006",
+        "source": "session_0084",
+        "reasons": [
+          "turn_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0092_002",
+        "source": "session_0092",
+        "reasons": [
+          "recorded_wait_budget"
+        ]
+      },
+      {
+        "segment": "session_0019_000",
+        "source": "session_0019",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0076_001",
+        "source": "session_0076",
+        "reasons": [
+          "recorded_wait_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0067_018",
+        "source": "session_0067",
+        "reasons": [
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0005_003",
+        "source": "session_0005",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0036_000",
+        "source": "session_0036",
+        "reasons": [
+          "recorded_wait_budget"
+        ]
+      },
+      {
+        "segment": "session_0055_004",
+        "source": "session_0055",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0033_007",
+        "source": "session_0033",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0062_016",
+        "source": "session_0062",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0022_000",
+        "source": "session_0022",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0015_013",
+        "source": "session_0015",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0007_001",
+        "source": "session_0007",
+        "reasons": [
+          "turn_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0030_001",
+        "source": "session_0030",
+        "reasons": [
+          "turn_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0011_001",
+        "source": "session_0011",
+        "reasons": [
+          "turn_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0062_007",
+        "source": "session_0062",
+        "reasons": [
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0055_003",
+        "source": "session_0055",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0062_005",
+        "source": "session_0062",
+        "reasons": [
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0028_001",
+        "source": "session_0028",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0011_000",
+        "source": "session_0011",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0026_010",
+        "source": "session_0026",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0091_005",
+        "source": "session_0091",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0050_006",
+        "source": "session_0050",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0015_016",
+        "source": "session_0015",
+        "reasons": [
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0084_009",
+        "source": "session_0084",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0065_001",
+        "source": "session_0065",
+        "reasons": [
+          "recorded_wait_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0067_009",
+        "source": "session_0067",
+        "reasons": [
+          "turn_budget",
+          "recorded_wait_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0062_002",
+        "source": "session_0062",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0079_004",
+        "source": "session_0079",
+        "reasons": [
+          "recorded_wait_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0026_021",
+        "source": "session_0026",
+        "reasons": [
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0010_000",
+        "source": "session_0010",
+        "reasons": [
+          "recorded_wait_budget"
+        ]
+      },
+      {
+        "segment": "session_0036_004",
+        "source": "session_0036",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0005_000",
+        "source": "session_0005",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0094_010",
+        "source": "session_0094",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0069_009",
+        "source": "session_0069",
+        "reasons": [
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0033_004",
+        "source": "session_0033",
+        "reasons": [
+          "recorded_wait_budget"
+        ]
+      },
+      {
+        "segment": "session_0022_004",
+        "source": "session_0022",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0022_001",
+        "source": "session_0022",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0087_006",
+        "source": "session_0087",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0035_002",
+        "source": "session_0035",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0014_000",
+        "source": "session_0014",
+        "reasons": [
+          "turn_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0062_010",
+        "source": "session_0062",
+        "reasons": [
+          "recorded_wait_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0068_005",
+        "source": "session_0068",
+        "reasons": [
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0067_016",
+        "source": "session_0067",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0026_008",
+        "source": "session_0026",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0067_011",
+        "source": "session_0067",
+        "reasons": [
+          "turn_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0067_004",
+        "source": "session_0067",
+        "reasons": [
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0015_005",
+        "source": "session_0015",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0084_003",
+        "source": "session_0084",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0007_006",
+        "source": "session_0007",
+        "reasons": [
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0026_009",
+        "source": "session_0026",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0022_013",
+        "source": "session_0022",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0067_013",
+        "source": "session_0067",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0094_009",
+        "source": "session_0094",
+        "reasons": [
+          "output_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0010_001",
+        "source": "session_0010",
+        "reasons": [
+          "recorded_wait_budget"
+        ]
+      },
+      {
+        "segment": "session_0079_009",
+        "source": "session_0079",
+        "reasons": [
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0006_001",
+        "source": "session_0006",
+        "reasons": [
+          "turn_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0026_001",
+        "source": "session_0026",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0015_008",
+        "source": "session_0015",
+        "reasons": [
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0004_004",
+        "source": "session_0004",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0019_008",
+        "source": "session_0019",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0059_000",
+        "source": "session_0059",
+        "reasons": [
+          "turn_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0065_000",
+        "source": "session_0065",
+        "reasons": [
+          "turn_budget",
+          "recorded_wait_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0055_008",
+        "source": "session_0055",
+        "reasons": [
+          "recorded_wait_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0067_002",
+        "source": "session_0067",
+        "reasons": [
+          "turn_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0015_014",
+        "source": "session_0015",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0004_000",
+        "source": "session_0004",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0092_005",
+        "source": "session_0092",
+        "reasons": [
+          "recorded_wait_budget",
+          "output_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0067_001",
+        "source": "session_0067",
+        "reasons": [
+          "turn_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0072_001",
+        "source": "session_0072",
+        "reasons": [
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0065_008",
+        "source": "session_0065",
+        "reasons": [
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0079_002",
+        "source": "session_0079",
+        "reasons": [
+          "recorded_wait_budget"
+        ]
+      },
+      {
+        "segment": "session_0079_008",
+        "source": "session_0079",
+        "reasons": [
+          "turn_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0028_007",
+        "source": "session_0028",
+        "reasons": [
+          "turn_budget",
+          "recorded_wait_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0084_004",
+        "source": "session_0084",
+        "reasons": [
+          "turn_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0087_009",
+        "source": "session_0087",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0033_005",
+        "source": "session_0033",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0015_003",
+        "source": "session_0015",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0007_000",
+        "source": "session_0007",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0013_002",
+        "source": "session_0013",
+        "reasons": [
+          "recorded_wait_budget"
+        ]
+      },
+      {
+        "segment": "session_0067_000",
+        "source": "session_0067",
+        "reasons": [
+          "turn_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0067_008",
+        "source": "session_0067",
+        "reasons": [
+          "turn_budget",
+          "recorded_wait_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0069_005",
+        "source": "session_0069",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0079_010",
+        "source": "session_0079",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0026_003",
+        "source": "session_0026",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0067_003",
+        "source": "session_0067",
+        "reasons": [
+          "turn_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0010_002",
+        "source": "session_0010",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0069_004",
+        "source": "session_0069",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0079_000",
+        "source": "session_0079",
+        "reasons": [
+          "turn_budget",
+          "recorded_wait_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0076_002",
+        "source": "session_0076",
+        "reasons": [
+          "recorded_wait_budget"
+        ]
+      },
+      {
+        "segment": "session_0026_013",
+        "source": "session_0026",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0050_000",
+        "source": "session_0050",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0062_009",
+        "source": "session_0062",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0087_008",
+        "source": "session_0087",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0094_012",
+        "source": "session_0094",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0006_007",
+        "source": "session_0006",
+        "reasons": [
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0010_004",
+        "source": "session_0010",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0072_003",
+        "source": "session_0072",
+        "reasons": [
+          "output_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0069_001",
+        "source": "session_0069",
+        "reasons": [
+          "turn_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0015_010",
+        "source": "session_0015",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0068_002",
+        "source": "session_0068",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0006_006",
+        "source": "session_0006",
+        "reasons": [
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0042_000",
+        "source": "session_0042",
+        "reasons": [
+          "turn_budget",
+          "recorded_wait_budget"
+        ]
+      },
+      {
+        "segment": "session_0094_005",
+        "source": "session_0094",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0094_000",
+        "source": "session_0094",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0023_006",
+        "source": "session_0023",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0055_005",
+        "source": "session_0055",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0094_003",
+        "source": "session_0094",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0087_007",
+        "source": "session_0087",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0079_005",
+        "source": "session_0079",
+        "reasons": [
+          "recorded_wait_budget"
+        ]
+      },
+      {
+        "segment": "session_0023_005",
+        "source": "session_0023",
+        "reasons": [
+          "recorded_wait_budget"
+        ]
+      },
+      {
+        "segment": "session_0013_003",
+        "source": "session_0013",
+        "reasons": [
+          "recorded_wait_budget"
+        ]
+      },
+      {
+        "segment": "session_0006_000",
+        "source": "session_0006",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0076_005",
+        "source": "session_0076",
+        "reasons": [
+          "turn_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0013_000",
+        "source": "session_0013",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0068_007",
+        "source": "session_0068",
+        "reasons": [
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0092_003",
+        "source": "session_0092",
+        "reasons": [
+          "recorded_wait_budget",
+          "output_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0023_008",
+        "source": "session_0023",
+        "reasons": [
+          "turn_budget",
+          "prompt_work_budget"
+        ]
+      },
+      {
+        "segment": "session_0015_004",
+        "source": "session_0015",
+        "reasons": [
+          "turn_budget"
+        ]
+      },
+      {
+        "segment": "session_0087_002",
+        "source": "session_0087",
+        "reasons": [
+          "turn_budget"
+        ]
+      }
+    ],
+    "exclusion_reason_counts": {
+      "turn_budget": 85,
+      "prompt_work_budget": 43,
+      "recorded_wait_budget": 24,
+      "output_work_budget": 4
+    },
+    "full_runs": 60,
+    "frozen_at_utc": "2026-11-08T11:50:53.165046+00:00",
+    "protocol_sha256": "d281390347ba2342eb43b229ec0799ca9226f915e170696fb5415b28994b9002",
+    "original_workload_sha256": "362771933edf1d36bdc4e373c193b7fd5eadd537be058e0d86aa204e1854cd51",
+    "bootstrap_sha256": "00bc7912d76a7c2d5a9fa45cccd5153d63f597639f590496556ec4d4df0f96eb",
+    "historical_source_sessions": [
+      "session_0010",
+      "session_0047",
+      "session_0054",
+      "session_0065",
+      "session_0072",
+      "session_0084",
+      "session_0092",
+      "session_0094"
+    ],
+    "selector_sha256": "cb6cc90df52e217a09dad7512eb5d0bcabc3803c52416cf9e18fbe37cc8e35b4",
+    "outcome_data_used_for_selection": false
+  },
+  "runs": [
+    {
+      "setting": "a-n10",
+      "repeat": 0,
+      "policy": "baseline",
+      "sessions": 10,
+      "requests": 57,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 552.9509622785263,
+      "elapsed_s": 722.9921619729139,
+      "useful_tokens_per_s": 684.9700813472348,
+      "requests_per_s": 0.07883902896603662,
+      "request_p50_s": 99.5695851710625,
+      "request_p90_s": 172.31203149212524,
+      "request_p99_s": 380.7290177241246,
+      "maximum_request_s": 408.65983200096525,
+      "ttft_p50_s": 92.25934083410539,
+      "prompt_tokens": 2402060,
+      "output_tokens": 12486,
+      "first_use_prompt_tokens": 482742,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 84875,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 57,
+      "metric_snapshots": 361,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1633388,
+      "reported_uncached_minus_first_use_tokens": 1150646,
+      "completed_request_prefix_hit_fraction": 0.32000532875948146,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n10",
+      "repeat": 0,
+      "policy": "eviction_only",
+      "sessions": 10,
+      "requests": 57,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 482.84630674456713,
+      "elapsed_s": 641.609728168929,
+      "useful_tokens_per_s": 771.8523866733077,
+      "requests_per_s": 0.08883905199297805,
+      "request_p50_s": 86.69186126091518,
+      "request_p90_s": 160.34166546356863,
+      "request_p99_s": 320.78097479406733,
+      "maximum_request_s": 354.4130672169849,
+      "ttft_p50_s": 73.71769218309782,
+      "prompt_tokens": 2402060,
+      "output_tokens": 12486,
+      "first_use_prompt_tokens": 482742,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 69613,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 57,
+      "metric_snapshots": 320,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1389468,
+      "reported_uncached_minus_first_use_tokens": 906726,
+      "completed_request_prefix_hit_fraction": 0.4215515016277695,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n10",
+      "repeat": 0,
+      "policy": "prefix_only_no_aging",
+      "sessions": 10,
+      "requests": 57,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 229.01444379992319,
+      "elapsed_s": 403.4000691981055,
+      "useful_tokens_per_s": 1227.6348910510444,
+      "requests_per_s": 0.14129893461175363,
+      "request_p50_s": 23.4108505488839,
+      "request_p90_s": 100.06341737322509,
+      "request_p99_s": 236.65553704034528,
+      "maximum_request_s": 257.3180361529812,
+      "ttft_p50_s": 7.449156363029033,
+      "prompt_tokens": 2402060,
+      "output_tokens": 12486,
+      "first_use_prompt_tokens": 482742,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 22543,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 57,
+      "metric_snapshots": 202,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 636092,
+      "reported_uncached_minus_first_use_tokens": 153350,
+      "completed_request_prefix_hit_fraction": 0.735188962806924,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n10",
+      "repeat": 0,
+      "policy": "cachewise_no_aging",
+      "sessions": 10,
+      "requests": 57,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 271.0827455062419,
+      "elapsed_s": 462.6386431560386,
+      "useful_tokens_per_s": 1070.4423578230358,
+      "requests_per_s": 0.12320630981267827,
+      "request_p50_s": 27.66369989491068,
+      "request_p90_s": 102.62074923599138,
+      "request_p99_s": 293.1316536960191,
+      "maximum_request_s": 316.7785270479508,
+      "ttft_p50_s": 8.493882197886705,
+      "prompt_tokens": 2402060,
+      "output_tokens": 12486,
+      "first_use_prompt_tokens": 482742,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 32171,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 57,
+      "metric_snapshots": 231,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 790396,
+      "reported_uncached_minus_first_use_tokens": 307654,
+      "completed_request_prefix_hit_fraction": 0.6709507672581034,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n10",
+      "repeat": 1,
+      "policy": "baseline",
+      "sessions": 10,
+      "requests": 57,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 539.3514277527808,
+      "elapsed_s": 706.3242389119696,
+      "useful_tokens_per_s": 701.1340864683551,
+      "requests_per_s": 0.08069948171084075,
+      "request_p50_s": 96.97919190907851,
+      "request_p90_s": 167.6464254257269,
+      "request_p99_s": 370.29063418409777,
+      "maximum_request_s": 397.16405036090873,
+      "ttft_p50_s": 89.67125048395246,
+      "prompt_tokens": 2402060,
+      "output_tokens": 12486,
+      "first_use_prompt_tokens": 482742,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 84875,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 57,
+      "metric_snapshots": 353,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1633388,
+      "reported_uncached_minus_first_use_tokens": 1150646,
+      "completed_request_prefix_hit_fraction": 0.32000532875948146,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n10",
+      "repeat": 1,
+      "policy": "eviction_only",
+      "sessions": 10,
+      "requests": 57,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 478.2307914990932,
+      "elapsed_s": 633.6921579949558,
+      "useful_tokens_per_s": 781.4961787864543,
+      "requests_per_s": 0.08994903800033095,
+      "request_p50_s": 84.99874410708435,
+      "request_p90_s": 156.95944377295672,
+      "request_p99_s": 313.52339485567984,
+      "maximum_request_s": 346.709451175062,
+      "ttft_p50_s": 72.69922928512096,
+      "prompt_tokens": 2402060,
+      "output_tokens": 12486,
+      "first_use_prompt_tokens": 482742,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 69613,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 57,
+      "metric_snapshots": 317,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1389468,
+      "reported_uncached_minus_first_use_tokens": 906726,
+      "completed_request_prefix_hit_fraction": 0.4215515016277695,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n10",
+      "repeat": 1,
+      "policy": "prefix_only_no_aging",
+      "sessions": 10,
+      "requests": 57,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 224.9861664719414,
+      "elapsed_s": 393.63479008711874,
+      "useful_tokens_per_s": 1258.090017628769,
+      "requests_per_s": 0.14480427400074275,
+      "request_p50_s": 21.95796712487936,
+      "request_p90_s": 97.93882090551779,
+      "request_p99_s": 232.47555644525207,
+      "maximum_request_s": 253.56020708801225,
+      "ttft_p50_s": 7.457640391075984,
+      "prompt_tokens": 2402060,
+      "output_tokens": 12486,
+      "first_use_prompt_tokens": 482742,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 22543,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 57,
+      "metric_snapshots": 197,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 636092,
+      "reported_uncached_minus_first_use_tokens": 153350,
+      "completed_request_prefix_hit_fraction": 0.735188962806924,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n10",
+      "repeat": 1,
+      "policy": "cachewise_no_aging",
+      "sessions": 10,
+      "requests": 57,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 226.95944278964308,
+      "elapsed_s": 411.9062383880373,
+      "useful_tokens_per_s": 1202.2833204421372,
+      "requests_per_s": 0.13838100685987428,
+      "request_p50_s": 21.655371233122423,
+      "request_p90_s": 95.44344300995581,
+      "request_p99_s": 248.18333471423935,
+      "maximum_request_s": 273.755537429126,
+      "ttft_p50_s": 5.884026826126501,
+      "prompt_tokens": 2402060,
+      "output_tokens": 12486,
+      "first_use_prompt_tokens": 482742,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 24969,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 57,
+      "metric_snapshots": 206,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 675164,
+      "reported_uncached_minus_first_use_tokens": 192422,
+      "completed_request_prefix_hit_fraction": 0.7189229244898129,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n10",
+      "repeat": 2,
+      "policy": "baseline",
+      "sessions": 10,
+      "requests": 57,
+      "physical_gpu_uuid": "GPU-3fcc4892-a8ae-58b3-42fb-f3602a766842",
+      "mean_session_serving_s": 549.7489348436939,
+      "elapsed_s": 717.9949434211012,
+      "useful_tokens_per_s": 689.7374480666094,
+      "requests_per_s": 0.07938774572479089,
+      "request_p50_s": 99.47909534489736,
+      "request_p90_s": 172.3182888656389,
+      "request_p99_s": 380.4701407023611,
+      "maximum_request_s": 408.1036191259045,
+      "ttft_p50_s": 92.18872070591897,
+      "prompt_tokens": 2402060,
+      "output_tokens": 12486,
+      "first_use_prompt_tokens": 482742,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 84875,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 57,
+      "metric_snapshots": 359,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1633388,
+      "reported_uncached_minus_first_use_tokens": 1150646,
+      "completed_request_prefix_hit_fraction": 0.32000532875948146,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n10",
+      "repeat": 2,
+      "policy": "eviction_only",
+      "sessions": 10,
+      "requests": 57,
+      "physical_gpu_uuid": "GPU-3fcc4892-a8ae-58b3-42fb-f3602a766842",
+      "mean_session_serving_s": 484.1088320409646,
+      "elapsed_s": 643.1724577250425,
+      "useful_tokens_per_s": 769.9770008057636,
+      "requests_per_s": 0.08862319789254348,
+      "request_p50_s": 86.8983446219936,
+      "request_p90_s": 160.7459996170364,
+      "request_p99_s": 321.79109651576715,
+      "maximum_request_s": 355.26556501397863,
+      "ttft_p50_s": 73.80538163008168,
+      "prompt_tokens": 2402060,
+      "output_tokens": 12486,
+      "first_use_prompt_tokens": 482742,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 69613,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 57,
+      "metric_snapshots": 321,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1389468,
+      "reported_uncached_minus_first_use_tokens": 906726,
+      "completed_request_prefix_hit_fraction": 0.4215515016277695,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n10",
+      "repeat": 2,
+      "policy": "prefix_only_no_aging",
+      "sessions": 10,
+      "requests": 57,
+      "physical_gpu_uuid": "GPU-3fcc4892-a8ae-58b3-42fb-f3602a766842",
+      "mean_session_serving_s": 229.3383875861764,
+      "elapsed_s": 402.3599950890057,
+      "useful_tokens_per_s": 1230.8082464571337,
+      "requests_per_s": 0.14166418305923054,
+      "request_p50_s": 22.470253229141235,
+      "request_p90_s": 100.59127425141632,
+      "request_p99_s": 237.69778588740147,
+      "maximum_request_s": 258.62815468991175,
+      "ttft_p50_s": 7.530879602069035,
+      "prompt_tokens": 2402060,
+      "output_tokens": 12486,
+      "first_use_prompt_tokens": 482742,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 22543,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 57,
+      "metric_snapshots": 201,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 636092,
+      "reported_uncached_minus_first_use_tokens": 153350,
+      "completed_request_prefix_hit_fraction": 0.735188962806924,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n10",
+      "repeat": 2,
+      "policy": "cachewise_no_aging",
+      "sessions": 10,
+      "requests": 57,
+      "physical_gpu_uuid": "GPU-3fcc4892-a8ae-58b3-42fb-f3602a766842",
+      "mean_session_serving_s": 271.77015967636834,
+      "elapsed_s": 462.9375349660404,
+      "useful_tokens_per_s": 1069.7512355232295,
+      "requests_per_s": 0.12312676267259542,
+      "request_p50_s": 27.786374357063323,
+      "request_p90_s": 103.07000071159564,
+      "request_p99_s": 294.0757461180537,
+      "maximum_request_s": 317.8835064708255,
+      "ttft_p50_s": 8.572534922044724,
+      "prompt_tokens": 2402060,
+      "output_tokens": 12486,
+      "first_use_prompt_tokens": 482742,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 32171,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 57,
+      "metric_snapshots": 232,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 790396,
+      "reported_uncached_minus_first_use_tokens": 307654,
+      "completed_request_prefix_hit_fraction": 0.6709507672581034,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n20",
+      "repeat": 0,
+      "policy": "baseline",
+      "sessions": 20,
+      "requests": 150,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 1336.9833889783943,
+      "elapsed_s": 2003.787221007049,
+      "useful_tokens_per_s": 498.5319746165233,
+      "requests_per_s": 0.07485824763600103,
+      "request_p50_s": 189.1877538220724,
+      "request_p90_s": 298.16534141122827,
+      "request_p99_s": 586.334163267633,
+      "maximum_request_s": 750.6214817280415,
+      "ttft_p50_s": 174.00674944347702,
+      "prompt_tokens": 6458386,
+      "output_tokens": 27809,
+      "first_use_prompt_tokens": 971143,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 315518,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 150,
+      "metric_snapshots": 999,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 5309042,
+      "reported_uncached_minus_first_use_tokens": 4337899,
+      "completed_request_prefix_hit_fraction": 0.17796149068823078,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n20",
+      "repeat": 0,
+      "policy": "eviction_only",
+      "sessions": 20,
+      "requests": 150,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 1248.3927212669864,
+      "elapsed_s": 1836.9275084498804,
+      "useful_tokens_per_s": 543.8167785091209,
+      "requests_per_s": 0.08165809445936155,
+      "request_p50_s": 171.59657441545278,
+      "request_p90_s": 266.6365784811322,
+      "request_p99_s": 600.6246056945922,
+      "maximum_request_s": 614.4430725490674,
+      "ttft_p50_s": 159.7206952481065,
+      "prompt_tokens": 6458386,
+      "output_tokens": 27809,
+      "first_use_prompt_tokens": 971143,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 280050,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 150,
+      "metric_snapshots": 916,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 4741906,
+      "reported_uncached_minus_first_use_tokens": 3770763,
+      "completed_request_prefix_hit_fraction": 0.2657753810317315,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n20",
+      "repeat": 0,
+      "policy": "prefix_only_no_aging",
+      "sessions": 20,
+      "requests": 150,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 507.14571195470637,
+      "elapsed_s": 1107.0974174591247,
+      "useful_tokens_per_s": 902.3162589365198,
+      "requests_per_s": 0.13548943176496767,
+      "request_p50_s": 25.18787353951484,
+      "request_p90_s": 178.83486492524375,
+      "request_p99_s": 720.2586589624062,
+      "maximum_request_s": 923.9504755109083,
+      "ttft_p50_s": 11.073795789387077,
+      "prompt_tokens": 6458386,
+      "output_tokens": 27809,
+      "first_use_prompt_tokens": 971143,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 117123,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 150,
+      "metric_snapshots": 553,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 2134946,
+      "reported_uncached_minus_first_use_tokens": 1163803,
+      "completed_request_prefix_hit_fraction": 0.6694304118707057,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n20",
+      "repeat": 0,
+      "policy": "cachewise_no_aging",
+      "sessions": 20,
+      "requests": 150,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 600.7701356838922,
+      "elapsed_s": 1307.4274147949181,
+      "useful_tokens_per_s": 764.059242368491,
+      "requests_per_s": 0.11472912247562811,
+      "request_p50_s": 27.61672799231019,
+      "request_p90_s": 179.9432113389717,
+      "request_p99_s": 770.6402755897782,
+      "maximum_request_s": 1284.3791650820058,
+      "ttft_p50_s": 14.523373282980174,
+      "prompt_tokens": 6458386,
+      "output_tokens": 27809,
+      "first_use_prompt_tokens": 971143,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 157639,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 150,
+      "metric_snapshots": 653,
+      "preemptions": 1,
+      "reported_uncached_prompt_tokens": 2731906,
+      "reported_uncached_minus_first_use_tokens": 1760763,
+      "completed_request_prefix_hit_fraction": 0.5769986495077872,
+      "preemption_extra_prefill_tokens": null,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n20",
+      "repeat": 1,
+      "policy": "baseline",
+      "sessions": 20,
+      "requests": 150,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 1350.7931642900571,
+      "elapsed_s": 2024.3918786519207,
+      "useful_tokens_per_s": 493.457818387031,
+      "requests_per_s": 0.07409632570739601,
+      "request_p50_s": 191.18634221458342,
+      "request_p90_s": 302.6983181911055,
+      "request_p99_s": 594.3509251945671,
+      "maximum_request_s": 760.1108649279922,
+      "ttft_p50_s": 175.94972677808255,
+      "prompt_tokens": 6458386,
+      "output_tokens": 27809,
+      "first_use_prompt_tokens": 971143,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 315518,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 150,
+      "metric_snapshots": 1010,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 5309042,
+      "reported_uncached_minus_first_use_tokens": 4337899,
+      "completed_request_prefix_hit_fraction": 0.17796149068823078,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n20",
+      "repeat": 1,
+      "policy": "eviction_only",
+      "sessions": 20,
+      "requests": 150,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 1296.5440421704086,
+      "elapsed_s": 1907.6557548320852,
+      "useful_tokens_per_s": 523.6542271684282,
+      "requests_per_s": 0.07863053888001047,
+      "request_p50_s": 170.49625192547683,
+      "request_p90_s": 298.1684621135937,
+      "request_p99_s": 595.2810060145724,
+      "maximum_request_s": 656.1988067368511,
+      "ttft_p50_s": 146.86989639594685,
+      "prompt_tokens": 6458386,
+      "output_tokens": 27809,
+      "first_use_prompt_tokens": 971143,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 289047,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 150,
+      "metric_snapshots": 951,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 4885858,
+      "reported_uncached_minus_first_use_tokens": 3914715,
+      "completed_request_prefix_hit_fraction": 0.24348622086075375,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n20",
+      "repeat": 1,
+      "policy": "prefix_only_no_aging",
+      "sessions": 20,
+      "requests": 150,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 519.5295612827525,
+      "elapsed_s": 1144.5287401790265,
+      "useful_tokens_per_s": 872.8063917763608,
+      "requests_per_s": 0.13105830787310513,
+      "request_p50_s": 25.798067805473693,
+      "request_p90_s": 181.2357580692273,
+      "request_p99_s": 732.0118588967184,
+      "maximum_request_s": 944.3956750980578,
+      "ttft_p50_s": 12.376928339479491,
+      "prompt_tokens": 6458386,
+      "output_tokens": 27809,
+      "first_use_prompt_tokens": 971143,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 119631,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 150,
+      "metric_snapshots": 571,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 2175074,
+      "reported_uncached_minus_first_use_tokens": 1203931,
+      "completed_request_prefix_hit_fraction": 0.6632170947973689,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n20",
+      "repeat": 1,
+      "policy": "cachewise_no_aging",
+      "sessions": 20,
+      "requests": 150,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 570.8085020897095,
+      "elapsed_s": 1232.0573329080362,
+      "useful_tokens_per_s": 810.7999305861558,
+      "requests_per_s": 0.12174758105286677,
+      "request_p50_s": 29.25967940001283,
+      "request_p90_s": 196.3146783455973,
+      "request_p99_s": 866.3982337970491,
+      "maximum_request_s": 1185.1077008631546,
+      "ttft_p50_s": 12.678143018041737,
+      "prompt_tokens": 6458386,
+      "output_tokens": 27809,
+      "first_use_prompt_tokens": 971143,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 139673,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 150,
+      "metric_snapshots": 615,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 2495874,
+      "reported_uncached_minus_first_use_tokens": 1524731,
+      "completed_request_prefix_hit_fraction": 0.6135452417988023,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n20",
+      "repeat": 2,
+      "policy": "baseline",
+      "sessions": 20,
+      "requests": 150,
+      "physical_gpu_uuid": "GPU-d5631308-81f2-06f5-c32a-b83394d5178f",
+      "mean_session_serving_s": 1369.1321418760695,
+      "elapsed_s": 2050.7653994930442,
+      "useful_tokens_per_s": 487.11178774858604,
+      "requests_per_s": 0.07314342246903545,
+      "request_p50_s": 193.50355896248948,
+      "request_p90_s": 306.2849410159048,
+      "request_p99_s": 601.4107371960437,
+      "maximum_request_s": 771.1146904870402,
+      "ttft_p50_s": 178.17663365916815,
+      "prompt_tokens": 6458386,
+      "output_tokens": 27809,
+      "first_use_prompt_tokens": 971143,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 315518,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 150,
+      "metric_snapshots": 1023,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 5309042,
+      "reported_uncached_minus_first_use_tokens": 4337899,
+      "completed_request_prefix_hit_fraction": 0.17796149068823078,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n20",
+      "repeat": 2,
+      "policy": "eviction_only",
+      "sessions": 20,
+      "requests": 150,
+      "physical_gpu_uuid": "GPU-d5631308-81f2-06f5-c32a-b83394d5178f",
+      "mean_session_serving_s": 1300.8380802457455,
+      "elapsed_s": 1913.44940989092,
+      "useful_tokens_per_s": 522.0686759922999,
+      "requests_per_s": 0.07839245669345972,
+      "request_p50_s": 171.3188852110179,
+      "request_p90_s": 299.3554311419604,
+      "request_p99_s": 596.965307992552,
+      "maximum_request_s": 657.773113731062,
+      "ttft_p50_s": 147.0742324005114,
+      "prompt_tokens": 6458386,
+      "output_tokens": 27809,
+      "first_use_prompt_tokens": 971143,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 288617,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 150,
+      "metric_snapshots": 955,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 4878978,
+      "reported_uncached_minus_first_use_tokens": 3907835,
+      "completed_request_prefix_hit_fraction": 0.24455150249613447,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n20",
+      "repeat": 2,
+      "policy": "prefix_only_no_aging",
+      "sessions": 20,
+      "requests": 150,
+      "physical_gpu_uuid": "GPU-d5631308-81f2-06f5-c32a-b83394d5178f",
+      "mean_session_serving_s": 525.3288410980022,
+      "elapsed_s": 1107.886570364004,
+      "useful_tokens_per_s": 901.6735347480449,
+      "requests_per_s": 0.1353929219944569,
+      "request_p50_s": 24.760219129966572,
+      "request_p90_s": 154.48576191388977,
+      "request_p99_s": 813.559324203089,
+      "maximum_request_s": 1028.5300844518933,
+      "ttft_p50_s": 11.532557626487687,
+      "prompt_tokens": 6458386,
+      "output_tokens": 27809,
+      "first_use_prompt_tokens": 971143,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 114661,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 150,
+      "metric_snapshots": 553,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 2095474,
+      "reported_uncached_minus_first_use_tokens": 1124331,
+      "completed_request_prefix_hit_fraction": 0.6755421555788087,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n20",
+      "repeat": 2,
+      "policy": "cachewise_no_aging",
+      "sessions": 20,
+      "requests": 150,
+      "physical_gpu_uuid": "GPU-d5631308-81f2-06f5-c32a-b83394d5178f",
+      "mean_session_serving_s": 597.8199088030611,
+      "elapsed_s": 1328.9956992447842,
+      "useful_tokens_per_s": 751.659317308299,
+      "requests_per_s": 0.11286718240340363,
+      "request_p50_s": 31.30622850882355,
+      "request_p90_s": 177.16840914918575,
+      "request_p99_s": 823.8636874481425,
+      "maximum_request_s": 1222.4980707340874,
+      "ttft_p50_s": 14.902057402068749,
+      "prompt_tokens": 6458386,
+      "output_tokens": 27809,
+      "first_use_prompt_tokens": 971143,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 150947,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 150,
+      "metric_snapshots": 663,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 2676258,
+      "reported_uncached_minus_first_use_tokens": 1705115,
+      "completed_request_prefix_hit_fraction": 0.5856150437586108,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n30",
+      "repeat": 0,
+      "policy": "baseline",
+      "sessions": 30,
+      "requests": 226,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 1971.362184516131,
+      "elapsed_s": 3155.2221160999034,
+      "useful_tokens_per_s": 472.3791052283584,
+      "requests_per_s": 0.07162728698141649,
+      "request_p50_s": 271.5572872895282,
+      "request_p90_s": 410.35996729147155,
+      "request_p99_s": 702.579806302907,
+      "maximum_request_s": 832.8559065770824,
+      "ttft_p50_s": 259.5278850160539,
+      "prompt_tokens": 9845811,
+      "output_tokens": 33560,
+      "first_use_prompt_tokens": 1456901,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 548909,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 226,
+      "metric_snapshots": 1574,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 9038275,
+      "reported_uncached_minus_first_use_tokens": 7581374,
+      "completed_request_prefix_hit_fraction": 0.08201823090043064,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n30",
+      "repeat": 0,
+      "policy": "eviction_only",
+      "sessions": 30,
+      "requests": 226,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 1913.7752385894069,
+      "elapsed_s": 2998.6280258840416,
+      "useful_tokens_per_s": 497.047645501342,
+      "requests_per_s": 0.07536780089066623,
+      "request_p50_s": 258.36296812654473,
+      "request_p90_s": 408.8126061538933,
+      "request_p99_s": 704.2981840138091,
+      "maximum_request_s": 835.9127512120176,
+      "ttft_p50_s": 249.45291240501683,
+      "prompt_tokens": 9845811,
+      "output_tokens": 33560,
+      "first_use_prompt_tokens": 1456901,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 509186,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 226,
+      "metric_snapshots": 1496,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 8402979,
+      "reported_uncached_minus_first_use_tokens": 6946078,
+      "completed_request_prefix_hit_fraction": 0.14654272766357185,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n30",
+      "repeat": 0,
+      "policy": "prefix_only_no_aging",
+      "sessions": 30,
+      "requests": 226,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 684.9010324715559,
+      "elapsed_s": 1617.974426175002,
+      "useful_tokens_per_s": 921.1894674525529,
+      "requests_per_s": 0.13968082334544613,
+      "request_p50_s": 26.467540641897358,
+      "request_p90_s": 161.82337986398488,
+      "request_p99_s": 1276.4790130663896,
+      "maximum_request_s": 1580.9370355650317,
+      "ttft_p50_s": 14.63473358261399,
+      "prompt_tokens": 9845811,
+      "output_tokens": 33560,
+      "first_use_prompt_tokens": 1456901,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 200332,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 226,
+      "metric_snapshots": 807,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 3461299,
+      "reported_uncached_minus_first_use_tokens": 2004398,
+      "completed_request_prefix_hit_fraction": 0.6484495792169889,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n30",
+      "repeat": 0,
+      "policy": "cachewise_no_aging",
+      "sessions": 30,
+      "requests": 226,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 745.6160413572642,
+      "elapsed_s": 1757.697518079076,
+      "useful_tokens_per_s": 847.9621690704046,
+      "requests_per_s": 0.12857729937912596,
+      "request_p50_s": 27.552723522414453,
+      "request_p90_s": 187.17392413446214,
+      "request_p99_s": 1322.679101926973,
+      "maximum_request_s": 1656.9469478160609,
+      "ttft_p50_s": 14.804237348143943,
+      "prompt_tokens": 9845811,
+      "output_tokens": 33560,
+      "first_use_prompt_tokens": 1456901,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 230627,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 226,
+      "metric_snapshots": 876,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 3946035,
+      "reported_uncached_minus_first_use_tokens": 2489134,
+      "completed_request_prefix_hit_fraction": 0.5992168649184917,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n30",
+      "repeat": 1,
+      "policy": "baseline",
+      "sessions": 30,
+      "requests": 226,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 2008.508952309975,
+      "elapsed_s": 3214.4409717090894,
+      "useful_tokens_per_s": 463.67658112805077,
+      "requests_per_s": 0.07030771508609718,
+      "request_p50_s": 277.3778372366214,
+      "request_p90_s": 419.84760658745654,
+      "request_p99_s": 718.9109791022493,
+      "maximum_request_s": 851.9912384259515,
+      "ttft_p50_s": 265.59883736644406,
+      "prompt_tokens": 9845811,
+      "output_tokens": 33560,
+      "first_use_prompt_tokens": 1456901,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 548909,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 226,
+      "metric_snapshots": 1603,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 9038275,
+      "reported_uncached_minus_first_use_tokens": 7581374,
+      "completed_request_prefix_hit_fraction": 0.08201823090043064,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n30",
+      "repeat": 1,
+      "policy": "eviction_only",
+      "sessions": 30,
+      "requests": 226,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 1907.8374199373725,
+      "elapsed_s": 2963.1636949158274,
+      "useful_tokens_per_s": 502.9965109782227,
+      "requests_per_s": 0.0762698329450273,
+      "request_p50_s": 249.9886637245072,
+      "request_p90_s": 416.3547999210423,
+      "request_p99_s": 715.4067404202651,
+      "maximum_request_s": 840.3588333909865,
+      "ttft_p50_s": 242.46259499236476,
+      "prompt_tokens": 9845811,
+      "output_tokens": 33560,
+      "first_use_prompt_tokens": 1456901,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 492763,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 226,
+      "metric_snapshots": 1478,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 8140211,
+      "reported_uncached_minus_first_use_tokens": 6683310,
+      "completed_request_prefix_hit_fraction": 0.1732310319586675,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n30",
+      "repeat": 1,
+      "policy": "prefix_only_no_aging",
+      "sessions": 30,
+      "requests": 226,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 713.2292817022186,
+      "elapsed_s": 1682.2886815248057,
+      "useful_tokens_per_s": 885.9721975000537,
+      "requests_per_s": 0.13434079565651977,
+      "request_p50_s": 28.019992721499875,
+      "request_p90_s": 179.9958033208968,
+      "request_p99_s": 1295.5165966114728,
+      "maximum_request_s": 1645.0586017479654,
+      "ttft_p50_s": 12.193595441058278,
+      "prompt_tokens": 9845811,
+      "output_tokens": 33560,
+      "first_use_prompt_tokens": 1456901,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 205725,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 226,
+      "metric_snapshots": 839,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 3547587,
+      "reported_uncached_minus_first_use_tokens": 2090686,
+      "completed_request_prefix_hit_fraction": 0.6396856490542019,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n30",
+      "repeat": 1,
+      "policy": "cachewise_no_aging",
+      "sessions": 30,
+      "requests": 226,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 783.3825129764388,
+      "elapsed_s": 1821.5981141370721,
+      "useful_tokens_per_s": 818.2161523075915,
+      "requests_per_s": 0.12406688294528719,
+      "request_p50_s": 29.49292444391176,
+      "request_p90_s": 223.38058178208303,
+      "request_p99_s": 1557.6811287995079,
+      "maximum_request_s": 1729.7748582838103,
+      "ttft_p50_s": 15.871360228513367,
+      "prompt_tokens": 9845811,
+      "output_tokens": 33560,
+      "first_use_prompt_tokens": 1456901,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 242117,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 226,
+      "metric_snapshots": 909,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 4129875,
+      "reported_uncached_minus_first_use_tokens": 2672974,
+      "completed_request_prefix_hit_fraction": 0.5805449647570932,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n30",
+      "repeat": 2,
+      "policy": "baseline",
+      "sessions": 30,
+      "requests": 226,
+      "physical_gpu_uuid": "GPU-7923d65c-aaf9-e896-f03d-b357eddada4d",
+      "mean_session_serving_s": 2012.1643708900626,
+      "elapsed_s": 3219.5735178890172,
+      "useful_tokens_per_s": 462.9374020249902,
+      "requests_per_s": 0.0701956326650934,
+      "request_p50_s": 277.86988903407473,
+      "request_p90_s": 419.845101985964,
+      "request_p99_s": 716.101461440674,
+      "maximum_request_s": 853.0843095630407,
+      "ttft_p50_s": 265.71620288456324,
+      "prompt_tokens": 9845811,
+      "output_tokens": 33560,
+      "first_use_prompt_tokens": 1456901,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 548909,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 226,
+      "metric_snapshots": 1606,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 9038275,
+      "reported_uncached_minus_first_use_tokens": 7581374,
+      "completed_request_prefix_hit_fraction": 0.08201823090043064,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n30",
+      "repeat": 2,
+      "policy": "eviction_only",
+      "sessions": 30,
+      "requests": 226,
+      "physical_gpu_uuid": "GPU-7923d65c-aaf9-e896-f03d-b357eddada4d",
+      "mean_session_serving_s": 1966.8494367705425,
+      "elapsed_s": 3088.027676265221,
+      "useful_tokens_per_s": 482.6579151008843,
+      "requests_per_s": 0.0731858725674807,
+      "request_p50_s": 265.28471143112984,
+      "request_p90_s": 417.9757855925709,
+      "request_p99_s": 722.0376783502288,
+      "maximum_request_s": 851.7001683309209,
+      "ttft_p50_s": 256.90592263499275,
+      "prompt_tokens": 9845811,
+      "output_tokens": 33560,
+      "first_use_prompt_tokens": 1456901,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 513013,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 226,
+      "metric_snapshots": 1539,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 8464211,
+      "reported_uncached_minus_first_use_tokens": 7007310,
+      "completed_request_prefix_hit_fraction": 0.14032363611286058,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n30",
+      "repeat": 2,
+      "policy": "prefix_only_no_aging",
+      "sessions": 30,
+      "requests": 226,
+      "physical_gpu_uuid": "GPU-7923d65c-aaf9-e896-f03d-b357eddada4d",
+      "mean_session_serving_s": 701.3686347467592,
+      "elapsed_s": 1652.8886365098879,
+      "useful_tokens_per_s": 901.7310465314484,
+      "requests_per_s": 0.13673032472242302,
+      "request_p50_s": 27.280631546047516,
+      "request_p90_s": 166.21793090552092,
+      "request_p99_s": 1305.29133662628,
+      "maximum_request_s": 1615.2283697761595,
+      "ttft_p50_s": 15.259875244926661,
+      "prompt_tokens": 9845811,
+      "output_tokens": 33560,
+      "first_use_prompt_tokens": 1456901,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 200332,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 226,
+      "metric_snapshots": 824,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 3461299,
+      "reported_uncached_minus_first_use_tokens": 2004398,
+      "completed_request_prefix_hit_fraction": 0.6484495792169889,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "a-n30",
+      "repeat": 2,
+      "policy": "cachewise_no_aging",
+      "sessions": 30,
+      "requests": 226,
+      "physical_gpu_uuid": "GPU-7923d65c-aaf9-e896-f03d-b357eddada4d",
+      "mean_session_serving_s": 803.5902240390424,
+      "elapsed_s": 1860.179912293097,
+      "useful_tokens_per_s": 801.2456161633668,
+      "requests_per_s": 0.12149362462548224,
+      "request_p50_s": 30.431087193544954,
+      "request_p90_s": 179.14532813511323,
+      "request_p99_s": 1405.4909802771872,
+      "maximum_request_s": 1854.1493605121505,
+      "ttft_p50_s": 15.209871332976036,
+      "prompt_tokens": 9845811,
+      "output_tokens": 33560,
+      "first_use_prompt_tokens": 1456901,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 239217,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 226,
+      "metric_snapshots": 928,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 4083475,
+      "reported_uncached_minus_first_use_tokens": 2626574,
+      "completed_request_prefix_hit_fraction": 0.5852576288535297,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "b-n10",
+      "repeat": 0,
+      "policy": "baseline",
+      "sessions": 10,
+      "requests": 49,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 443.0215466771973,
+      "elapsed_s": 609.1106785810553,
+      "useful_tokens_per_s": 923.9010573759182,
+      "requests_per_s": 0.08044515015587515,
+      "request_p50_s": 53.450371340848505,
+      "request_p90_s": 182.62105408152567,
+      "request_p99_s": 468.58599638127646,
+      "maximum_request_s": 556.6429807611275,
+      "ttft_p50_s": 33.760829034028575,
+      "prompt_tokens": 2418162,
+      "output_tokens": 6469,
+      "first_use_prompt_tokens": 556289,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 71297,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 49,
+      "metric_snapshots": 304,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1422082,
+      "reported_uncached_minus_first_use_tokens": 865793,
+      "completed_request_prefix_hit_fraction": 0.4119161578091129,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "b-n10",
+      "repeat": 0,
+      "policy": "eviction_only",
+      "sessions": 10,
+      "requests": 49,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 412.380386299477,
+      "elapsed_s": 560.6410293998197,
+      "useful_tokens_per_s": 1003.77598229378,
+      "requests_per_s": 0.08739995367883747,
+      "request_p50_s": 33.651346845086664,
+      "request_p90_s": 181.65716193565171,
+      "request_p99_s": 421.34047655081304,
+      "maximum_request_s": 509.8335705487989,
+      "ttft_p50_s": 23.741824716096744,
+      "prompt_tokens": 2418162,
+      "output_tokens": 6469,
+      "first_use_prompt_tokens": 556289,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 62281,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 49,
+      "metric_snapshots": 280,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1278162,
+      "reported_uncached_minus_first_use_tokens": 721873,
+      "completed_request_prefix_hit_fraction": 0.47143243504777593,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "b-n10",
+      "repeat": 0,
+      "policy": "prefix_only_no_aging",
+      "sessions": 10,
+      "requests": 49,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 229.8739787847735,
+      "elapsed_s": 410.5275465401355,
+      "useful_tokens_per_s": 1370.8166595465757,
+      "requests_per_s": 0.11935861652394496,
+      "request_p50_s": 21.29694162704982,
+      "request_p90_s": 94.25879819900737,
+      "request_p99_s": 376.22760697904016,
+      "maximum_request_s": 409.3124633820262,
+      "ttft_p50_s": 13.110397879965603,
+      "prompt_tokens": 2418162,
+      "output_tokens": 6469,
+      "first_use_prompt_tokens": 556289,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 34208,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 49,
+      "metric_snapshots": 205,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 828754,
+      "reported_uncached_minus_first_use_tokens": 272465,
+      "completed_request_prefix_hit_fraction": 0.6572793716880838,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "b-n10",
+      "repeat": 0,
+      "policy": "cachewise_no_aging",
+      "sessions": 10,
+      "requests": 49,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 272.4674310272094,
+      "elapsed_s": 488.1971510979347,
+      "useful_tokens_per_s": 1152.7269234045737,
+      "requests_per_s": 0.10036928705913395,
+      "request_p50_s": 23.702488702023402,
+      "request_p90_s": 116.42783115049825,
+      "request_p99_s": 453.70572727450144,
+      "maximum_request_s": 486.8612482820172,
+      "ttft_p50_s": 15.857902026036754,
+      "prompt_tokens": 2418162,
+      "output_tokens": 6469,
+      "first_use_prompt_tokens": 556289,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 47329,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 49,
+      "metric_snapshots": 244,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1038930,
+      "reported_uncached_minus_first_use_tokens": 482641,
+      "completed_request_prefix_hit_fraction": 0.570363772154223,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "b-n10",
+      "repeat": 1,
+      "policy": "baseline",
+      "sessions": 10,
+      "requests": 49,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 448.8554957411485,
+      "elapsed_s": 617.6653374941088,
+      "useful_tokens_per_s": 911.1050367228474,
+      "requests_per_s": 0.07933098560912422,
+      "request_p50_s": 53.038083269959316,
+      "request_p90_s": 185.8738207642455,
+      "request_p99_s": 475.87752461320645,
+      "maximum_request_s": 564.5491414300632,
+      "ttft_p50_s": 33.64139614300802,
+      "prompt_tokens": 2418162,
+      "output_tokens": 6469,
+      "first_use_prompt_tokens": 556289,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 71297,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 49,
+      "metric_snapshots": 309,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1422082,
+      "reported_uncached_minus_first_use_tokens": 865793,
+      "completed_request_prefix_hit_fraction": 0.4119161578091129,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "b-n10",
+      "repeat": 1,
+      "policy": "eviction_only",
+      "sessions": 10,
+      "requests": 49,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 419.4837430181913,
+      "elapsed_s": 570.701959175989,
+      "useful_tokens_per_s": 986.0803716401132,
+      "requests_per_s": 0.08585917607633396,
+      "request_p50_s": 33.91657789191231,
+      "request_p90_s": 183.6788704723586,
+      "request_p99_s": 429.3005732596192,
+      "maximum_request_s": 518.7578797421884,
+      "ttft_p50_s": 24.033168538007885,
+      "prompt_tokens": 2418162,
+      "output_tokens": 6469,
+      "first_use_prompt_tokens": 556289,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 62346,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 49,
+      "metric_snapshots": 285,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1279202,
+      "reported_uncached_minus_first_use_tokens": 722913,
+      "completed_request_prefix_hit_fraction": 0.4710023563351008,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "b-n10",
+      "repeat": 1,
+      "policy": "prefix_only_no_aging",
+      "sessions": 10,
+      "requests": 49,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 269.3552365482552,
+      "elapsed_s": 457.93983620987274,
+      "useful_tokens_per_s": 1228.890687164611,
+      "requests_per_s": 0.10700095542145283,
+      "request_p50_s": 26.034191634040326,
+      "request_p90_s": 119.72404581727463,
+      "request_p99_s": 423.60002478947837,
+      "maximum_request_s": 456.69278056779876,
+      "ttft_p50_s": 17.547220952110365,
+      "prompt_tokens": 2418162,
+      "output_tokens": 6469,
+      "first_use_prompt_tokens": 556289,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 39634,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 49,
+      "metric_snapshots": 229,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 915570,
+      "reported_uncached_minus_first_use_tokens": 359281,
+      "completed_request_prefix_hit_fraction": 0.621377724073077,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "b-n10",
+      "repeat": 1,
+      "policy": "cachewise_no_aging",
+      "sessions": 10,
+      "requests": 49,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 296.5741789673222,
+      "elapsed_s": 522.0703394471202,
+      "useful_tokens_per_s": 1077.9352081100194,
+      "requests_per_s": 0.09385708456812866,
+      "request_p50_s": 25.17336770100519,
+      "request_p90_s": 123.44187718112964,
+      "request_p99_s": 487.8424005104412,
+      "maximum_request_s": 520.8154932348989,
+      "ttft_p50_s": 17.071375617058948,
+      "prompt_tokens": 2418162,
+      "output_tokens": 6469,
+      "first_use_prompt_tokens": 556289,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 50700,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 49,
+      "metric_snapshots": 261,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1092866,
+      "reported_uncached_minus_first_use_tokens": 536577,
+      "completed_request_prefix_hit_fraction": 0.548059228455331,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "b-n10",
+      "repeat": 2,
+      "policy": "baseline",
+      "sessions": 10,
+      "requests": 49,
+      "physical_gpu_uuid": "GPU-7923d65c-aaf9-e896-f03d-b357eddada4d",
+      "mean_session_serving_s": 450.8036827352131,
+      "elapsed_s": 619.3328480429482,
+      "useful_tokens_per_s": 908.6519498816815,
+      "requests_per_s": 0.0791173924567974,
+      "request_p50_s": 53.913221784867346,
+      "request_p90_s": 185.9932524368633,
+      "request_p99_s": 476.210579679589,
+      "maximum_request_s": 566.128956173081,
+      "ttft_p50_s": 33.906065467977896,
+      "prompt_tokens": 2418162,
+      "output_tokens": 6469,
+      "first_use_prompt_tokens": 556289,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 71297,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 49,
+      "metric_snapshots": 310,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1422082,
+      "reported_uncached_minus_first_use_tokens": 865793,
+      "completed_request_prefix_hit_fraction": 0.4119161578091129,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "b-n10",
+      "repeat": 2,
+      "policy": "eviction_only",
+      "sessions": 10,
+      "requests": 49,
+      "physical_gpu_uuid": "GPU-7923d65c-aaf9-e896-f03d-b357eddada4d",
+      "mean_session_serving_s": 421.2849108587252,
+      "elapsed_s": 572.0446563819423,
+      "useful_tokens_per_s": 983.765854154327,
+      "requests_per_s": 0.08565764832052503,
+      "request_p50_s": 34.118120291037485,
+      "request_p90_s": 185.9345166829881,
+      "request_p99_s": 429.59019899445514,
+      "maximum_request_s": 520.2781896151137,
+      "ttft_p50_s": 24.07316826703027,
+      "prompt_tokens": 2418162,
+      "output_tokens": 6469,
+      "first_use_prompt_tokens": 556289,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 62346,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 49,
+      "metric_snapshots": 286,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1279202,
+      "reported_uncached_minus_first_use_tokens": 722913,
+      "completed_request_prefix_hit_fraction": 0.4710023563351008,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "b-n10",
+      "repeat": 2,
+      "policy": "prefix_only_no_aging",
+      "sessions": 10,
+      "requests": 49,
+      "physical_gpu_uuid": "GPU-7923d65c-aaf9-e896-f03d-b357eddada4d",
+      "mean_session_serving_s": 270.5296560101444,
+      "elapsed_s": 466.7840117691085,
+      "useful_tokens_per_s": 1205.6068455882855,
+      "requests_per_s": 0.10497360398932755,
+      "request_p50_s": 25.81286010099575,
+      "request_p90_s": 122.63289417573253,
+      "request_p99_s": 431.932785539841,
+      "maximum_request_s": 465.56396689801477,
+      "ttft_p50_s": 17.84298073593527,
+      "prompt_tokens": 2418162,
+      "output_tokens": 6469,
+      "first_use_prompt_tokens": 556289,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 40566,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 49,
+      "metric_snapshots": 234,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 930530,
+      "reported_uncached_minus_first_use_tokens": 374241,
+      "completed_request_prefix_hit_fraction": 0.6151912072061343,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "b-n10",
+      "repeat": 2,
+      "policy": "cachewise_no_aging",
+      "sessions": 10,
+      "requests": 49,
+      "physical_gpu_uuid": "GPU-7923d65c-aaf9-e896-f03d-b357eddada4d",
+      "mean_session_serving_s": 278.21645764962307,
+      "elapsed_s": 498.32407617615536,
+      "useful_tokens_per_s": 1129.3012457240127,
+      "requests_per_s": 0.09832958579083126,
+      "request_p50_s": 23.996479135006666,
+      "request_p90_s": 118.95392543892376,
+      "request_p99_s": 463.47669773916687,
+      "maximum_request_s": 497.09339488088153,
+      "ttft_p50_s": 16.35716322180815,
+      "prompt_tokens": 2418162,
+      "output_tokens": 6469,
+      "first_use_prompt_tokens": 556289,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 47329,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 49,
+      "metric_snapshots": 249,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1038930,
+      "reported_uncached_minus_first_use_tokens": 482641,
+      "completed_request_prefix_hit_fraction": 0.570363772154223,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "c-n10",
+      "repeat": 0,
+      "policy": "baseline",
+      "sessions": 10,
+      "requests": 50,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 621.1411764507648,
+      "elapsed_s": 938.7223728462122,
+      "useful_tokens_per_s": 837.0696413866457,
+      "requests_per_s": 0.053263884452225935,
+      "request_p50_s": 87.62570792308543,
+      "request_p90_s": 292.66983683949803,
+      "request_p99_s": 337.61889628450143,
+      "maximum_request_s": 366.6134325999301,
+      "ttft_p50_s": 84.30694021400996,
+      "prompt_tokens": 3421424,
+      "output_tokens": 3976,
+      "first_use_prompt_tokens": 781800,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 115429,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 50,
+      "metric_snapshots": 468,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 2130656,
+      "reported_uncached_minus_first_use_tokens": 1348856,
+      "completed_request_prefix_hit_fraction": 0.3772604623104298,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "c-n10",
+      "repeat": 0,
+      "policy": "eviction_only",
+      "sessions": 10,
+      "requests": 50,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 591.3674093887676,
+      "elapsed_s": 870.9771800870076,
+      "useful_tokens_per_s": 902.1774829066172,
+      "requests_per_s": 0.05740678532473741,
+      "request_p50_s": 76.37072770902887,
+      "request_p90_s": 292.2933890852379,
+      "request_p99_s": 336.9676118450308,
+      "maximum_request_s": 365.6833601449616,
+      "ttft_p50_s": 72.41768620349467,
+      "prompt_tokens": 3421424,
+      "output_tokens": 3976,
+      "first_use_prompt_tokens": 781800,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 102988,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 50,
+      "metric_snapshots": 435,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1931968,
+      "reported_uncached_minus_first_use_tokens": 1150168,
+      "completed_request_prefix_hit_fraction": 0.43533218917035715,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "c-n10",
+      "repeat": 0,
+      "policy": "prefix_only_no_aging",
+      "sessions": 10,
+      "requests": 50,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 261.5875206165947,
+      "elapsed_s": 477.87513371906243,
+      "useful_tokens_per_s": 1644.3123832050007,
+      "requests_per_s": 0.10462984255086696,
+      "request_p50_s": 25.803826668532565,
+      "request_p90_s": 137.8425589654362,
+      "request_p99_s": 360.1835068833919,
+      "maximum_request_s": 417.1182848128956,
+      "ttft_p50_s": 14.616982354549691,
+      "prompt_tokens": 3421424,
+      "output_tokens": 3976,
+      "first_use_prompt_tokens": 781800,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 47942,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 50,
+      "metric_snapshots": 238,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1051104,
+      "reported_uncached_minus_first_use_tokens": 269304,
+      "completed_request_prefix_hit_fraction": 0.6927875644760778,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "c-n10",
+      "repeat": 0,
+      "policy": "cachewise_no_aging",
+      "sessions": 10,
+      "requests": 50,
+      "physical_gpu_uuid": "GPU-e42940a5-77eb-66f0-bd40-27886ff66c04",
+      "mean_session_serving_s": 375.59428230137564,
+      "elapsed_s": 686.4011667890009,
+      "useful_tokens_per_s": 1144.776608810088,
+      "requests_per_s": 0.07284369901919173,
+      "request_p50_s": 42.2578861300135,
+      "request_p90_s": 154.9727352824761,
+      "request_p99_s": 476.5544373269865,
+      "maximum_request_s": 556.7969305778388,
+      "ttft_p50_s": 31.57607290148735,
+      "prompt_tokens": 3421424,
+      "output_tokens": 3976,
+      "first_use_prompt_tokens": 781800,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 79361,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 50,
+      "metric_snapshots": 343,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1553936,
+      "reported_uncached_minus_first_use_tokens": 772136,
+      "completed_request_prefix_hit_fraction": 0.5458218566304556,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "c-n10",
+      "repeat": 1,
+      "policy": "baseline",
+      "sessions": 10,
+      "requests": 50,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 630.1440346141578,
+      "elapsed_s": 950.9680411801673,
+      "useful_tokens_per_s": 826.2906490788469,
+      "requests_per_s": 0.05257800245100683,
+      "request_p50_s": 86.60961702349596,
+      "request_p90_s": 297.49101199246945,
+      "request_p99_s": 341.98347532545205,
+      "maximum_request_s": 370.33764754608274,
+      "ttft_p50_s": 83.36070466495585,
+      "prompt_tokens": 3421424,
+      "output_tokens": 3976,
+      "first_use_prompt_tokens": 781800,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 115429,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 50,
+      "metric_snapshots": 474,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 2130656,
+      "reported_uncached_minus_first_use_tokens": 1348856,
+      "completed_request_prefix_hit_fraction": 0.3772604623104298,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "c-n10",
+      "repeat": 1,
+      "policy": "eviction_only",
+      "sessions": 10,
+      "requests": 50,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 601.8559082392603,
+      "elapsed_s": 884.4010934559628,
+      "useful_tokens_per_s": 888.4837499798119,
+      "requests_per_s": 0.05653543439732264,
+      "request_p50_s": 76.82196135795675,
+      "request_p90_s": 297.4579493304948,
+      "request_p99_s": 342.306663903261,
+      "maximum_request_s": 370.9909412970301,
+      "ttft_p50_s": 73.50792917457875,
+      "prompt_tokens": 3421424,
+      "output_tokens": 3976,
+      "first_use_prompt_tokens": 781800,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 102988,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 50,
+      "metric_snapshots": 441,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1931968,
+      "reported_uncached_minus_first_use_tokens": 1150168,
+      "completed_request_prefix_hit_fraction": 0.43533218917035715,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "c-n10",
+      "repeat": 1,
+      "policy": "prefix_only_no_aging",
+      "sessions": 10,
+      "requests": 50,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 265.4492834126111,
+      "elapsed_s": 482.8951432418544,
+      "useful_tokens_per_s": 1627.218685043701,
+      "requests_per_s": 0.1035421471923106,
+      "request_p50_s": 25.94132852961775,
+      "request_p90_s": 140.95136553666092,
+      "request_p99_s": 366.19578939267177,
+      "maximum_request_s": 424.5175163249951,
+      "ttft_p50_s": 14.800859311479144,
+      "prompt_tokens": 3421424,
+      "output_tokens": 3976,
+      "first_use_prompt_tokens": 781800,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 47942,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 50,
+      "metric_snapshots": 241,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1051104,
+      "reported_uncached_minus_first_use_tokens": 269304,
+      "completed_request_prefix_hit_fraction": 0.6927875644760778,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "c-n10",
+      "repeat": 1,
+      "policy": "cachewise_no_aging",
+      "sessions": 10,
+      "requests": 50,
+      "physical_gpu_uuid": "GPU-aa038492-0240-2260-6d38-ac461108562b",
+      "mean_session_serving_s": 382.4787367240991,
+      "elapsed_s": 698.5282214770559,
+      "useful_tokens_per_s": 1124.902295770465,
+      "requests_per_s": 0.07157906933849245,
+      "request_p50_s": 43.31516428547911,
+      "request_p90_s": 156.43339342467954,
+      "request_p99_s": 485.2691020135369,
+      "maximum_request_s": 567.1576560060494,
+      "ttft_p50_s": 32.27263643662445,
+      "prompt_tokens": 3421424,
+      "output_tokens": 3976,
+      "first_use_prompt_tokens": 781800,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 79489,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 50,
+      "metric_snapshots": 349,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1555984,
+      "reported_uncached_minus_first_use_tokens": 774184,
+      "completed_request_prefix_hit_fraction": 0.5452232754548983,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "c-n10",
+      "repeat": 2,
+      "policy": "baseline",
+      "sessions": 10,
+      "requests": 50,
+      "physical_gpu_uuid": "GPU-7923d65c-aaf9-e896-f03d-b357eddada4d",
+      "mean_session_serving_s": 640.2719465949573,
+      "elapsed_s": 961.950453278143,
+      "useful_tokens_per_s": 816.8570401128518,
+      "requests_per_s": 0.051977729029192274,
+      "request_p50_s": 88.09327674354427,
+      "request_p90_s": 303.4653746119002,
+      "request_p99_s": 348.41798306635104,
+      "maximum_request_s": 377.19173964089714,
+      "ttft_p50_s": 84.74564133048989,
+      "prompt_tokens": 3421424,
+      "output_tokens": 3976,
+      "first_use_prompt_tokens": 781800,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 115429,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 50,
+      "metric_snapshots": 480,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 2130656,
+      "reported_uncached_minus_first_use_tokens": 1348856,
+      "completed_request_prefix_hit_fraction": 0.3772604623104298,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "c-n10",
+      "repeat": 2,
+      "policy": "eviction_only",
+      "sessions": 10,
+      "requests": 50,
+      "physical_gpu_uuid": "GPU-7923d65c-aaf9-e896-f03d-b357eddada4d",
+      "mean_session_serving_s": 607.4290194369853,
+      "elapsed_s": 889.9139199499041,
+      "useful_tokens_per_s": 882.9797830831028,
+      "requests_per_s": 0.056185209467017494,
+      "request_p50_s": 77.24745738960337,
+      "request_p90_s": 302.2309410722461,
+      "request_p99_s": 347.09848833343233,
+      "maximum_request_s": 375.8384988058824,
+      "ttft_p50_s": 73.88123237364925,
+      "prompt_tokens": 3421424,
+      "output_tokens": 3976,
+      "first_use_prompt_tokens": 781800,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 102988,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 50,
+      "metric_snapshots": 444,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1931968,
+      "reported_uncached_minus_first_use_tokens": 1150168,
+      "completed_request_prefix_hit_fraction": 0.43533218917035715,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "c-n10",
+      "repeat": 2,
+      "policy": "prefix_only_no_aging",
+      "sessions": 10,
+      "requests": 50,
+      "physical_gpu_uuid": "GPU-7923d65c-aaf9-e896-f03d-b357eddada4d",
+      "mean_session_serving_s": 269.8106212589191,
+      "elapsed_s": 488.83633862109855,
+      "useful_tokens_per_s": 1607.4418735245908,
+      "requests_per_s": 0.10228372166651761,
+      "request_p50_s": 26.448368733515963,
+      "request_p90_s": 141.74942397663838,
+      "request_p99_s": 371.8988695616785,
+      "maximum_request_s": 430.1907224650495,
+      "ttft_p50_s": 15.014314766041934,
+      "prompt_tokens": 3421424,
+      "output_tokens": 3976,
+      "first_use_prompt_tokens": 781800,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 47942,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 50,
+      "metric_snapshots": 244,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1051104,
+      "reported_uncached_minus_first_use_tokens": 269304,
+      "completed_request_prefix_hit_fraction": 0.6927875644760778,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    },
+    {
+      "setting": "c-n10",
+      "repeat": 2,
+      "policy": "cachewise_no_aging",
+      "sessions": 10,
+      "requests": 50,
+      "physical_gpu_uuid": "GPU-7923d65c-aaf9-e896-f03d-b357eddada4d",
+      "mean_session_serving_s": 384.4102197452914,
+      "elapsed_s": 700.6842500269413,
+      "useful_tokens_per_s": 1121.4409343007023,
+      "requests_per_s": 0.07135881818105302,
+      "request_p50_s": 43.606532448902726,
+      "request_p90_s": 158.54539051528556,
+      "request_p99_s": 486.99890847380703,
+      "maximum_request_s": 568.9719729109202,
+      "ttft_p50_s": 32.627682671067305,
+      "prompt_tokens": 3421424,
+      "output_tokens": 3976,
+      "first_use_prompt_tokens": 781800,
+      "alignment_and_last_token_attribution": "Included in excess; not isolated as exact redundant recomputation.",
+      "full_cached_block_evictions": 79607,
+      "cached_block_invalidations_outside_allocation": 0,
+      "full_counter_finished_requests": 50,
+      "metric_snapshots": 350,
+      "preemptions": 0,
+      "reported_uncached_prompt_tokens": 1557872,
+      "reported_uncached_minus_first_use_tokens": 776072,
+      "completed_request_prefix_hit_fraction": 0.5446714584336814,
+      "preemption_extra_prefill_tokens": 0,
+      "uncached_token_accounting_scope": "Completed-request prompt-minus-cached usage, not a count of all executed prefill; extra work caused by preemption is unmeasured when preemptions occur."
+    }
+  ],
+  "audit_amendment": {
+    "id": "cachewise-part1-preemption-reporting-v1",
+    "recorded_at_utc": "2026-11-08T15:06:49.170081+00:00",
+    "original_protocol_sha256": "d281390347ba2342eb43b229ec0799ca9226f915e170696fb5415b28994b9002",
+    "original_worker_audit_sha256": "275d69de68670b95c866ccc8bb185d11fefaa9504388293059b81aee09ae2dbc",
+    "timing": "Post hoc validation correction after the first observed preemption; registered before N=30 or additional-cohort blocks completed.",
+    "trigger": {
+      "task": 3,
+      "setting": "a-n20",
+      "repeat": 0,
+      "policy": "cachewise_no_aging",
+      "observed_preemptions": 1,
+      "requests_per_policy": 150,
+      "output_tokens_per_policy": 27809,
+      "client_errors": 0,
+      "original_failure": "Wrong output lengths or request preemption"
+    },
+    "reason": "A real request preemption under memory pressure is an observed policy outcome, not a failed request or permission to rerun until preemption disappears. The original zero-preemption condition was overly restrictive for the load sweep.",
+    "acceptance_change": "Keep actual nonnegative integer preemption counts, retain every prescribed policy/run, and enforce all request-integrity, token-length, configuration, counter-coverage, source, package, model, and hardware checks.",
+    "accounting_correction": "The server request_prefill_kv_computed histogram is derived from completed-request prompt-minus-cached usage. Report it as reported_uncached_prompt_tokens; extra prefill work due to preemption is unmeasured and must not be called exact executed or redundant computation.",
+    "original_protocol_fully_satisfied": false,
+    "execution_settings_changed": false,
+    "original_failures_and_results_preserved": true,
+    "reruns_to_remove_preemptions": false,
+    "output_directory": "results-observed",
+    "completion_marker": "COMPLETE_WITH_PROTOCOL_DEVIATION",
+    "completion_status": "complete_with_protocol_deviation"
+  },
+  "audit_amendment_sha256": "244e25efe66bd429cef3fc3039a281371049dc64748cd0b860c9f4f1a67581ff",
+  "original_protocol_fully_satisfied": false,
+  "reported_preemptions": 1,
+  "scope": "Three matched repeats per setting; observed repeat ranges are not confidence intervals. Runtime-bounded complete segments; no offloading measurements. Original zero-preemption condition was not satisfied. Usage-derived uncached tokens do not measure all extra computation caused by preemption."
+}

@@ -1,4 +1,6 @@
 # LaTeX output; figure PDFs remain trackable.
+/experiments/cachewise_part1/generated/
+/experiments/cachewise_part1/results/
 /paper/build/
 /paper/main.pdf
 *.aux

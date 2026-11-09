@@ -23,9 +23,39 @@
       "snapshot": "paper-fidelity-audit.json",
       "source_relative_path": "serving_experiment/results/2026-11-02/paper-fidelity-audit.json",
       "sha256": "c3566947cb6c48b36fff6eda390cf686c84d6cd29c1a648c3beffb5cca1a75c8"
+    },
+    {
+      "snapshot": "part1-coverage-validation.json",
+      "source_relative_path": "experiments/cachewise_part1: validation evidence",
+      "sha256": "c6a55acc90dc29ccaf0d1d03b11546db0c6f96906c6c628fc28877272eedf92f"
+    },
+    {
+      "snapshot": "part1-coverage-launch.json",
+      "source_relative_path": "experiments/cachewise_part1: Slurm launch journal",
+      "sha256": "8437b14b7d26bf296884400922dafc7af8049a8b0986750783ef6541df485023"
+    },
+    {
+      "snapshot": "part1-preemption-audit-amendment.json",
+      "source_relative_path": "experiments/part1-preemption-audit-amendment.json",
+      "sha256": "244e25efe66bd429cef3fc3039a281371049dc64748cd0b860c9f4f1a67581ff"
+    },
+    {
+      "snapshot": "part1-coverage-comparison.json",
+      "source_relative_path": "cluster study part1-coverage-20261108-v1/results-observed/part1-comparison.json",
+      "sha256": "ece9e43fc8ca9e12691ca0311fe5f222d1f3cdec48dcfbb21a6152ea2174292c"
+    },
+    {
+      "snapshot": "part1-coverage-measurements.csv",
+      "source_relative_path": "cluster study part1-coverage-20261108-v1/results-observed/measurements.csv",
+      "sha256": "b3f6d177e44be1c02063bcb404a88abb2e764c765235e99d7e0a1e1069534a31"
+    },
+    {
+      "snapshot": "part1-coverage-completion.json",
+      "source_relative_path": "cluster study part1-coverage-20261108-v1/completion verification",
+      "sha256": "637825d6b46096dbce58513dd506b9ae84ac21ac0739ec34bc24d97ce69e7c77"
     }
   ],
-  "scope": "Consolidated six-policy study is the primary replication evidence. The separate job-10807 profile is uncached client wall time with max_tokens=1, not isolated GPU prefill or an offloading measurement.",
+  "scope": "Replication evidence includes a historical consolidated six-policy study and a separate completed 60-run coverage study with a declared preemption deviation. Their workloads and instrumentation differ and measurements must not be pooled. The job-10807 profile is uncached client wall time with max_tokens=1, not isolated GPU prefill or an offloading measurement.",
   "derived_artifacts": [
     {
       "file": "workload-characterization.json",
@@ -37,5 +67,16 @@
       "sha256": "f426ff2a1ddc99399cade4f8692c23e5f7416d5775650310e6f186571b3cc9f9",
       "generator": "paper/figures/prepare_replication_data.py"
     }
-  ]
+  ],
+  "coverage_study": {
+    "status": "complete_with_protocol_deviation",
+    "completed_at_utc": "2026-11-08T19:26:08.302837+00:00",
+    "policy_runs": 60,
+    "requests": 6384,
+    "reported_preemptions": 1,
+    "original_protocol_fully_satisfied": false,
+    "comparison": "part1-coverage-comparison.json",
+    "measurements": "part1-coverage-measurements.csv",
+    "provenance": "part1-coverage-completion.json"
+  }
 }

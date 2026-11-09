@@ -2,7 +2,7 @@
 
 A collaborative repository for a distributed systems course report, using the [official USENIX LaTeX template](https://www.usenix.org/conferences/author-resources/paper-templates) used by OSDI.
 The report uses US Letter paper, two columns, and 10 pt text, with separate section files so teammates can write in parallel.
-The CacheWise replication section has a prose draft with verified results for six policies, workload figures, and matched ablation figures; recomputation and offloading analysis and secondary-storage methods remain future work, and author information still needs to be filled in.
+The CacheWise replication draft includes a historical six-policy experiment and a separate 60-run concurrency/held-out-cohort study, with workload plots, matched ablations, full eviction counts, and request-tail figures; recomputation and offloading analysis and secondary-storage methods remain future work, and author information still needs to be filled in.
 
 ## Getting started
 
@@ -31,7 +31,9 @@ Write the report in English and follow the instructor's length requirements.
 Blue TODO notes in the report are writing prompts, not claims of completed implementations or experimental findings.
 Any claim that offloading is cheaper must specify the comparison metric and the conditions under which it holds; do not assume it is universally true.
 Verified replication results and separate uncached-request timings are stored in `notes/experiment-evidence/`; see its `manifest.json` for sources and checksums.
-The current main experiment covers only one N=10 cohort; no DRAM/SSD offloading comparison has been completed.
+The coverage study includes cohort A at N=10/20/30 and two additional N=10 cohorts, totaling 60 runs and 6,384 requests; it is reported separately from the historical six-policy study.
+One real preemption violated the original zero-preemption condition; the original rejection is preserved and a separate audit amendment is disclosed. Additional prefill work caused by that event remains unmeasured.
+Full eviction counts do not measure actual KV bytes transferred, and no DRAM/SSD offloading comparison has been completed.
 
 ## Repository layout
 

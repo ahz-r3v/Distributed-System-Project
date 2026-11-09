@@ -1,4 +1,11 @@
 % !TeX root = ../main.tex
-\draftnote{Write the abstract after completing the experiments.
-Follow the paper's three-part argument: (1) replicate CacheWise and summarize which findings reproduce; (2) characterize when restoring offloaded KV cache costs less than recomputing an evicted prefix; (3) introduce and evaluate the proposed secondary-storage offloading methods.
-Include measured results and their operating conditions only after verification.}
+Coding-agent serving repeatedly reuses long prefixes under limited accelerator memory.
+We evaluate CacheWise scheduling and eviction mechanisms using synthetic-token replays of released traces on a single-GPU, 14B-model testbed.
+An initial six-policy experiment is followed by 60 runs across nested $N=10,20,30$ workloads and two additional held-out cohorts.
+Prefix-aware LRU has the lowest mean session serving time in all five coverage settings; adding predictive eviction increases that mean by 10.07--43.38\%, although predictive eviction helps FCFS.
+Full eviction-event counts and completed-request uncached usage follow the same setting-level ordering.
+Lower means do not ensure lower request tails.
+One preemption is retained under a declared audit amendment, and its extra prefill work is unmeasured.
+These adapted-replication results motivate a separate comparison of prefix recovery by recomputation and secondary-storage restoration.
+\draftnote{The recovery-cost analysis and secondary-storage implementation/evaluation remain unfinished.
+Add their verified contributions and results when available.}

@@ -2,6 +2,9 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-\draftnote{Conclude in the same order as the paper: what the CacheWise replication established, where measurements favor offloading over recomputation, and how the implemented secondary-storage methods perform.
-State the validated operating range and remaining limitations.
-Do not claim that offloading is universally cheaper.}
+The completed adapted replication shows that predictive eviction's effect depends on the scheduler.
+Across all five coverage settings, prefix-aware LRU has the lowest mean session serving time, while adding predictive eviction increases that mean despite improving FCFS.
+Full eviction events and reported uncached usage support the setting-level ordering, but request tails expose a separate responsiveness tradeoff.
+The results apply to the selected runtime-bounded workloads and retain one preemption with unmeasured extra prefill work.
+They motivate measuring recovery alternatives; they do not establish that secondary-storage restoration is cheaper than recomputation.
+\draftnote{Complete the conclusion with the recovery-cost analysis and secondary-storage method results after those parts are evaluated.}
