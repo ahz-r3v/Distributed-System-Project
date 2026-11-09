@@ -3,8 +3,11 @@
 \label{sec:discussion}
 
 \subsection{Applicability and Failure Regimes}
-\draftnote{Discuss low reuse, short prefixes, slow or contended storage, limited staging memory, and inaccurate reuse predictions.
-Explain when keeping state in DRAM or recomputing it remains preferable.}
+Offloading is attractive only when avoided recomputation exceeds write, restore, and management cost.
+Short prefixes, low reuse probability, saturated links, or an undersized backing tier can make recomputation preferable; severe host pressure already produces two-level thrashing in the $N=48$ LRU+FCFS run.
+Pinned DRAM is preferable when its capacity suffices because it avoids filesystem latency.
+Prediction errors can waste prefetch bandwidth, although the conservative exchange guard keeps measured speculative volume small.
+An SSD policy must price current queueing rather than reuse the fixed host fetch ratio.
 
 \subsection{Threats to Validity}
 The present replication uses synthetic token content and tool-name prediction on a different hardware/model configuration from the reference paper.
@@ -14,9 +17,15 @@ Matched comparisons within repeats reduce hardware confounding but do not establ
 One actual preemption violates the original zero-preemption condition; the archived post hoc amendment retains it while enforcing the remaining integrity checks.
 Completed-request uncached usage does not count all extra execution caused by that event, and full eviction counts are not transferred KV bytes.
 The absence of actual offloading measurements currently prevents an empirical conclusion about secondary-storage savings.
-\draftnote{Discuss trace representativeness, predictor leakage or drift, replay assumptions, hardware/model differences, measurement uncertainty, and filesystem caching effects.
-State which conclusions are specific to the tested system.}
+The host study uses 43 held-out source sessions, while predictor training uses a disjoint 34-session split, limiting direct leakage but not distribution drift.
+Synthetic token identities, a shared 2,048-token prefix, 0.2 context scaling, shortened outputs, and scaled tool delays change attention work and arrival timing.
+The single 14B model, one Blackwell GPU, and PCIe Gen5 host link bound external validity.
+Most configurations run once; repeated high-pressure runs indicate roughly 10\% variation, so small single-run differences remain unresolved.
+The statement above about absent offloading measurements applies to secondary storage: the separate artifact measures host DRAM only.
+Filesystem caching effects are entirely unevaluated.
 
 \subsection{Limitations and Future Work}
-\draftnote{Separate limitations of our prototype from CacheWise's design scope.
-Identify unimplemented methods and unevaluated cases, such as other storage devices or distributed storage, without presenting them as established results.}
+The prototype extends Mini-SGLang with a process-local pinned-host cache; it does not change CacheWise's broader design claims.
+It lacks SSD or distributed storage, persistent compatibility metadata, bounded staging independent of cache capacity, direct I/O, page-cache controls, compression, cancellation, crash recovery, and cross-process reuse.
+Future work should implement that path and run matched repeated experiments across storage devices, models, independent workload cohorts, prefix lengths, reuse intervals, and queue depths.
+Until then, only host restoration and its scheduling policies are established results.

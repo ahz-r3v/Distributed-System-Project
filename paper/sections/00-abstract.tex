@@ -7,5 +7,7 @@ Full eviction-event counts and completed-request uncached usage follow the same 
 Lower means do not ensure lower request tails.
 One preemption is retained under a declared audit amendment, and its extra prefill work is unmeasured.
 These adapted-replication results motivate a separate comparison of prefix recovery by recomputation and secondary-storage restoration.
-\draftnote{The recovery-cost analysis and secondary-storage implementation/evaluation remain unfinished.
-Add their verified contributions and results when available.}
+A separate Mini-SGLang prototype implements page-granular GPU--host offloading, on-demand restoration, predictive prefetching, and fetch-aware scheduling.
+With LRU+FCFS fixed, adding a 37.5~GiB pinned-host tier reduces mean session serving time from 821 to 90.7~s at $N=28$ and from 1,060 to 222~s at $N=36$.
+At $N=36$, CacheWise-Fetch records 136 and 135~s in repeated runs, compared with 158 and 175~s without fetch-aware scheduling.
+These results validate host-DRAM restoration, not SSD offloading: the repository contains no storage-device I/O path.

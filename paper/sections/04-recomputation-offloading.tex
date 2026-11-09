@@ -5,8 +5,10 @@
 \subsection{Residual Recovery Costs and the Scope of the Gap}
 CacheWise already evaluates GPU--CPU DRAM offloading as an alternative to recomputation in Section~6.4 of the original paper~\cite{Tiwari2026CacheWise}.
 Our proposed extension examines recovery through secondary storage and the conditions under which it is preferable to recomputation.
-\draftnote{Use the replicated measurements to show the remaining recovery overhead under memory pressure.
-Explain how limited DRAM capacity motivates a storage tier without implying that CacheWise ignores offloading.}
+The Mini-SGLang replay measures this residual work directly.
+At $N=28$ and $N=36$, LRU+FCFS recomputes 4.69 and 6.16 million tokens; full CacheWise still recomputes 2.81 and 3.23 million.
+The tested extension therefore preserves evicted state in host DRAM after GPU capacity is exhausted.
+It complements CacheWise's offloading study rather than replacing it; a lower storage tier would address capacity beyond bounded DRAM, but is not implemented here.
 
 \subsection{Existing Recomputation-Side Measurements}
 % Evidence: notes/experiment-evidence/recompute-profile.json (job 10807).
@@ -55,19 +57,23 @@ If a saved prefix is reused with probability $p$ before its storage copy is disc
   \label{eq:expected-offload-cost}
 \end{equation}
 This model assumes one write, at most one subsequent reuse, and no overlap or resource contention.
-\draftnote{Measure each term on the target system.
-Report both total resource work and the delay exposed on the request's critical path when transfers overlap tool execution or computation.
-Use latency and GPU work as the primary meanings of ``cheaper''; report monetary cost only with explicit prices and accounting assumptions.}
+The host prototype reports 196,608 bytes per KV token.
+In the $N=28$ LRU+FCFS restoration run, 309~GB of host-to-device traffic takes 5.99~s (51.6~GB/s), while device-to-host traffic reaches about 45~GB/s.
+An 8,192-token region is therefore about 1.5~GiB and takes roughly 31~ms to restore before management and queueing.
+CUDA-event times measure transfer work and may overlap execution; mean session time measures exposed delay.
+The artifact records neither energy nor monetary prices.
 
 \subsection{Controlled Recomputation--Offloading Experiments}
-\draftnote{Compare recomputation, DRAM restoration, and SSD restoration for identical missing prefix state while holding scheduling and eviction policies fixed.
-Extend the existing timing profile with matched write/restore measurements; do not treat its separate single-request timings as a concurrent serving result.
-Sweep prefix length, concurrency, memory budget, effective storage bandwidth, and reuse interval.
-Measure complete writes and reads, staging copies, management overhead, and I/O queueing.
-Control the operating-system page cache so a supposed SSD result is not served entirely from DRAM.}
-\draftnote{Planned artifacts: recovery-latency curves versus missing prefix length, a breakdown of compute and transfer costs, and a plot of the measured break-even region.
-Show both favorable and unfavorable offloading regimes.}
+The available matched experiment holds LRU+FCFS fixed and changes recovery from recomputation to a 37.5~GiB pinned-host tier, while retaining a 24~GiB GPU KV pool.
+At $N=28$, mean session time falls from 821 to 90.7~s and recomputation from 4.691 to 0.073 million tokens; at $N=36$, the corresponding changes are 1,060 to 222~s and 6.160 to 0.710 million.
+Useful-token goodput rises from 347 to 1,060 tokens/s and from 326 to 927 tokens/s.
+These are added-capacity DRAM comparisons, not equal-memory or SSD results.
+The repository contains no filesystem, storage read/write, direct-I/O, queue-depth, or page-cache experiment, so an SSD break-even curve cannot be reported.
+
+The measured operating points establish a favorable host-DRAM regime for long reusable prefixes under pressure.
+A valid SSD extension must repeat the comparison with complete writes and reads, bounded staging, controlled filesystem caching, and sweeps over prefix length, reuse interval, concurrency, and effective bandwidth; both wins and regressions should be reported.
 
 \subsection{Implications for Method Design}
-\draftnote{Derive design requirements from the measurements: which prefixes merit storage, when transfers can be hidden, and when recomputation should remain the fallback.
-Use these findings to motivate the methods in Section~\ref{sec:offloading}.}
+Four requirements follow.
+Placement must include the initial write cost because never-reused blocks cannot repay it; clean inclusive copies should be retained to avoid repeated writes; scheduling must distinguish a cheap host hit from a complete miss; and recomputation must remain available after capacity eviction, allocation failure, or an unfavorable recovery estimate.
+Section~\ref{sec:offloading} implements these principles for host DRAM and states what an SSD tier would additionally require.

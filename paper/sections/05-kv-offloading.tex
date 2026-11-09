@@ -3,35 +3,45 @@
 \label{sec:offloading}
 
 The following subsections organize candidate methods; they do not claim that the mechanisms are implemented or validated.
-\draftnote{Select the mechanisms supported by the implementation and the tradeoff measurements, and replace proposal language as work is completed.}
+The evaluated subset uses pinned host DRAM: block offload, on-demand restoration, asynchronous predictive prefetching, inclusive clean copies, two-tier eviction, and fetch-aware scheduling are implemented.
+The SSD-specific portions below remain design requirements and are not presented as measured contributions.
 
 \subsection{Architecture and Design Goals}
-\draftnote{Describe the GPU--DRAM--SSD data path, bounded host staging buffers, and integration with CacheWise's scheduling and eviction policies.
-Define goals in terms of reduced recovery work and session serving time, subject to memory and I/O limits.
-Planned artifact: an architecture diagram showing the control path and read/write path.}
+One radix tree tracks both GPU and host residency.
+Each node may hold GPU pages, host pages, or a host-only suffix; GPU-resident nodes remain prefix-closed.
+The pinned host pool stores 16-token pages in page-major form and serves as the implemented capacity tier.
+CacheWise priority orders GPU and host eviction, while the scheduler restores host matches before prefill.
+A future SSD tier would sit below a bounded pinned staging pool, with versioned blocks and explicit read/write queues; the current 37.5~GiB pinned pool is not such a staging design.
 
 \subsection{Method 1: Block-Based Offload and On-Demand Restore}
-\draftnote{Define the basic synchronous storage method used as the implementation baseline.
-Specify block identifiers, prefix lookup, storage allocation, and metadata.
-Explain when a block becomes eligible for offload and how a request restores a valid prefix.
-Include model, token-prefix, position, and KV-format compatibility in cache validation.}
-\draftnote{Describe the block lifecycle: GPU resident, being written, stored, being restored, and invalidated.
-Do not release the final usable copy before its write completes.
-Define ownership for shared blocks, storage-capacity eviction, stale-entry cleanup, and fallback after missing or failed reads.}
+The implemented baseline operates on 16-token pages.
+When GPU allocation needs space, unreferenced radix leaves are split at a page boundary and evicted by the selected priority.
+A dirty node receives host pages and a device-to-host copy; a node with a clean inclusive host copy drops its GPU pages without another write.
+Prefix lookup returns the deepest GPU handle plus any compatible host suffix, which is locked, allocated new GPU pages, copied back, and reattached before use.
+
+Host locks prevent reclamation during restoration, and host pressure evicts host-only leaves before clean copies of GPU-resident nodes.
+If host allocation fails, the subtree is discarded and later recomputed.
+Identity is process-local to the radix key and fixed engine configuration.
+Persistent SSD blocks would additionally need model and tokenizer revisions, KV dtype/layout, layer geometry, token-prefix digest, positions, length, checksum, and format version; incomplete or incompatible blocks must be invalidated.
 
 \subsection{Method 2: Asynchronous Transfers and Prefetching}
-\draftnote{Propose pipelined reads/writes using bounded queues, batched contiguous I/O, and host staging buffers.
-Explain whether tool execution or ongoing GPU work provides an overlap window and what triggers prefetching.
-Specify backpressure, cancellation, and limits on speculative reads.
-Measure whether this method improves on Method 1.}
+On-demand copies are ordered on the engine CUDA stream; predictive prefetch uses a side stream after the current forward pass, with events protecting later reads and host-slot reuse.
+Transfers coalesce contiguous host runs and process at most 256 pages per staging chunk.
+Inactive sessions predicted to return within 30~s are considered, with an 8,192-token per-step budget.
+Prefetch exchanges GPU pages only when enough victims have predicted return later than $2\tau+1$~s, limiting thrashing.
+The prototype has no SSD I/O queue or cancellation; those controls, partial-I/O handling, and bounded staging backpressure remain future work.
 
 \subsection{Method 3: Cost-Aware Offload and Recovery Decisions}
-\draftnote{Use measured write, read, and recomputation costs plus estimated reuse to decide which blocks to retain, store, or discard.
-Describe how CacheWise's reuse information can guide storage decisions, while distinguishing future-reuse ordering from a calibrated reuse probability.
-Allow recomputation when restoration is predicted to be slower or the stored state is unavailable.
-Provide decision logic or pseudocode once the policy is specified.}
+The implemented policy uses CacheWise return-time estimates for eviction and prefetch ordering, not as calibrated reuse probabilities.
+For scheduling, request $i$ has cost $c_i=(d_i-k_i)-(1-\alpha)h_i$, where $k_i$ is the GPU prefix, $h_i$ the additional host prefix, and $\alpha=0.05$ the assumed fetch-to-recompute cost ratio.
+Thus host-resident tokens are cheaper than missing tokens.
+Restoration is used when a host match exists; otherwise the engine recomputes.
+An SSD policy must replace fixed $\alpha$ with queue-aware measured cost and admit a write only when expected avoided recomputation covers both write and later read cost.
 
 \subsection{Implementation Scope and Reproducibility}
-\draftnote{Identify the implemented subset of Methods 1--3, engine integration points, storage API, block size, queue depth, buffer limits, and configuration interface.
-Record code revisions and experiment entry points.
-Mark every unimplemented optimization as future work.}
+The artifact is Mini-SGLang commit \texttt{3f9aee7}.\footnote{\url{https://github.com/BoxuanYang/MiniSGLangs}}
+The radix cache and host pool implement residency and copies; scheduler cache and prefill modules implement restoration, prefetch, and fetch-aware ordering.
+Experiments use \texttt{replay.py} and \texttt{run\_experiments.py}.
+Configuration exposes host capacity, policy, predictor, 30-s horizon, 8,192-token prefetch budget, and fetch ratio.
+Randomized cache tests and a real-model checker validate restored KV and greedy output.
+SSD I/O, durable metadata, a persistent index, direct I/O, page-cache control, bounded staging independent of cache capacity, compression, failure recovery, and cross-process reuse are unimplemented.

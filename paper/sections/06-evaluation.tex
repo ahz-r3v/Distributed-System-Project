@@ -3,23 +3,52 @@
 \label{sec:evaluation}
 
 \subsection{Evaluation Questions, Setup, and Baselines}
-\draftnote{Evaluate whether the methods reduce session serving time and recomputation, when benefits disappear, and which mechanisms produce the gains.
-Reuse the replication setup where possible, and list all changes, including SSD model, effective read/write bandwidth, filesystem, DRAM budget, and page-cache treatment.}
-\draftnote{Compare the default serving policy, CacheWise with recomputation, CacheWise with DRAM offloading, CacheWise with synchronous SSD offloading (Method 1), and each implemented optimization.
-Hold CacheWise's scheduling and eviction rules fixed in the storage comparison.
-Report memory and storage capacity for every configuration and make additional capacity explicit.}
+We ask whether host restoration reduces recomputation and session time, which scheduling components add benefit, and what transfer and memory costs result.
+Qwen2.5-Coder-14B-Instruct runs in BF16 on one 96~GB RTX PRO 6000 Blackwell GPU with PCIe Gen5.
+The GPU KV pool holds 131,072 tokens (24~GiB); offload runs add 196,608 pinned-host tokens (37.5~GiB), with 16-token pages and 8,192-token prefill chunks.
+The closed-loop workload contains 65 episodes and 1,610 requests from 43 held-out sessions; 34 disjoint sessions train the predictor.
+All 43 result files complete their scheduled requests and sessions.
+No SSD, filesystem, or page-cache setting exists in the artifact.
+
+Baselines are LRU+FCFS and CacheWise with recomputation, then LRU+FCFS with on-demand host restoration.
+Offload ablations add prefix-aware scheduling, predictive eviction, predictive prefetching, and finally fetch-aware scheduling.
+Matched recomputation/restoration comparisons hold LRU+FCFS fixed, but the restoration configuration explicitly adds 37.5~GiB of capacity; there is no synchronous-SSD baseline.
 
 \subsection{End-to-End Results}
-\draftnote{Plot session serving time and useful-token goodput across increasing concurrency and memory pressure.
-Also report session wall-clock duration, time to first token, tail latency, recomputed tokens, actual bytes read/written, and GPU compute time.
-Include repeated runs and uncertainty estimates, and check that cache restoration preserves valid model state and output behavior.}
+\begin{table*}[t]
+  \centering
+  \small
+  \begin{tabular}{rllrrrr}
+    \toprule
+    $N$ & Recovery & Policy & Session (s) & Goodput (tok/s) & Recomputed (M) & P90 (s) \\
+    \midrule
+    28 & Recompute & LRU+FCFS & 821 & 347 & 4.691 & 93.2 \\
+    28 & Host restore & LRU+FCFS & 90.7 & 1,060 & 0.073 & 11.0 \\
+    36 & Recompute & LRU+FCFS & 1,060 & 326 & 6.160 & 108.0 \\
+    36 & Host restore & LRU+FCFS & 222 & 927 & 0.710 & 23.6 \\
+    \bottomrule
+  \end{tabular}
+  \caption{Matched-policy recomputation and pinned-host restoration. Restore runs add the 37.5~GiB host tier to the common 24~GiB GPU pool.}
+  \label{tab:host-restore-results}
+\end{table*}
+
+Table~\ref{tab:host-restore-results} shows 9.1$\times$ and 4.8$\times$ lower mean session time at $N=28$ and $N=36$.
+At low pressure ($N=20$), all offload policies converge at 48.6~s.
+At $N=48$, LRU+FCFS restoration thrashes and takes 1,450~s, whereas CacheWise-Fetch takes 175~s.
+The artifact reports makespan, request percentiles, recomputation, transfer bytes, and CUDA-event transfer time, but not time-to-first-token or exclusive GPU compute time.
+Only four configurations have identical repeats; correctness tests compare fetched KV and greedy tokens with never-evicted references.
 
 \subsection{Ablations and Sensitivity Analysis}
-\draftnote{Add asynchronous I/O, prefetching, and cost-aware decisions individually to the synchronous SSD baseline, then evaluate the combined method.
-Sweep storage bandwidth, block size, queue depth, host-buffer capacity, reuse frequency, and workload concurrency.
-Include rarely reused prefixes and saturated storage to identify regressions.}
+At $N=36$, LRU+FCFS restoration takes 222~s; prefix-aware LRU takes 159~s; predictive eviction changes this to 158~s; adding prefetch without fetch-aware ordering regresses to 172~s.
+CacheWise-Fetch records 136 and 135~s in repeated runs, versus 158 and 175~s for CacheWise offload without fetch-aware scheduling, a 1.23$\times$ ratio between pairwise means.
+Only about 2\% of restored tokens are prefetched, so fetch-aware ordering is the main new gain.
+At $N=48$, prefix-aware LRU already reduces 1,450 to 193~s; the full policy's 175~s is a single-run 1.10$\times$ improvement.
+Block size, SSD bandwidth, queue depth, and bounded staging were not swept because no SSD path exists.
 
 \subsection{Resource Costs and Interpretation}
-\draftnote{Account for write amplification, unused prefetches, staging memory, CPU overhead, and storage occupancy alongside compute saved.
-If monetary cost is reported, compare equal completed work at stated service targets and include GPU, host, and storage charges.
-Connect measured outcomes to the break-even analysis in Section~\ref{sec:tradeoff}; do not infer end-to-end gains from isolated I/O timings alone.}
+The host tier reserves 37.5~GiB of pinned memory.
+At $N=36$, CacheWise-Fetch transfers 133~GB device-to-host and 580~GB host-to-device; at $N=48$, 209 and 799~GB.
+Inclusive clean copies reduce repeated writes: at $N=28$, LRU+FCFS evicts 1.85 million GPU tokens but copies only about 0.39 million to host.
+Prefetch transfers 0.053 million tokens in the first $N=36$ full run and uses 0.264~s of copy time.
+Prediction and scheduling CPU costs are small (28~ms for 3,968 predictions in one $N=28$ run and roughly 1~s scheduling per run).
+No storage occupancy, endurance, energy, or monetary cost is recorded; the end-to-end results therefore support only the host-DRAM side of Section~\ref{sec:tradeoff}'s break-even model.
