@@ -295,6 +295,14 @@ hash provenance using only this repository's archived evidence:
 python paper/figures/plot_coverage.py
 ```
 
+## Part 1 presentation planning
+
+The Part 1 owner will present the completed adapted replication using the
+[15-minute presentation outline](../presentation/part1-15-minute-outline.md).
+It budgets 13 minutes for the talk and 2 minutes for questions, maps the current
+coverage figures to slides, and keeps historical results and detailed audit
+material in backup. Parts 2 and 3 appear as a short research handoff.
+
 ## Record-keeping guidelines
 
 - Reading notes: source link, citation key, problem, method, findings, limitations, and relevant page numbers.
