@@ -2,48 +2,19 @@
 \section{Introduction}
 \label{sec:introduction}
 
-\subsection{Motivation and Problem}
-Coding agents alternate language-model inference with external operations such as reading files, running commands, and editing code.
-Successive requests can share a growing prompt prefix, making its attention key--value (KV) state valuable across turns~\cite{Tiwari2026CacheWise}.
-During tool execution, however, keeping that state on the GPU consumes capacity that other requests could use.
-Evicting it releases memory but creates a recovery decision when the agent resumes: recompute the missing prefix or restore a compatible saved copy.
-InferCept already uses interruption information to guide preservation, CPU swapping, and recomputation~\cite{Abhyankar2024InferCept}.
+Coding agents alternate language-model inference with tool execution.
+Successive requests often extend an existing prompt, making its attention key--value (KV) state valuable across turns.
+Keeping inactive prefixes on the GPU enables reuse but consumes memory needed by other requests.
+Eviction releases capacity at the cost of recovering that state when the agent returns.
+Performance therefore depends jointly on which request is served, which prefix is evicted, and how missing state is recovered.
 
-CacheWise combines prefix-aware scheduling with predictive eviction based on tool-call metadata, and also evaluates GPU--CPU offloading~\cite{Tiwari2026CacheWise}.
-We first examine these scheduling and eviction mechanisms in an adapted replay, then study recovery through a bounded pinned-host cache in a separate Mini-SGLang implementation.
-Saving and restoring KV state competes with recomputation and consumes transfer bandwidth and backing memory.
-An offloading policy therefore needs to account for where a prefix resides when deciding which request to serve.
-Systems such as CachedAttention already support hierarchical KV storage~\cite{Gao2024CachedAttention}; our focus is the interaction of scheduling and host restoration in the available coding-agent replay.
-SSDs offer a further tier, but their implementation and evaluation remain outside the completed study.
+CacheWise combines prefix-aware scheduling with tool-informed predictive eviction, and also evaluates GPU--CPU offloading~\cite{Tiwari2026CacheWise}.
+We examine its scheduling and eviction mechanisms in an adapted single-GPU replay before studying recovery in a separate Mini-SGLang implementation~\cite{MiniSGLang2026Artifact}.
+The study addresses three questions: (1) which policy combinations improve serving time in our replication; (2) when retaining evicted state in host DRAM benefits recovery; and (3) how request ordering can account for host-resident prefixes.
 
-\subsection{Research Questions and Contributions}
-We organize the study around three questions:
-\begin{enumerate}
-  \item How much of CacheWise's serving benefit comes from scheduling and eviction in our adapted setup?
-  \item How does adding host-DRAM restoration change recovery work and session serving time under GPU memory pressure?
-  \item What additional behavior is observed when host-aware request ordering and predictive prefetching are added to that recovery path?
-\end{enumerate}
-
-The completed contribution is an adapted replication comprising an initial six-policy experiment with 18 runs and a separate 60-run coverage study with 6,384 request executions.
-The coverage study spans nested $N=10,20,30$ workloads and two additional held-out cohorts.
-Our primary metric is mean session serving time, excluding external tool execution.
-Prefix-aware LRU achieves the lowest mean in all five coverage settings; adding predictive eviction increases it by 10.07--43.38\%, although predictive eviction improves FCFS.
-Full eviction-event counts support the setting-level ordering, while request-tail measurements show that lower session means do not ensure lower P99 latency.
-Historical oracle and queue-aging diagnostics further distinguish predictor effects from behavior of the local scheduler.
-The coverage study retains one observed preemption under a declared audit amendment; its extra prefill work remains unmeasured.
-These findings apply to runtime-bounded, adapted workloads; differences in hardware, model, redacted inputs, and replay preparation bound their applicability to the original CacheWise evaluation.
-
-For the recovery questions, we describe the implemented Mini-SGLang host tier and analyze existing reported results from its versioned artifact~\cite{MiniSGLang2026Artifact}.
-With LRU+FCFS fixed and 24~GiB of GPU KV payload, adding 36~GiB of nominal host KV capacity reduces reported mean session time from 821 to 90.7~s at $N=28$ and from 1,060 to 222~s at $N=36$.
-The comparison explicitly adds backing capacity; it does not isolate an equal-total-memory algorithmic gain.
-Two reported $N=36$ observations per configuration favor CacheWise-Fetch over predictive prefix scheduling without fetch-aware ordering, while single-run ablations suggest that prefetching alone is insufficient.
-We preserve the small sample sizes and distinguish usage-derived prefix deficits from exclusive GPU computation.
-The two engines have different cache budgets, prefill chunks, and replay preparation, so their measurements are analyzed separately.
-Our cost model describes the measured host path and the additional costs a future SSD path would need to include; it does not establish an SSD speedup or an empirical SSD break-even boundary.
-
-\subsection{Paper Organization}
-Section~\ref{sec:related-work} introduces the background and positions the study against existing offloading systems.
-Section~\ref{sec:replication} presents the CacheWise replication study.
-Section~\ref{sec:tradeoff} examines recovery costs and the observed host-restoration regime.
-Section~\ref{sec:offloading} describes the implemented host tier and scheduling policy, and Section~\ref{sec:evaluation} analyzes their reported evaluation.
-Sections~\ref{sec:discussion} and~\ref{sec:conclusion} discuss limitations and conclude.
+The replication's 60-run coverage study finds that predictive eviction improves FCFS but consistently worsens the prefix-aware mean, revealing a scheduler-dependent interaction.
+A separate host study reports large reductions in session time when backing capacity is added, and smaller further improvements with fetch-aware scheduling.
+These experiments have different engines, cache budgets, replay transformations, and token-accounting metrics.
+We analyze them separately and distinguish descriptive host observations from the replication's three-repeat comparisons.
+Our contribution is this bounded replication and analysis of an implemented host-recovery extension; host offloading itself has substantial precedent.
+Persistent secondary storage is an extension of the design, with no SSD performance claim made here.

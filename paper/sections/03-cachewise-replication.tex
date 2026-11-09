@@ -2,286 +2,80 @@
 \section{CacheWise Replication: Experiments and Results}
 \label{sec:replication}
 
-% Evidence and figure-generation procedures are recorded in notes/README.md.
-% Historical six-policy and subsequent coverage measurements remain separate studies.
-\subsection{Study Scope and Workload Characterization}
-We study whether the scheduling and eviction mechanisms of CacheWise improve serving efficiency in an adapted coding-agent replay.
-Our evaluation asks how much benefit comes from prefix-aware scheduling, whether predictive eviction adds to that benefit, and how recorded tool-duration information and queue aging affect the outcome.
-We first examine an initial six-policy experiment, then extend the four core policies across three concurrency levels and two additional held-out cohorts.
-The experiment reproduces these mechanisms and comparisons under a different hardware and model configuration; it does not attempt to recreate the original paper's numerical results exactly.
+\subsection{Methodology}
+We reproduce CacheWise mechanisms in an adapted length-and-reuse replay rather than reproduce its original model outputs.
+The released corpus contains 94 source traces with redacted content; among 11,388 deduplicated messages with positive usage, median prompt and output lengths are 80,670 and 26 tokens.
+These corpus statistics motivate reuse but do not describe every selected serving workload.
+Seeded synthetic prompts preserve prefix growth within a segment, and generation follows recorded output lengths with constrained token identifiers.
+Human-input boundaries and context shrink split sessions into complete segments.
+Turns execute sequentially within a segment and concurrently across selected segments, preserving external delays.
+The predictor uses tool names, since arguments are redacted; its 34 training sources are excluded from serving evaluation.
 
-The local trace release contains 94 source files and 20,634 LLM event records representing 11,453 distinct messages.
-For descriptive analysis, we group records by source trace and message identifier, discard synthetic-model messages, and retain messages with positive prompt and output usage.
-Prompt length includes input, cache-creation, and cache-read tokens; we take the maximum observed usage within each message.
-This yields 11,388 messages from 80 source traces.
-The descriptive population includes both training and held-out traces and is separate from the serving evaluation cohort.
+All policies use the same CacheWise engine fork at revision \texttt{a4b3affa}, with recorded patches for session lifecycle, queued-return protection, and tool-duration timestamps.
+The testbed uses Qwen2.5-Coder-14B-Instruct in BF16 on one RTX PRO 6000 Blackwell Max-Q GPU, tensor parallelism one, prefix caching, 512-token prefill chunks, and a 17,981-block KV budget.
+Each block holds 16 tokens, giving 287,696 token slots; maximum sequence length is 131,072 and at most 32 sequences are scheduled.
+Every policy starts a fresh server with identical selected inputs.
+Thus FCFS/LRU is a control within this fork, rather than a separate stock-vLLM installation.
 
-Figure~\ref{fig:replication-workload} shows a strong difference between input and output lengths: the median prompt contains 80,670 tokens, whereas the median output contains 26.
-The median trace with included messages contains 98.5 unique messages.
-These properties make prefix reuse relevant: processing a long input afresh at each turn can introduce substantial work even when the generated response is short.
-The individual tool-duration distributions also differ across common tools, providing a motivation for using tool information when deciding which state to retain.
-These descriptive observations do not establish that a particular predictor improves serving performance.
+The initial experiment uses ten segments from eight sources, 83 requests per run, six policies, and three repeats (18 runs; 1,494 request executions).
+The four core combinations independently vary FCFS/prefix-aware scheduling and LRU/learned predictive eviction.
+Two diagnostics substitute recorded tool durations for predictions or enable a local 30-second queue-aging override.
 
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=\textwidth]{replication-workload.pdf}
-  \caption{Workload characterization regenerated from the local trace release.
-  Panels (a) and (b) use 11,388 deduplicated, non-synthetic messages with positive usage from 80 of the 94 source traces.
-  Panel (c) shows the six most frequent tools with positive completed durations associated with those messages; repeated tool identifiers are merged, retaining the earliest launch for the same result.
-  Boxes span the 25th--75th percentiles and whiskers the 5th--95th percentiles; outliers are omitted.
-  These corpus-level plots are descriptive and do not represent the smaller serving cohort.}
-  \label{fig:replication-workload}
-\end{figure*}
+The subsequent coverage study freezes workload selection before policy outcomes are observed.
+Eligible held-out segments have 2--20 turns, total waits at most 300~s, summed prompt lengths at most one million tokens, and at most 8,192 output tokens.
+These budgets retain 252 complete segments from 43 sources.
+Seeded hashes rank sources and segments; recorded delays are neither clipped nor rescaled, and segments are not truncated.
+Cohort A uses nested $N=10,20,30$ selections, while B and C each use ten segments from ten sources disjoint from A, one another, training, and the historical cohort.
+A30 contains 30 segments from 23 sources, so segments are not independent source samples.
+A10/A20/A30/B10/C10 contain 57/150/226/49/50 requests per policy run.
+Initial prompt totals span 1.40--4.10 times KV capacity.
+Increasing $N$ changes both concurrency and workload composition.
 
-\subsection{Experimental Setup and Replay Procedure}
-The initial six-policy experiment uses ten complete held-out segments drawn from eight source sessions.
-Each run contains 83 requests, 4,894,853 prompt tokens counted across requests, and 15,235 generated tokens.
-Repeated prefixes contribute repeatedly to the prompt-token total; that quantity is not the number of distinct input tokens.
-The selected workload has 73 between-turn transitions, 57 of which have recorded delays of at most one second.
-It therefore emphasizes short reuse intervals, and is not assumed to represent all tool-delay distributions in the release.
+Coverage evaluates the four core policies with queue aging disabled: five settings, three repeats, and four policies produce 60 runs and 6,384 request executions.
+Within a repeat block, policies use one physical GPU and identical inputs; repeat blocks use matching configurations, with partially rotated policy order.
+The coverage runs add full-eviction instrumentation and new workloads, so their absolute times are kept separate from the historical experiment.
 
-We use Qwen2.5-Coder-14B-Instruct in BF16 on one RTX Pro 6000 Blackwell Max-Q GPU per repeat, with tensor parallelism of one.
-Prefix caching and 512-token chunked prefill are enabled.
-The KV budget is 17,981 blocks of 16 tokens, equivalent to 287,696 tokens.
-The ten initial prompts total 487,696 tokens, approximately 1.70 times this capacity.
-Thus, $N=10$ already creates memory pressure on this testbed; equal session counts do not imply equal contention across different hardware configurations.
-Table~\ref{tab:replication-setup} summarizes the experimental configuration used in this study.
+\subsection{Metrics and Integrity}
+The primary metric is mean session serving time: sum request latencies within each segment, average across segments, then average across three repeats.
+External tool waits are excluded.
+Minima and maxima describe observed repeat ranges, not confidence intervals.
+Request P99 summaries average the three per-run, linearly interpolated percentiles.
+Completed-request uncached usage is prompt tokens minus cached tokens; it does not measure every executed GPU prefill.
+Full eviction counts record cached-block hash removals during allocation, including repeated removal of a block; they are neither unique-block counts nor transferred bytes.
 
-\begin{table}[t]
-  \centering
-  \small
-  \setlength{\tabcolsep}{3pt}
-  \hyphenpenalty=10000
-  \begin{tabular}{>{\raggedright\arraybackslash}p{0.32\columnwidth}>{\raggedright\arraybackslash}p{0.60\columnwidth}}
-    \toprule
-    Setting & Configuration \\
-    \midrule
-    Accelerator & One RTX Pro 6000 Blackwell Max-Q GPU per repeat block \\
-    Model & Qwen2.5-Coder-14B-Instruct \\
-    Precision & BF16 \\
-    Tensor parallelism & One \\
-    Prefix caching & Enabled \\
-    KV budget & 17,981 blocks of 16 tokens \\
-    Prefill chunk & 512 tokens \\
-    Predictor inputs & Tool names; arguments redacted \\
-    Training sources & 34 of 94 source traces; excluded from serving evaluation \\
-    Serving loads & Initial $N=10$; coverage A: $N=10,20,30$, B/C: $N=10$ \\
-    Repeats & Three per policy and workload setting \\
-    \bottomrule
-  \end{tabular}
-  \caption{Experimental configuration and evaluation loads used in this study.
-  Workload selection and replay procedures are described in the text.}
-  \label{tab:replication-setup}
-\end{table}
-
-All policies run in the same CacheWise engine fork, pinned to revision \texttt{a4b3affa} with recorded local patches.
-The patches address session lifecycle handling, protection of queued returning sessions, and the timestamp used to observe tool durations.
-Each policy starts a fresh server, receives the same selected workload and token lengths, preserves external delays, and marks completed segments idle.
-The baseline is therefore an FCFS/LRU control within this engine, rather than a comparison against a separate stock-vLLM installation.
-
-Because the released text is redacted, the replay uses seeded synthetic prompts that preserve within-segment prefix growth.
-Generation is constrained to fixed token identifiers and recorded output lengths.
-Turns within a segment run sequentially, while the selected segments execute concurrently.
-Actual human-input boundaries and context shrink split the traces into segments, and overlapping tools contribute the interval from their earliest launch to their latest result.
-This procedure preserves a length-and-reuse workload, rather than original model answer quality.
-The predictor bootstrap uses 34 training source sessions that are excluded from serving evaluation; the learned predictor uses tool names because argument content is unavailable.
-
-The initial experiment evaluates six policies, each with three repeats, for 18 full runs and 1,494 request executions.
-The four core settings form a two-by-two comparison of FCFS versus prefix-aware scheduling and LRU versus learned predictive eviction.
-The remaining settings replace learned predictions with recorded tool durations or enable the local 30-second queue-aging override.
-Within each repeat, all six policies share one physical GPU; the three repeat blocks run on separate GPUs with matching model, memory, driver, runtime, engine, and replay configuration.
-Policy order is partially rotated, not fully balanced.
-
-The subsequent coverage study freezes selection rules before observing its policy outcomes.
-Eligible held-out segments contain 2--20 turns, at most 300 seconds of total recorded waits, at most 1,000,000 summed prompt tokens, and at most 8,192 output tokens.
-These runtime budgets retain 252 complete segments from 43 source sessions.
-We rank source identifiers and segments by seeded hashes and select complete segments without clipping, rescaling, or truncating their recorded delays.
-Cohort A uses nested selections at $N=10,20,30$; cohorts B and C each use ten segments from ten sources disjoint from A, one another, training, and the historical serving cohort.
-The $N=30$ selection contains 30 segments from 23 sources, so segments are not independent source-session samples.
-Table~\ref{tab:replication-coverage-workloads} describes the five resulting workloads.
-
-\input{figures/replication-coverage-workloads}
-
-The coverage study evaluates the four core policies with three matched repeats per workload: 60 full runs and 6,384 request executions.
-The model, engine patches, predictor bootstrap, KV budget, and prefill configuration are unchanged; prefix-aware queue aging is disabled.
-All four policies within each repeat block execute on the same physical GPU, using fresh servers and identical selected requests.
-The coverage study adds passive full-eviction instrumentation and uses newly selected workloads, including fresh $N=10$ controls.
-Its absolute values are therefore reported separately from the historical six-policy experiment.
-Across the five settings, initial prompt totals are 1.40--4.10 times the configured token capacity.
-Increasing $N$ adds segments as well as concurrent work; the nested sweep changes workload composition and does not isolate concurrency at fixed composition.
-
-\subsection{Metrics and Evidence Validation}
-Our primary metric is mean session serving time: the mean, across segments, of the sum of their LLM request latencies, averaged over three repeats.
-It excludes external tool execution.
-Whole-workload elapsed time includes those waits and measures a different outcome.
-Prompt-token hit rate is computed from completed-request usage as cached prompt tokens divided by total prompt tokens, rather than from cache-lookup counters.
-
-For supporting metrics, useful-token goodput counts each new prompt token and generated output token once per segment and divides by whole-workload elapsed time.
-The historical workload contains 605,956 first-use prompt tokens by this accounting and 621,191 useful tokens including output; the coverage workloads have their own first-use totals.
-Latency percentiles use linear interpolation within each run; reported summaries average the three per-run percentiles.
-They are not percentiles of averaged request latencies, and observed maxima are reported separately.
-
-The historical experiment audit verifies identical request hashes and lengths, 6,811 successful metric snapshots, zero failed snapshots, and zero preemptions.
-When preparing the manuscript, we also recalculated the per-run means, token totals, and cache-hit rates from the original request summaries.
-These checks validate consistency of the recorded experiment.
-They do not establish that the engine is equivalent to the original paper's executable.
-All repeat ranges below are observed minima and maxima, not confidence intervals; the matched-repeat plots preserve the policy comparisons within each GPU block.
-
-The coverage audit additionally verifies full counter coverage, the frozen worker and prepared-input bundle, and consistent engine, package, model, and GPU-model signatures across all 15 repeat blocks.
 All 6,384 requests complete without client errors.
-One request preemption occurs in cohort A, $N=20$, repeat 0, with prefix-aware predictive eviction.
-This violates the registered zero-preemption condition and causes that block's original audit to fail; 14 blocks pass the original checks.
-A separate post hoc audit amendment retains the event as an outcome while preserving all other integrity checks and applies consistently to all 60 runs.
-The original failure and protocol remain archived, execution settings remain fixed, and no run is discarded or repeated to remove the preemption.
-The resulting study is complete with a declared protocol deviation.
+Integrity checks cover request identities, input and engine versions, hardware signatures, and counter coverage.
+One preemption in A20, repeat 0, prefix/predictive violates the original zero-preemption rule; 14 of 15 blocks pass the original audit.
+A documented post hoc amendment retains that outcome while enforcing the remaining checks for all 60 runs.
+The original failure is preserved and no run is discarded or repeated to remove it.
+Extra prefill work caused by this event is unmeasured; usage-derived differences must not be labeled exact redundant computation.
 
-Full eviction counts record every successful cached-block hash removal during allocation, separately from invalidations outside allocation; they are event counts rather than unique blocks or transferred bytes.
-Reported uncached prompt tokens equal completed-request prompt usage minus cached usage.
-The server's computed-prefill metric is derived from the same accounting and is not an independent measure of all executed work.
-We also report first-use prompt tokens from segment growth, excluding preceding generated tokens, but the difference from uncached usage includes alignment and last-token effects.
-Extra prefill caused by preemption is unmeasured, so neither difference is labeled exact redundant computation.
-
-\subsection{Initial Six-Policy Results and Ablation}
-\begin{table*}[t]
-  \centering
-  \small
-  \begin{tabular}{lllrrr}
-    \toprule
-    Scheduler & Eviction & Queue aging & Mean (s) & Repeat range (s) & Hit rate (\%) \\
-    \midrule
-    FCFS & LRU & --- & 595.04 & 589.87--599.00 & 64.689 \\
-    FCFS & Learned predictive & --- & 529.97 & 523.43--534.05 & 69.759 \\
-    Prefix-aware & LRU & Disabled & \textbf{337.87} & 332.97--342.87 & 79.009 \\
-    Prefix-aware & Learned predictive & Disabled & 349.67 & 343.52--357.31 & 79.048 \\
-    Prefix-aware & Tool-duration oracle & Disabled & 349.58 & 344.42--357.05 & 79.016 \\
-    Prefix-aware & Learned predictive & 30 seconds & 599.14 & 592.46--604.94 & 64.984 \\
-    \bottomrule
-  \end{tabular}
-  \caption{Historical six-policy serving results at $N=10$, with three repeats per policy.
-  Mean and range refer to mean session serving time, excluding tool execution.
-  Queue aging overrides prefix priority for sufficiently old waiting requests; it is not cache expiration.
-  All comparisons use the same engine and workload within each repeat.}
-  \label{tab:replication-results}
-\end{table*}
-
-Table~\ref{tab:replication-results} and Figure~\ref{fig:replication-serving} show that prefix-aware scheduling provides the largest reduction in mean session serving time in this cohort.
-With LRU eviction unchanged, replacing FCFS scheduling reduces the mean from 595.04 to 337.87 seconds, a $1.761\times$ time ratio, or a 43.22\% reduction.
-This comparison isolates the scheduling choice while retaining the same eviction policy.
-
-The effect of predictive eviction depends on that scheduling choice.
-Under FCFS, replacing LRU with learned predictive eviction reduces the mean to 529.97 seconds, a 10.94\% improvement.
-Under prefix-aware scheduling, the same replacement increases the mean from 337.87 to 349.67 seconds, a 3.49\% regression.
-Both directions hold in all three matched repeats.
-Learned CacheWise without aging still improves over FCFS/LRU by a $1.702\times$ time ratio, but does not improve the primary metric over the prefix-aware LRU control.
-The results therefore demonstrate an interaction between scheduling and eviction in the tested workload, rather than independent additive gains from both mechanisms.
-
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=\textwidth]{replication-serving.pdf}
-  \caption{Serving comparison from the historical six-policy experiment, separate from the later coverage study.
-  Panel (a) shows mean session serving time with whiskers spanning the three observed repeat means.
-  Panel (b) shows percentage changes within each matched GPU repeat; negative values indicate lower time than the corresponding control.
-  Predictive eviction helps FCFS but increases mean time under prefix-aware scheduling in every repeat.
-  The tool-duration oracle shows no consistent advantage over the learned predictor.
-  Whiskers are observed ranges, not confidence intervals.}
-  \label{fig:replication-serving}
-\end{figure*}
-
-The cache-hit metric alone does not explain the session-time ordering.
-Learned CacheWise without aging has a slightly higher hit rate than prefix-aware LRU, 79.048\% versus 79.009\%, yet a higher mean session time.
-Whole-workload elapsed time gives the opposite ordering, averaging 642.91 seconds for learned CacheWise and 646.28 seconds for prefix-aware LRU.
-Corresponding mean useful-token goodputs are 966.58 and 961.32 tokens/s.
-These small elapsed-time and goodput differences should not be substituted for the primary mean-session result.
-They show that finishing the entire batch and minimizing the average segment's accumulated serving time are distinct objectives.
-
-\subsection{Oracle and Queue-Aging Diagnostics}
-These diagnostics use the historical cohort and are not repeated in the coverage study.
-Replacing learned predictions with recorded tool durations yields a mean of 349.58 seconds, only 0.028\% below the learned predictor's unrounded mean.
-The oracle is slower in one repeat and faster in two.
-Thus, providing recorded tool durations does not yield a consistent material advantage in this cohort.
-The oracle supplies tool-duration information, not exact future server-arrival times or an optimal eviction sequence; the result does not establish that prediction is irrelevant in other workloads.
-
-The local queue-aging rule has a larger effect.
-With the learned predictor fixed, disabling the 30-second override reduces mean session serving time from 599.14 to 349.67 seconds, a 41.64\% reduction.
-Average per-run P99 request latency also decreases, from 268.19 to 233.03 seconds.
-Nevertheless, the largest individual request latency across repeats increases from 336.92 to 466.45 seconds.
-The maximum and P99 therefore support different statements about tail behavior.
-This experiment diagnoses a responsiveness tradeoff in the executed queue implementation; the published description does not identify this particular override as part of the evaluated design.
-
-\subsection{Coverage across Loads and Held-Out Cohorts}
-\input{figures/replication-coverage-results}
-
-Table~\ref{tab:replication-coverage-results} extends the scheduling--eviction comparison to all five coverage settings.
-For nested cohort A, prefix-aware LRU reduces mean session serving time relative to FCFS/LRU by 58.39\% at $N=10$, 61.74\% at $N=20$, and 64.96\% at $N=30$.
-Predictive eviction under FCFS also improves the mean, by 11.99\%, 5.20\%, and 3.40\%, respectively.
-Under prefix-aware scheduling, however, predictive eviction increases the mean by 12.65\%, 14.01\%, and 11.10\% relative to LRU.
-Figure~\ref{fig:replication-coverage-serving} shows both the load curves and the effects within individual matched repeats.
+\input{figures/compact-coverage-table}
 
 \begin{figure*}[t]
   \centering
   \includegraphics[width=\textwidth]{replication-coverage-serving.pdf}
-  \caption{Coverage-study session serving time, excluding tool waits.
-  Panel (a) shows means and observed three-repeat ranges for nested cohort A; both concurrent segment count and workload composition change with $N$.
-  Panel (b) compares predictive eviction with LRU within each GPU repeat: orange uses FCFS and purple uses prefix-aware scheduling; circles, squares, and triangles identify repeats 0, 1, and 2.
-  A10/A20/A30 denote cohort A at the indicated $N$; B10/C10 denote the additional cohorts at $N=10$.
-  The single preemption in A20 is retained under the declared audit amendment.
-  Ranges are not confidence intervals.}
+  \caption{Coverage results: (a) cohort A load sweep, with three-repeat means and observed ranges; (b) predictive eviction's effect within matched repeat blocks under each scheduler. Positive values indicate slower serving. B/C are additional source-disjoint $N=10$ cohorts. Ranges and points are descriptive, not confidence intervals.}
   \label{fig:replication-coverage-serving}
 \end{figure*}
 
-The scheduler-dependent direction also holds in the two additional cohorts.
-Predictive eviction under FCFS reduces mean time by 6.67\% in B and 4.81\% in C, while adding it to prefix-aware scheduling increases the mean by 10.07\% and 43.38\%.
-Prefix-aware LRU has the lowest mean in every setting.
-All 15 matched comparisons favor predictive eviction under FCFS, and all 15 favor LRU under prefix-aware scheduling; these signs include the smallest prefix-aware difference, a 0.88\% increase in A10 repeat 1.
-This consistency extends the original observation across the declared runtime-bounded cohorts, but three repeats per setting do not establish a population-wide effect or explain its cause.
+\subsection{Results and Interpretation}
+Table~\ref{tab:compact-coverage} reports all five settings.
+Prefix/LRU achieves the lowest mean in each, reducing the FCFS/LRU mean by 58.39\%, 61.74\%, and 64.96\% at A10, A20, and A30.
+Predictive eviction improves FCFS in all 15 matched repeat blocks, but worsens prefix-aware scheduling in all 15.
+The setting-level prefix/predictive increases are 12.65\%, 14.01\%, 11.10\%, 10.07\%, and 43.38\% (Figure~\ref{fig:replication-coverage-serving}).
+The direction therefore extends beyond one ten-segment cohort, although its size varies substantially.
 
-\subsection{Evictions, Uncached Usage, and Tail Latency}
-Figure~\ref{fig:replication-coverage-accounting} adds the full counters that the historical study lacked.
-At $N=30$, prefix-aware LRU averages 202,130 allocation-eviction events per run, compared with 548,909 for FCFS/LRU and 237,320 for prefix-aware predictive eviction.
-Its completed-request prefix-hit fraction is 64.55\%, versus 8.20\% and 58.83\%, respectively.
-Across all five setting means, predictive eviction under FCFS is associated with fewer allocation evictions and fewer reported uncached tokens than LRU; under prefix-aware scheduling, the ordering reverses.
-These associations are consistent with the mean-time ordering but do not isolate predictor error, queue overhead, or GPU execution cost.
+Eviction events and uncached usage support the same setting-level ordering.
+For example, A30 averages 548,909 allocation evictions under FCFS/LRU, 202,130 under prefix/LRU, and 237,320 under prefix/predictive.
+These counters describe residency churn rather than transfer traffic or exclusive computation.
+The mean improvement also has a tail tradeoff: A20's average per-run request P99 is 755.28~s with prefix/LRU versus 594.03~s with FCFS/LRU; at A30 it is 1,292.43 versus 712.53~s.
+Favoring cheap prefix hits can postpone expensive requests, so session means alone do not establish better responsiveness.
 
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=\textwidth]{replication-coverage-accounting.pdf}
-  \caption{Coverage-study accounting and tails: (a) all successful cached-block removals during allocation, without lifetime sampling; (b) completed-request uncached prompt usage, with black marks showing first-use prompt totals; and (c) per-run P99 request latency.
-  Points average three repeats and whiskers span their observed ranges, not confidence intervals.
-  Setting labels follow Figure~\ref{fig:replication-coverage-serving}.
-  Uncached usage is not a measurement of all executed prefill: additional work from the retained A20 preemption is unknown, and alignment/last-token effects are not isolated.
-  Evictions do not measure transferred KV bytes.}
-  \label{fig:replication-coverage-accounting}
-\end{figure*}
+The historical diagnostics are consistent with this interaction: prefix/LRU averages 337.87~s, learned prefix/predictive 349.67~s, and the tool-duration oracle 349.58~s.
+Replacing the predictor therefore does not remove the local regression.
+The 30-second aging override raises the mean to 599.14~s, illustrating that this fairness intervention can sacrifice locality.
+These diagnostics use the historical workload and are not additional coverage repeats.
 
-The lower average session time does not imply lower request tails.
-At $N=20$, prefix-aware LRU has an average per-run P99 of 755.28 seconds, versus 594.03 seconds for FCFS/LRU; at $N=30$, the respective values are 1,292.43 and 712.53 seconds.
-At $N=30$, the largest observed individual request is 1,645.06 seconds under prefix-aware LRU and 853.08 seconds under FCFS/LRU.
-This distinction matters because session serving time sums each segment's request latencies, whereas P99 weights the request population differently.
-The coverage study does not evaluate a new fairness mechanism or a tuned aging rule.
-
-Prefix-aware LRU also has the highest mean useful-token goodput among the four policies in each coverage setting.
-For example, at $N=30$ it delivers 902.96 useful tokens/s, versus 466.33 for FCFS/LRU and 822.48 for prefix-aware predictive eviction.
-Its reported uncached usage is still 3.49 million prompt tokens per run, compared with 1.46 million first-use prompt tokens.
-The 2.03-million-token difference retains accounting uncertainty and is not a direct measurement of GPU time spent recomputing evicted prefixes.
-
-\subsection{Interpretation, Limitations, and Transition}
-The historical and coverage studies support a benefit from prefix-aware scheduling for mean session serving time on this memory-constrained testbed, while the added benefit of predictive eviction is conditional on the scheduler.
-It does not reproduce the reference paper's additional predictive-eviction benefit over prefix-aware LRU~\cite{Tiwari2026CacheWise}.
-This is a result for the adapted setup, not a refutation of the original evaluation.
-Hardware, model size, training membership, argument redaction, engine patches, and cohort composition differ.
-The coverage study measures $N=10,20,30$ and three source-disjoint cohort groups, but selection favors complete segments within declared runtime budgets.
-Its $N=30$ workload includes repeated source sessions, its load sweep changes composition, and the initial six-policy workload remains a separate experiment.
-Neither study estimates performance on the unfiltered release or on original unredacted model content.
-
-There is also a concrete predictor-preparation limitation: bootstrap samples describe individual tools, whereas runtime metadata can describe parallel batches with repeated tool names.
-A prior input audit found 16 of the historical cohort's 73 transitions lacked a matching initial bootstrap key.
-Its isolated performance impact has not been measured, and argument-level prediction cannot be recovered by clustering identical redacted placeholders.
-The new study expands load and cohort coverage and completes eviction instrumentation, but does not change predictor preparation.
-Matched training/runtime keys and exclusive CPU/GPU execution profiling remain needed before attributing the observed differences to prediction quality or scheduler cost.
-
-Finally, substantial uncached prefill work remains under every policy.
-In the historical cohort, learned CacheWise without aging reports approximately 1.03 million uncached prompt tokens per run, including first-use prefill.
-The coverage study supplies full eviction-event counts, but neither study measures transferred bytes or all physical prefill execution.
-The retained preemption and declared audit amendment further limit exact computation accounting.
-No exclusive CPU/GPU cost profile or completed DRAM/SSD offloading comparison is available.
-These limits motivate the recovery-cost question in Section~\ref{sec:tradeoff}, while leaving its numerical answer to the subsequent study.
+Overall, scheduling accounts for the strongest observed mean benefit, while predictive eviction is conditional on the scheduler and workload.
+The adapted synthetic inputs, runtime-bounded selection, shared source sessions, three repeats, and one protocol deviation limit generalization to the full trace population and original CacheWise evaluation.

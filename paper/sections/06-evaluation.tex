@@ -1,72 +1,45 @@
 % !TeX root = ../main.tex
-\section{Evaluation of Host Restoration and Scheduling}
+\section{Host Recovery Evaluation}
 \label{sec:evaluation}
 
-\subsection{Evaluation Questions, Setup, and Baselines}
-We ask whether host restoration reduces recomputation and session time, which scheduling components add benefit, and what transfer and memory costs result.
-Qwen2.5-Coder-14B-Instruct runs in BF16 on one 96~GB RTX PRO 6000 Blackwell GPU with PCIe Gen5.
-The GPU KV pool holds 131,072 tokens (24~GiB); offload runs add 196,608 pinned-host token slots (36~GiB of nominal KV payload), with 16-token pages and 8,192-token prefill chunks.\footnote{The artifact's prose labels the host tier 37.5~GiB. Its recorded capacity and 196,608 bytes per KV token instead give $196{,}608^2/2^{30}=36$~GiB. We use that configured payload size; allocator and staging overhead are not measured.}
-The closed-loop workload contains 65 episodes and 1,610 requests from 43 held-out sessions; 34 disjoint sessions train the predictor.
-The versioned artifact contains 43 result files spanning the core comparisons and additional diagnostics.
-We present selected reported observations and retain their original rounding; the compact evidence snapshot maps every plotted observation to its source file and Git blob identifier.
-No SSD, filesystem, or page-cache setting exists in the artifact.
-
-Baselines are LRU+FCFS and CacheWise with recomputation, then LRU+FCFS with on-demand host restoration.
-Offload ablations add prefix-aware scheduling, predictive eviction, predictive prefetching, and finally fetch-aware scheduling.
-Recomputation/restoration comparisons hold LRU+FCFS fixed, but restoration explicitly adds 36~GiB of nominal host KV capacity; there is no synchronous-SSD baseline.
-
-The host replay differs from Section~\ref{sec:replication}: it uses Mini-SGLang, a smaller GPU KV pool, larger prefill chunks, 0.2 context scaling, shortened outputs, adapted tool delays, and a common 2,048-token synthetic prefix.
-Warm-up occurs outside the measured window but leaves a prefix in the cache.
-We therefore analyze this study separately rather than compare its absolute timings with the vLLM results.
-
-Mean session time again sums request latencies within an episode and excludes tool waits.
-Host goodput counts prompt growth plus configured output tokens over makespan.
-The artifact's \texttt{recomputed\_tokens} is a prior-prefix deficit: $\sum\max(p_{j-1}-k_j,0)$, where $p_{j-1}$ is the previous prompt length in that episode and $k_j$ is the prefix available at admission after any restoration; the initial $p_{j-1}$ is zero.
-This estimate includes page-alignment effects and is distinct from exclusive GPU work and from Section~\ref{sec:replication}'s completed-request uncached usage.
-Host request percentiles use sorted index $\min(m-1,\lfloor qm\rfloor)$ for $m$ completed requests and quantile $q$; the vLLM study uses interpolation.
-
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=\textwidth]{host-restoration-results.pdf}
-  \caption{Existing reported Mini-SGLang observations with LRU+FCFS fixed: (a) mean session serving time and (b) prior-prefix deficit. Restoration adds host capacity. Each bar is one run and uses the rounded values in Table~\ref{tab:host-restore-results}; there are no uncertainty bars. The deficit estimates missing reusable tokens and includes alignment effects. These measurements are separate from the vLLM replication.}
-  \label{fig:host-restoration-results}
+  \includegraphics[width=\textwidth]{compact-host-results.pdf}
+  \caption{Reported host-study observations. (a) LRU+FCFS fixed: restoration adds 36~GiB of host KV payload to the 24~GiB GPU pool; each bar is one run. (b) $N=36$ ablations at fixed tier capacities. Bars show the first observations; diamonds mark additional observations where available. Most policies have one run, and the additional observations are not verified matched blocks. Lower is better in both panels.}
+  \label{fig:compact-host-results}
 \end{figure*}
 
-\subsection{End-to-End Results}
-\input{figures/host-restoration-table}
+\subsection{Setup and Evidence Scope}
+We analyze existing reported observations from Mini-SGLang commit \texttt{3f9aee7}~\cite{MiniSGLang2026Artifact}.
+The model is Qwen2.5-Coder-14B-Instruct in BF16 on one 96~GB RTX PRO 6000 Blackwell GPU with PCIe Gen5.
+The GPU KV pool holds 131,072 tokens (24~GiB); restoration adds 196,608 pinned-host slots (36~GiB of nominal KV payload).\footnote{The artifact's prose says 37.5~GiB. Its recorded 196,608 slots at 196,608 bytes per token equal 36~GiB; allocator and staging overhead are not measured.}
+Pages hold 16 tokens and prefill chunks contain 8,192 tokens.
+The workload has 65 episodes and 1,610 requests from 43 held-out sources, with 34 disjoint training sources.
+It uses 0.2 context scaling, outputs capped at 160 tokens, adapted tool waits, and a common 2,048-token synthetic prefix.
+Warm-up is outside the measured window and leaves a prefix cached.
+These differences preclude pooling absolute times with Section~\ref{sec:replication}.
 
-Table~\ref{tab:host-restore-results} and Figure~\ref{fig:host-restoration-results} show baseline-to-restoration time ratios of approximately 9.1$\times$ and 4.8$\times$ at $N=28$ and $N=36$.
-These are ratios of the reported single-run observations, not speedup confidence bounds.
-At low pressure ($N=20$), all offload policies converge at 48.6~s.
-At $N=48$, LRU+FCFS restoration thrashes and takes 1,450~s, whereas CacheWise-Fetch takes 175~s.
-The artifact reports makespan, request percentiles, recomputation, transfer bytes, and CUDA-event transfer time, but not time-to-first-token or exclusive GPU compute time.
-Only four configurations in the broader artifact have an additional run; the four baseline/restoration cells in Table~\ref{tab:host-restore-results} each have one observation.
-The available sample sizes do not justify confidence intervals or a universal recovery advantage.
-
-
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=\textwidth]{host-policy-ablation.pdf}
-  \caption{Reported host-policy comparisons at $N=36$. Panel (a) shows one observation per configuration, including the prefetch-only addition and the combined CacheWise-Fetch policy. Panel (b) exposes both available runs for the predictive-prefix control and CacheWise-Fetch; short lines mark means of rounded reported values. Points are individual observations, not confidence intervals or validated matched-repeat pairs. The small sample limits component attribution.}
-  \label{fig:host-policy-ablation}
-\end{figure*}
-
-\subsection{Ablations and Sensitivity Analysis}
-At $N=36$, LRU+FCFS restoration takes 222~s; prefix-aware LRU takes 159~s; predictive eviction changes this to 158~s; adding prefetch without fetch-aware ordering regresses to 172~s.
-CacheWise-Fetch records 136 and 135~s in two runs, versus 158 and 175~s for predictive prefix scheduling without fetch-aware ordering (Figure~\ref{fig:host-policy-ablation}).
-The means of these rounded observations are 135.5 and 166.5~s, a ratio of approximately 1.23$\times$.
-These observations are not assumed to be fully balanced matched repeat blocks.
-In the first $N=36$ full-policy run, prefetched volume is about 2\% of the combined restored/prefetched tokens.
-The available component observations suggest that fetch-aware ordering contributes more than prefetch alone, but do not isolate every interaction or establish a statistically significant component effect.
-At $N=48$, prefix-aware LRU already reduces 1,450 to 193~s; the full policy's 175~s is a single-run 1.10$\times$ improvement.
-Block size, SSD bandwidth, queue depth, and bounded staging were not swept because no SSD path exists.
+Mean session time sums each episode's request latencies, excluding tool waits.
+The artifact's \texttt{recomputed\_tokens} is a prior-prefix deficit: $\sum_j\max(p_{j-1}-k_j,0)$ within an episode, where $p_{j-1}$ is its preceding prompt length (initially zero) and $k_j$ is the cached prefix at admission after restoration.
+It estimates missing reuse, includes alignment effects, and differs from physical GPU work and the replication's uncached-usage metric.
+Host goodput counts prompt growth plus configured outputs over makespan.
+The evidence snapshot preserves rounded reported values and maps every plotted observation to a source file and Git blob.
+Most configurations have one observation; available repeats do not establish confidence intervals.
 
 
-\subsection{Resource Costs and Interpretation}
-The host KV payload occupies a nominal 36~GiB of pinned memory; other host and GPU allocations are additional.
-At $N=36$, CacheWise-Fetch transfers 133~GB device-to-host and 580~GB host-to-device; at $N=48$, 209 and 799~GB.
-Inclusive clean copies reduce repeated writes: at $N=28$, LRU+FCFS evicts 1.85 million GPU tokens but copies only about 0.39 million to host.
-Prefetch transfers 0.053 million tokens in the first $N=36$ full run and uses 0.264~s of copy time.
-The artifact reports 28~ms for 3,968 predictor calls in one $N=28$ run and also records scheduler CPU counters.
-These counters and CUDA transfer events are not an exclusive GPU execution profile or a critical-path attribution of the end-to-end gain.
-No storage occupancy, endurance, energy, or monetary cost is recorded; the end-to-end results therefore support only the host-DRAM side of Section~\ref{sec:tradeoff}'s break-even model.
+\subsection{Restoration Benefit and Policy Ablation}
+With LRU+FCFS fixed, reported mean session time decreases from 821 to 90.7~s at $N=28$ and from 1,060 to 222~s at $N=36$ (Figure~\ref{fig:compact-host-results}a).
+The corresponding ratios are approximately $9.1\times$ and $4.8\times$.
+Prior-prefix deficit decreases from 4.691 to 0.073 million tokens and from 6.160 to 0.710 million; goodput rises from 347 to 1,060 tokens/s and from 326 to 927 tokens/s.
+These single-run comparisons support a favorable host-recovery regime in this replay, including the benefit of additional backing capacity.
+
+At $N=36$, on-demand restoration with LRU+prefix scheduling takes 159~s, predictive+prefix 158~s, adding prefetch alone 172~s, and the full CacheWise-Fetch combination 136~s (Figure~\ref{fig:compact-host-results}b).
+Prefetch alone therefore does not improve this observation.
+The predictive-prefix control has reported times of 158 and 175~s; CacheWise-Fetch has 136 and 135~s.
+Their descriptive means are 166.5 and 135.5~s, a $1.23\times$ ratio.
+Only two observations per configuration are available, without verified balanced matching, so the difference cannot be attributed precisely to each component.
+
+The artifact also exposes a capacity-pressure limit: at $N=48$, host LRU+FCFS takes 1,450~s, compared with 193~s for LRU+prefix and 175~s for CacheWise-Fetch.
+The latter difference is a single-run observation rather than a robust general policy ranking.
+CUDA-event transfer work can overlap execution, so copy durations and session time measure different costs.
+No SSD or filesystem measurements are available.

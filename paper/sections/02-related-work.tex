@@ -2,48 +2,18 @@
 \section{Background and Related Work}
 \label{sec:related-work}
 
-\subsection{KV Cache, Prefix Reuse, and Memory Tiers}
-Autoregressive inference first processes the input during prefill and then generates output tokens during decode.
-The KV cache retains attention keys and values so later tokens can reuse previously computed state.
-Successive agent turns can also reuse an unchanged prompt prefix when its compatible KV state remains available.
-Evicting that state frees accelerator memory but requires recovery before reuse, either through recomputation or restoration from another tier.
-We distinguish accelerator memory, CPU DRAM, and secondary storage such as an SSD throughout the report.
+\paragraph{Prefix reuse and policy choices.}
+Prefill computes KV state for an input prompt; decode extends it as tokens are generated.
+A later request can reuse an unchanged, compatible prefix instead of repeating its prefill.
+FCFS orders waiting requests by arrival, whereas prefix-aware scheduling favors requests needing fewer additional KV blocks.
+LRU evicts by recency; CacheWise predictive eviction uses tool metadata to estimate when an inactive session will return~\cite{Tiwari2026CacheWise}.
+These decisions interact because scheduling changes both cache residency and the time at which a prefix is needed.
 
-\subsection{CacheWise}
-CacheWise combines prefix-aware request scheduling with predictive KV cache eviction based on tool-call metadata~\cite{Tiwari2026CacheWise}.
-Its scheduler favors requests needing fewer additional KV blocks, while its eviction policy uses estimated future reuse to choose which cached state to discard.
-Our replication varies these policies independently in the same engine.
-
-\subsection{Related Offloading Systems and Research Gap}
-\label{sec:offloading-related-work}
-\paragraph{CPU offloading and hierarchical reuse.}
-InferCept addresses external interruptions by choosing whether to preserve KV state on the GPU, swap it to CPU memory, or discard it for later recomputation~\cite{Abhyankar2024InferCept}.
-Its decisions account for interruption duration and estimated GPU memory waste; pipelining and chunking limit interference with foreground requests.
-Tool-aware retention and recovery thus have precedent.
-CachedAttention extends multi-turn conversation caching across GPU memory, host DRAM, and SSDs~\cite{Gao2024CachedAttention}.
-It overlaps layer-wise loading and asynchronous saving with computation, and uses look-ahead windows in the request queue to guide disk-to-DRAM prefetching and eviction.
-Its unit of fetching and eviction is a conversation's KV state, whereas the evaluated host prototype uses prefix pages.
-
-\paragraph{Shared storage and transfer mechanisms.}
-Mooncake separates prefill and decode, pooling CPU, DRAM, SSD, and network resources for distributed KV reuse~\cite{Qin2025Mooncake}.
-Its store organizes hashed blocks with LRU eviction for inactive blocks; its scheduler considers prefix locality and load under latency objectives, while transfers exploit RDMA.
-LMCache provides an engine-independent cache layer spanning CPU memory, local disk, and remote storage~\cite{Liu2025LMCache}.
-It combines batched transfers, layer-wise compute--I/O overlap, and queued-request prefetching with interfaces for placement, pinning, and removal.
-
-\paragraph{I/O scheduling and partial recomputation.}
-Strata combines GPU-assisted transfers and cache-aware batching, including handling concurrent requests for a context being loaded~\cite{Xie2026Strata}.
-It exposes write-back, write-through, and reuse-count-based selective writing, with LRU as its default eviction policy.
-The Tutti preprint targets SSD--GPU transfers with GPU-native objects, asynchronous GPU-initiated I/O, and profiled scheduling windows that limit compute and read/write contention~\cite{Qiu2026Tutti}.
-Cake computes prefix chunks from the beginning while loading cached chunks from the end, adapting their meeting point to available resources~\cite{Jin2025Cake}.
-Recovery can therefore combine loading and recomputation; our serial cost model in Section~\ref{sec:tradeoff} is a baseline, not a general optimum.
-
-\paragraph{Scope of our study.}
-Recent simulation-based work also compares recency, reuse frequency, predicted reuse, and prefetching across GPU, CPU, and SSD tiers~\cite{Tumkur2026Placement}.
-Its results separate capacity gains from policy effects and show that prefetching can waste bandwidth.
-The completed recovery study examines GPU--host restoration and host-aware request ordering in a Mini-SGLang coding-agent replay.
-CacheWise already evaluates GPU--CPU swapping~\cite{Tiwari2026CacheWise}; host offloading itself is therefore not a new design claim.
-Our contribution is a bounded empirical analysis of the reported recovery comparisons and the implemented fetch-aware scheduling extension.
-The host-restoration comparison fixes LRU+FCFS while explicitly adding backing capacity; policy comparisons retain the same tier capacities.
-The available repetitions and ablations support descriptive observations rather than population-wide significance or isolated attribution of every gain.
-An SSD extension would need additional storage writes and reads, bounded staging, and controlled filesystem caching.
-Those requirements remain future work and cannot be inferred from host-copy bandwidth or from the vLLM replication's uncached-token counts.
+\paragraph{Recovery across memory tiers.}
+InferCept already chooses among GPU retention, CPU swapping, and recomputation during external interruptions~\cite{Abhyankar2024InferCept}.
+CachedAttention extends reuse across GPU, host DRAM, and SSD storage, overlapping transfers with computation and using queue look-ahead for prefetching~\cite{Gao2024CachedAttention}.
+LMCache provides an engine-independent KV layer with CPU, disk, and remote backends~\cite{Liu2025LMCache}.
+Cake combines loading and recomputation rather than treating them as exclusive alternatives~\cite{Jin2025Cake}.
+Our recovery model is a serial baseline for the implemented host path, not a general optimum over these mechanisms.
+The Mini-SGLang extension uses page-level host residency and a request priority that discounts host hits.
+Its evaluation fixes tier capacities for policy ablations, while the restoration-versus-recomputation comparison explicitly adds host memory.

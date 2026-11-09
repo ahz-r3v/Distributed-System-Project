@@ -2,33 +2,16 @@
 \section{Discussion and Limitations}
 \label{sec:discussion}
 
-\subsection{Applicability and Failure Regimes}
-Offloading is attractive only when avoided recomputation exceeds write, restore, and management cost.
-Short prefixes, low reuse probability, saturated links, or an undersized backing tier can make recomputation preferable; severe host pressure already produces two-level thrashing in the $N=48$ LRU+FCFS run.
-The observed DRAM benefit depends on available pinned capacity and host-device bandwidth, and includes the effect of adding backing memory.
-Prediction errors can waste prefetch bandwidth; the reported speculative volume is small, but the exchange guard does not guarantee a benefit.
-An SSD policy must price current queueing rather than reuse the fixed host fetch ratio.
+The two studies support a common design lesson: recovery and scheduling should account for where reusable state resides.
+Prefix-aware ordering substantially improves replication means, yet worsens some request tails and changes predictive eviction's effect.
+Host restoration reduces missing-prefix work in the reported replay, while additional policy differences are smaller and less thoroughly repeated.
+Neither study establishes a universally best policy.
 
-\subsection{Threats to Validity}
-The present replication uses synthetic token content and tool-name prediction on a different hardware/model configuration from the reference paper.
-The coverage study adds nested $N=10,20,30$ selections and two source-disjoint held-out cohorts, with three matched repeats per setting.
-It remains limited to runtime-bounded complete segments; changing $N$ also changes composition, and some $N=30$ segments share source sessions.
-Matched comparisons within repeats reduce hardware confounding but do not establish performance over the full trace population.
-One actual preemption violates the original zero-preemption condition; the archived post hoc amendment retains it while enforcing the remaining integrity checks.
-Completed-request uncached usage does not count all extra execution caused by that event, and full eviction counts are not transferred KV bytes.
-The vLLM replication and Mini-SGLang recovery study use different engine implementations, cache budgets, prefill chunks, and replay transformations; their timings and token-accounting metrics must not be pooled.
-The host study uses 43 held-out source sessions, while predictor training uses a disjoint 34-session split, limiting direct leakage but not distribution drift.
-Synthetic token identities, a shared 2,048-token prefix, 0.2 context scaling, shortened outputs, and scaled tool delays change attention work and arrival timing.
-The single 14B model, one Blackwell GPU, and PCIe Gen5 host link bound external validity.
-Most host configurations run once.
-The predictive-prefix control's two reported $N=36$ times, 158 and 175~s, illustrate variation without defining a general noise threshold or confidence interval.
-Small single-run differences and precise component attribution remain unresolved.
-The host figures reproduce rounded reported observations, with source-file and revision mappings; they are not an independent audit of all request-level records or new experimental runs.
-Nominal KV payload capacity excludes staging, model weights, allocator metadata, and other process memory.
-The separate host study provides no SSD or filesystem measurements, so secondary-storage savings and page-cache effects remain unevaluated.
+External validity is bounded by one 14B model, Blackwell hardware, synthetic content, selected workloads, and implementation-specific replay rules.
+The replication retains a declared preemption deviation with unmeasured extra computation; the host analysis reproduces rounded reported observations rather than independently auditing all request records.
+The studies' timing and token metrics remain separate.
+Restoration adds host memory, and nominal KV capacities exclude other process memory.
 
-\subsection{Limitations and Future Work}
-The prototype extends Mini-SGLang with a process-local pinned-host cache; it does not change CacheWise's broader design claims.
-It lacks SSD or distributed storage, persistent compatibility metadata, bounded staging independent of cache capacity, direct I/O, page-cache controls, compression, cancellation, crash recovery, and cross-process reuse.
-These are directions for a future secondary-storage study.
-The present conclusions remain bounded to the adapted vLLM replication and the reported host-restoration observations.
+Offloading can lose when prefixes are short, reuse is unlikely, transfers contend, or the backing tier thrashes.
+An SSD extension must measure full save-and-restore cost, including staging, filesystem caching, and queueing, rather than extrapolate from DRAM copies.
+Persistent metadata, storage I/O, and failure recovery remain future implementation work.

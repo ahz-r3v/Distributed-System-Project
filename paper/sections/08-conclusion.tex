@@ -2,13 +2,7 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-The completed adapted replication shows that predictive eviction's effect depends on the scheduler.
-Across all five coverage settings, prefix-aware LRU has the lowest mean session serving time, while adding predictive eviction increases that mean despite improving FCFS.
-Full eviction events and reported uncached usage support the setting-level ordering, but request tails expose a separate responsiveness tradeoff.
-The results apply to the selected runtime-bounded workloads and retain one preemption with unmeasured extra prefill work.
-In the separate Mini-SGLang artifact, retaining evicted KV in pinned host DRAM is associated with substantially less missing-prefix work for the tested long-prefix replay.
-With LRU+FCFS fixed, reported baseline-to-restoration session-time ratios are approximately 9.1$\times$ at $N=28$ and 4.8$\times$ at $N=36$, with an additional nominal 36~GiB host KV tier.
-Two $N=36$ observations per configuration favor CacheWise-Fetch over predictive prefix scheduling without fetch-aware ordering, with an approximately 1.23$\times$ ratio between reported means.
-Most configurations have one observation; the findings remain descriptive and do not isolate every mechanism or demonstrate equal-total-memory gains.
-The completed scope is replication and GPU--host recovery with fetch-aware scheduling.
-Persistent secondary storage remains future work, with no measured SSD speedup or break-even boundary claimed.
+Across five replication settings, prefix/LRU has the lowest mean session serving time; predictive eviction helps FCFS but regresses under prefix-aware scheduling.
+In the separate host study, adding 36~GiB of backing KV capacity yields reported $9.1\times$ and $4.8\times$ baseline-to-restoration time ratios at two loads.
+Fetch-aware ordering further favors host hits, with promising but sparsely repeated observations.
+The completed scope is adapted replication and host-DRAM recovery; SSD performance remains unevaluated.
