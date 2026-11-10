@@ -70,21 +70,23 @@ Our replication uses tool names only because arguments are redacted. That is an 
 
 ## Slide 6 — CacheWise combines scheduling and eviction
 
-**3:05–3:50 · 45 seconds**
+**3:05–3:55 · 50 seconds**
 
-*Start with the highlighted bottom-right cell, then identify the baseline and two ablations.*
+*Identify the row and column labels, then the highlighted CacheWise cell and the testbed panel.*
 
-The bottom-right cell is adapted CacheWise: prefix-aware scheduling plus predictive eviction.
+Rows show the scheduler; columns show the eviction policy.
 
-The top-left cell is the first-come, first-served LRU baseline. The other two cells isolate one component: scheduling only uses prefix-aware LRU, and eviction only uses first-come, first-served with predictive eviction.
+The bottom-right cell is adapted CacheWise: prefix-aware scheduling plus predictive eviction. The top-left is the first-come, first-served LRU baseline. The other cells isolate scheduling or eviction.
 
-All four use the same configuration and inputs, with a fourteen-billion-parameter Qwen model on one Blackwell GPU.
+The testbed panel lists our Qwen coding model, Blackwell GPU, precision, and cache settings.
 
-Five workload settings, four policies, and three repeats give sixty runs and 6,384 request executions. We measure mean summed model-request latency per session, excluding tool waits.
+N segments are launched as a group. Each continues through its recorded turns, waiting for the previous response and tool delay. Completed segments are not replaced.
+
+Five settings, four policies, and three repeats give sixty runs and 6,384 requests. Our serving-time metric excludes external tool waits.
 
 ## Slide 7 — Prefix / LRU has the lowest mean
 
-**3:50–5:00 · 70 seconds**
+**3:55–5:00 · 65 seconds**
 
 *Trace the green line. Explain the range bars without reading every number.*
 
@@ -144,7 +146,7 @@ Its priority combines tokens needing new prefill with a discounted cost for toke
 
 At thirty-six episodes, predictive eviction with prefix scheduling records 158 seconds. Adding prefetch alone records 172 seconds. The full fetch-aware combination records 136 seconds.
 
-The diamonds show additional observations: 175 seconds for the predictive-prefix control and 135 for the full combination. The two descriptive means are 166.5 and 135.5 seconds.
+Two runs are reported for the predictive-prefix control and the full combination. Their descriptive means are 166.5 and 135.5 seconds.
 
 These observations favor the full combination, but there are too few repetitions to establish statistical significance or isolate every component.
 

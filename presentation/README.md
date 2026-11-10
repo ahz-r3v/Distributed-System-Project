@@ -14,7 +14,8 @@ Slide 2 introduces the released coding-agent traces and explains why prefix reus
 Slides 3–4 reproduce original-paper graphs showing prefill/decode lengths, turn counts, and context growth compared with chat workloads.
 Slide 5 explains prefix-aware scheduling and tool-duration prediction, including argument clustering, elapsed-time conditioning, and eviction order.
 It distinguishes the original argument-aware predictor from our tool-name-only replication.
-The policy matrix highlights adapted CacheWise as prefix-aware scheduling plus predictive eviction, with the baseline and single-component ablations labeled.
+The policy matrix labels rows as scheduler and columns as eviction policy, highlights adapted CacheWise, and lists the testbed alongside the policies.
+N denotes the initially launched closed-loop segment group; it is not a maintained count of in-flight requests.
 Host-recovery results motivate offloading before the host-cache architecture is introduced.
 Timing guidance stays in the notes and script.
 Questions follow the talk.
@@ -29,8 +30,8 @@ Rehearse once to adjust the pacing to your speaking speed.
 | 3 | Original prefill/decode distributions | 0:40–1:25 |
 | 4 | Turns and context growth versus chat | 1:25–2:00 |
 | 5 | Scheduling and tool-duration prediction algorithm | 2:00–3:05 |
-| 6 | CacheWise, baseline, and component ablations | 3:05–3:50 |
-| 7 | Main replication result | 3:50–5:00 |
+| 6 | Policy matrix, testbed, and replay setup | 3:05–3:55 |
+| 7 | Main replication result | 3:55–5:00 |
 | 8 | Motivation: recovery cost and host results | 5:00–6:15 |
 | 9 | Host-cache architecture | 6:15–7:15 |
 | 10 | Fetch-aware ordering | 7:15–8:35 |

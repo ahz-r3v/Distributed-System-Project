@@ -50,17 +50,17 @@ Evidence: Algorithm adapted from CacheWise v1 §§5.1–5.3; original-paper argu
 
 ## 6. CacheWise combines scheduling and eviction
 
-**3:05–3:50 · 45 seconds**
+**3:05–3:55 · 50 seconds**
 
-The bottom-right cell is adapted CacheWise: prefix-aware scheduling plus predictive eviction. The top-left cell is the FCFS/LRU baseline. The other two cells isolate one component: scheduling only uses prefix/LRU, while eviction only uses FCFS/predictive. We compare all four on the same configuration and inputs, using a 14B Qwen coding model on one Blackwell GPU. Three nested loads and two additional held-out workloads give five settings. With three repeats per policy, that is sixty runs and 6,384 request executions. The metric sums model-request latency per session, excluding tool waits.
+Rows identify the scheduler and columns identify the eviction policy. The bottom-right cell is adapted CacheWise, combining prefix-aware scheduling with predictive eviction. The top-left cell is the FCFS/LRU baseline; the remaining cells isolate scheduling or eviction. The testbed panel gives the model, GPU, precision, KV pool, and prefill configuration. N segments start as a group, and each continues through its recorded turns; N does not mean a constant number of in-flight requests. Five settings, four policies, and three repeats give sixty runs and 6,384 request executions. The metric excludes external tool waits.
 
 Evidence: four-policy replication; report Tables 1–3 and §3
 
 ## 7. Prefix / LRU has the lowest mean
 
-**3:50–5:00 · 70 seconds**
+**3:55–5:00 · 65 seconds**
 
-The green prefix/LRU line is the scheduling-only ablation and has the lowest mean at all three tested loads. Adapted CacheWise is the purple prefix/predictive line. Compared with FCFS/LRU, the reduction is about 58, 62, and 65 percent as N rises. It also has the lowest mean in two additional held-out workloads, making five settings out of five. Ranges show observed minima and maxima from three repeats, not confidence intervals. The load sweep adds segments, so concurrency and composition both change. These are our adapted replay results, separate from the preceding published workload graphs.
+The green prefix/LRU line is the scheduling-only ablation and has the lowest mean at all three tested loads. Adapted CacheWise is the purple prefix/predictive line. Scheduling-only reduces time versus FCFS/LRU by about 58, 62, and 65 percent as N rises. Scheduling-only also has the lowest mean in two additional held-out workloads, making five settings out of five. Ranges show observed minima and maxima from three repeats, not confidence intervals. The load sweep adds segments, so concurrency and composition both change. These are our adapted replay results, separate from the preceding published workload graphs.
 
 Evidence: frozen 60-run coverage study; report Table 3 and Figure 1a
 
@@ -84,7 +84,7 @@ Evidence: Implementation: Mini-SGLangs 3f9aee7; report Figure 2 and §5
 
 **7:15–8:35 · 80 seconds**
 
-Ordinary prefix-aware ordering considers the GPU prefix. Fetch-aware ordering also recognizes that a host-resident prefix can be cheaper than recomputing a complete miss. The priority is new prefill tokens plus alpha times the additional host tokens, with alpha fixed to 0.05. Lower-cost requests go first. This is a heuristic, not a calibrated latency predictor. On the left are the reported N-equals-thirty-six host ablations at fixed tier capacities. LRU plus prefix scheduling takes 159 seconds, predictive plus prefix takes 158, adding prefetch alone takes 172, and the full fetch-aware combination takes 136. The diamonds show the additional observations: 175 seconds for predictive-prefix and 135 for the full combination. The two descriptive means are 166.5 and 135.5 seconds. These sparse, not verified matched observations favor the full combination, but do not isolate every component or establish statistical significance. Prefetch alone is not enough in this example.
+Ordinary prefix-aware ordering considers the GPU prefix. Fetch-aware ordering also recognizes that a host-resident prefix can be cheaper than recomputing a complete miss. The priority is new prefill tokens plus alpha times the additional host tokens, with alpha fixed to 0.05. Lower-cost requests go first. This is a heuristic, not a calibrated latency predictor. On the left are the reported N-equals-thirty-six host ablations at fixed tier capacities. LRU plus prefix scheduling takes 159 seconds, predictive plus prefix takes 158, adding prefetch alone takes 172, and the full fetch-aware combination takes 136. Two runs are reported for the predictive-prefix control and the full combination. Their descriptive means are 166.5 and 135.5 seconds. These sparse, not verified matched observations favor the full combination, but do not isolate every component or establish statistical significance. Prefetch alone is not enough in this example.
 
 Evidence: Mini-SGLangs 3f9aee7; report Figure 3b and Eq. (3)
 

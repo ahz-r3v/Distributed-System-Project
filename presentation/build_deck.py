@@ -80,7 +80,7 @@ def charts():
         means = np.array([statistics.mean(g) for g in groups])
         ax.errorbar([10, 20, 30], means, yerr=[means - np.array([min(g) for g in groups]), np.array([max(g) for g in groups]) - means],
                     color=color, marker=marker, lw=2.6, markersize=7, capsize=4, label=label)
-    ax.set(xlabel='Concurrent segments, N (nested workload)', ylabel='Mean session serving time (s)',
+    ax.set(xlabel='Initial concurrent segments, N', ylabel='Mean session serving time (s)',
            xticks=[10, 20, 30], ylim=(0, 2250))
     ax.legend(frameon=False, ncol=2, fontsize=12, loc='upper left')
     clean(ax)
@@ -122,10 +122,8 @@ def charts():
     for y, (v, c) in enumerate(zip(values, colors)):
         ax.barh(y, v, height=.58, color=c)
         ax.text(6, y, f'{v:g} s', va='center', color='#ffffff', fontweight='bold', fontsize=16)
-    ax.scatter([175, 135], [2, 4], marker='D', s=80, facecolors='#ffffff', edgecolors=INK, linewidth=1.4, zorder=4, label='Additional observation')
     ax.set(yticks=range(5), yticklabels=names, xlim=(0, 250), xlabel='Mean session serving time (s)')
     ax.invert_yaxis()
-    ax.legend(frameon=False, fontsize=12, loc='lower right', bbox_to_anchor=(1, -.31))
     clean(ax, 'x')
     ablation = saveplot(fig, 'host-ablation')
     return load, effects, recovery, ablation
@@ -377,10 +375,11 @@ def make_slides():
     s.box(36, 444, 888, 39, '#e9eef5', radius=6)
     s.text(51, 455, 858, 'D = total duration; e = elapsed time. Replication: tool names only (arguments redacted).', size=14)
 
-    s = new('CacheWise combines scheduling and eviction', 'Part 1 · Replication methodology', 45,
-        'The bottom-right cell is adapted CacheWise: prefix-aware scheduling plus predictive eviction. The top-left cell is the FCFS/LRU baseline. The other two cells isolate one component: scheduling only uses prefix/LRU, while eviction only uses FCFS/predictive. We compare all four on the same configuration and inputs, using a 14B Qwen coding model on one Blackwell GPU. Three nested loads and two additional held-out workloads give five settings. With three repeats per policy, that is sixty runs and 6,384 request executions. The metric sums model-request latency per session, excluding tool waits.',
+    s = new('CacheWise combines scheduling and eviction', 'Part 1 · Replication methodology', 50,
+        'Rows identify the scheduler and columns identify the eviction policy. The bottom-right cell is adapted CacheWise, combining prefix-aware scheduling with predictive eviction. The top-left cell is the FCFS/LRU baseline; the remaining cells isolate scheduling or eviction. The testbed panel gives the model, GPU, precision, KV pool, and prefill configuration. N segments start as a group, and each continues through its recorded turns; N does not mean a constant number of in-flight requests. Five settings, four policies, and three repeats give sixty runs and 6,384 request executions. The metric excludes external tool waits.',
         'Evidence: four-policy replication; report Tables 1–3 and §3')
-    s.text(36, 131, 544, 'Scheduler × eviction policy', size=20, bold=True)
+    s.text(36, 131, 123, 'Scheduler\n(rows)', size=15.5, bold=True)
+    s.text(169, 131, 394, 'Eviction policy (columns)', size=17, bold=True)
     s.text(171, 173, 175, 'LRU', size=18, color=MUTED, bold=True)
     s.text(370, 173, 220, 'Predictive', size=18, color=MUTED, bold=True)
     for y, scheduler, p1, p2 in [
@@ -391,15 +390,21 @@ def make_slides():
             s.box(x, y, 191, 72, '#eee8f5' if x == 372 and y == 304 else '#ffffff', stroke=color, radius=7)
             s.text(x+13, y+14, 165, label, size=15.5, color=color, bold=True)
     s.text(169, 391, 430, 'Bottom-right: adapted CacheWise uses both components.', size=12.5, color=MUTED)
-    s.box(615, 135, 309, 245, '#ffffff', radius=8)
-    s.text(635, 152, 269, 'Coverage study', size=22, bold=True)
-    s.text(635, 199, 269, '5 settings × 3 repeats\n60 runs · 6,384 requests', size=18)
-    s.text(635, 271, 269, '14B model · BF16\n287,696 KV token slots\n512-token prefill chunks', size=16, color=MUTED)
-    s.box(36, 417, 888, 62, '#e9eef5', radius=7)
-    s.text(52, 430, 856, 'Primary metric: mean session serving time, excluding tool waits.', size=20, bold=True)
+    s.box(615, 135, 309, 277, '#ffffff', radius=8)
+    s.text(635, 152, 269, 'Testbed', size=22, bold=True)
+    s.text(635, 194, 269, 'Qwen2.5-Coder-14B-Instruct', size=14.5, bold=True)
+    s.text(635, 224, 269, '1 × RTX PRO 6000 Blackwell\nMax-Q GPU', size=14.5)
+    s.text(635, 275, 269, 'BF16 · tensor parallelism 1', size=14)
+    s.text(635, 308, 269, 'KV: 287,696 tokens (17,981 × 16)', size=13.5)
+    s.text(635, 338, 269, 'Prefill chunk: 512 tokens', size=14)
+    s.text(635, 369, 269, 'Max sequence length: 131,072', size=12.5)
+    s.text(635, 390, 269, 'Max scheduled sequences: 32', size=12.5)
+    s.box(36, 424, 888, 61, '#e9eef5', radius=7)
+    s.text(52, 434, 856, 'Coverage: 5 settings × 4 policies × 3 repeats = 60 runs · 6,384 requests', size=16, bold=True)
+    s.text(52, 464, 856, 'Metric: mean summed model-request latency per session, excluding tool waits.', size=14.5)
 
-    s = new('Prefix / LRU has the lowest mean', 'Part 1 · Main result', 70,
-        'The green prefix/LRU line is the scheduling-only ablation and has the lowest mean at all three tested loads. Adapted CacheWise is the purple prefix/predictive line. Compared with FCFS/LRU, the reduction is about 58, 62, and 65 percent as N rises. It also has the lowest mean in two additional held-out workloads, making five settings out of five. Ranges show observed minima and maxima from three repeats, not confidence intervals. The load sweep adds segments, so concurrency and composition both change. These are our adapted replay results, separate from the preceding published workload graphs.',
+    s = new('Prefix / LRU has the lowest mean', 'Part 1 · Main result', 65,
+        'The green prefix/LRU line is the scheduling-only ablation and has the lowest mean at all three tested loads. Adapted CacheWise is the purple prefix/predictive line. Scheduling-only reduces time versus FCFS/LRU by about 58, 62, and 65 percent as N rises. Scheduling-only also has the lowest mean in two additional held-out workloads, making five settings out of five. Ranges show observed minima and maxima from three repeats, not confidence intervals. The load sweep adds segments, so concurrency and composition both change. These are our adapted replay results, separate from the preceding published workload graphs.',
         'Evidence: frozen 60-run coverage study; report Table 3 and Figure 1a')
     s.box(36, 137, 625, 328, '#ffffff', radius=8)
     s.picture(44, 143, 609, 315, load)
@@ -444,7 +449,7 @@ def make_slides():
         s.text(x+16, 443, 252, body, size=15.5, color=MUTED)
 
     s = new('Fetch-aware ordering discounts host hits', 'Part 3 · Scheduling extension', 80,
-        'Ordinary prefix-aware ordering considers the GPU prefix. Fetch-aware ordering also recognizes that a host-resident prefix can be cheaper than recomputing a complete miss. The priority is new prefill tokens plus alpha times the additional host tokens, with alpha fixed to 0.05. Lower-cost requests go first. This is a heuristic, not a calibrated latency predictor. On the left are the reported N-equals-thirty-six host ablations at fixed tier capacities. LRU plus prefix scheduling takes 159 seconds, predictive plus prefix takes 158, adding prefetch alone takes 172, and the full fetch-aware combination takes 136. The diamonds show the additional observations: 175 seconds for predictive-prefix and 135 for the full combination. The two descriptive means are 166.5 and 135.5 seconds. These sparse, not verified matched observations favor the full combination, but do not isolate every component or establish statistical significance. Prefetch alone is not enough in this example.',
+        'Ordinary prefix-aware ordering considers the GPU prefix. Fetch-aware ordering also recognizes that a host-resident prefix can be cheaper than recomputing a complete miss. The priority is new prefill tokens plus alpha times the additional host tokens, with alpha fixed to 0.05. Lower-cost requests go first. This is a heuristic, not a calibrated latency predictor. On the left are the reported N-equals-thirty-six host ablations at fixed tier capacities. LRU plus prefix scheduling takes 159 seconds, predictive plus prefix takes 158, adding prefetch alone takes 172, and the full fetch-aware combination takes 136. Two runs are reported for the predictive-prefix control and the full combination. Their descriptive means are 166.5 and 135.5 seconds. These sparse, not verified matched observations favor the full combination, but do not isolate every component or establish statistical significance. Prefetch alone is not enough in this example.',
         'Evidence: Mini-SGLangs 3f9aee7; report Figure 3b and Eq. (3)')
     s.box(36, 136, 625, 332, '#ffffff', radius=8)
     s.picture(44, 140, 609, 324, ablation)
@@ -453,7 +458,7 @@ def make_slides():
     s.text(704, 211, 202, 'new prefill tokens\n+ 0.05 × host tokens', size=18, color=PURPLE, bold=True)
     s.text(704, 286, 202, 'Mean of 2 observations\n166.5 s → 135.5 s', size=18)
     s.text(704, 365, 202, 'Sparse repetitions;\nno confidence interval.', size=16, color=MUTED)
-    s.text(44, 475, 880, 'Bars: first observations. Diamonds: additional observations, not matched blocks.', size=13, color=MUTED)
+    s.text(44, 475, 880, 'Bars: first reported runs. Side-panel means use the two available runs.', size=13, color=MUTED)
 
     s = new('Keep the conclusions within the evidence', 'Scope and limitations', 45,
         'There are three boundaries to keep in mind. The replication uses synthetic content and runtime-bounded selected segments; increasing the load also changes the workload. One real preemption violated the original zero-preemption rule. It remains in the results under a disclosed post hoc audit amendment, and its extra computation is unmeasured. The host study is a separate replay with added backing capacity and mostly single-run observations. We reproduce its rounded reported values rather than claim an independent request-level audit. Finally, the implemented recovery tier is pinned host DRAM. SSD support would need complete storage writes and reads, bounded staging, compatibility metadata, and failure handling. We cannot infer an SSD speedup from these DRAM results.',
