@@ -96,27 +96,13 @@ Every orange point is below zero; every purple point is above zero. Prediction h
 
 Lower session means also do not guarantee better request tails. Next is recovery after eviction.
 
-## Slide 7 — Preserve evicted KV in host DRAM
+## Slide 7 — Host restoration reduces session time
 
-**5:00–6:00 · 60 seconds**
+**5:00–6:15 · 75 seconds**
 
-*Start this section at 5:00. Follow the save arrow to host memory, then the restore arrow back to the GPU.*
+*Begin the second half at 5:00. Introduce the recovery problem, then point to the bars and cost condition.*
 
-I’ll now move to the separate Mini-SGLang host-recovery study.
-
-Instead of discarding every evicted prefix, the implementation can save its KV pages in pinned host memory. A shared prefix index tracks whether pages are on the GPU or in the host cache.
-
-When a request returns, the engine restores a compatible host copy before prefill. If no copy survives, it recomputes.
-
-Clean host copies can be retained, avoiding another save when those GPU pages are evicted again. Predictive prefetch can also start restoration before a session returns.
-
-This study keeps twenty-four gibibytes of GPU KV capacity and adds thirty-six gibibytes of host KV capacity. The implemented backing tier is host DRAM; SSD storage remains future work.
-
-## Slide 8 — Host restoration reduces session time
-
-**6:00–7:15 · 75 seconds**
-
-*Read the cost condition, then point to each pair of bars. Pause after each ratio.*
+Even with better scheduling, useful KV state can still be evicted. Saving it in host memory gives us a way to restore it instead of recomputing the prefix.
 
 The cost condition is straightforward: saving, restoring, and managing a copy should cost less than recomputing the missing prefix.
 
@@ -129,6 +115,22 @@ The reported missing-prefix deficit also decreases, consistent with more reusabl
 These comparisons include the extra host capacity, and each bar represents one reported run. They show favorable host-memory operating points rather than an equal-total-memory policy comparison.
 
 This study also uses a different engine and replay setup, so we keep its timings separate from the replication results.
+
+## Slide 8 — Preserve evicted KV in host DRAM
+
+**6:15–7:15 · 60 seconds**
+
+*Follow the save arrow to host memory, then the restore arrow back to the GPU.*
+
+These observations motivate offloading. Here is how the Mini-SGLang host cache implements it.
+
+Instead of discarding every evicted prefix, the implementation can save its KV pages in pinned host memory. A shared prefix index tracks whether pages are on the GPU or in the host cache.
+
+When a request returns, the engine restores a compatible host copy before prefill. If no copy survives, it recomputes.
+
+Clean host copies can be retained, avoiding another save when those GPU pages are evicted again. Predictive prefetch can also start restoration before a session returns.
+
+This study keeps twenty-four gibibytes of GPU KV capacity and adds thirty-six gibibytes of host KV capacity. The implemented backing tier is host DRAM; SSD storage remains future work.
 
 ## Slide 9 — Fetch-aware ordering discounts host hits
 

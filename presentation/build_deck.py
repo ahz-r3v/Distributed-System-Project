@@ -389,8 +389,21 @@ def make_slides():
     s.text(704, 421, 202, 'N = concurrent segments', size=15, color=MUTED)
     s.text(44, 471, 880, 'Dots are matched-repeat effects. Positive values mean slower serving.', size=13.5, color=MUTED)
 
-    s = new('Preserve evicted KV in host DRAM', 'Parts 2–3 · Recovery method', 60,
-        'The first five minutes covered CacheWise and our replication. The recovery extension is a separate Mini-SGLang implementation. One radix index records which prefix pages reside on the GPU and which have host copies. When memory is needed, dirty GPU pages are copied to pinned host DRAM. Clean inclusive copies can remain there, so a later GPU eviction does not require another save. When a request returns, a compatible host suffix is restored before prefill; if no copy survives, the engine recomputes. The implementation uses sixteen-token pages, locks and events to protect transfers, and predictive prefetch with a bounded per-step budget. In the recovery study the GPU pool holds twenty-four GiB of KV payload and the host tier adds thirty-six GiB. These are nominal cache payloads, excluding weights and other memory. No SSD path is implemented.',
+    s = new('Host restoration reduces session time', 'Part 2 · Motivation for KV offloading', 75,
+        'After the CacheWise replication, we turn to recovery after eviction. Scheduling can limit churn, but useful state may still leave the GPU. Saving it in host memory allows restoration instead of repeating prefill. A simple cost test is whether saving, restoring, and managing the copy costs less than recomputation. Here we keep LRU and FCFS fixed and compare recomputation with on-demand host restoration. At twenty-eight concurrent episodes, reported mean session time falls from 821 to 90.7 seconds, a baseline-to-restoration ratio of about 9.1. At thirty-six it falls from 1,060 to 222 seconds, about 4.8. The reported prior-prefix deficit also drops sharply, supporting the interpretation that more reusable state survives. Two qualifications matter. First, restoration adds thirty-six GiB of host KV capacity to the common twenty-four-GiB GPU pool, so this is not an equal-total-memory algorithm comparison. Second, each bar is one reported run. This study also uses a different engine, smaller GPU pool, larger prefill chunks, and transformed replay inputs. We therefore keep it separate from the vLLM replication. The result demonstrates a favorable host-DRAM operating regime, not a measured SSD break-even curve.',
+        'Evidence: host-dram-reported-results.json; report Figure 3a and §6')
+    s.text(36, 104, 888, 'Recovery tradeoff: save + restore + management < recomputation', size=17, color=MUTED)
+    s.box(36, 137, 625, 328, '#ffffff', radius=8)
+    s.picture(44, 143, 609, 315, recovery)
+    s.box(686, 145, 238, 306, '#ffffff', radius=8)
+    s.text(704, 164, 202, '9.1× / 4.8×', size=30, color=GREEN, bold=True)
+    s.text(704, 216, 202, 'reported time ratios\nat N = 28 / 36', size=18)
+    s.text(704, 289, 202, '+36 GiB host KV\n24 GiB GPU KV fixed', size=18, bold=True)
+    s.text(704, 366, 202, 'One observation\nper bar', size=18, color=MUTED)
+    s.text(44, 471, 880, 'Separate Mini-SGLang study. Added-capacity comparison; lower is better.', size=13.5, color=MUTED)
+
+    s = new('Preserve evicted KV in host DRAM', 'Part 3 · Host-cache design', 60,
+        'These recovery observations motivate offloading. Here is how the Mini-SGLang host cache implements the save-and-restore path. One radix index records which prefix pages reside on the GPU and which have host copies. When memory is needed, dirty GPU pages are copied to pinned host DRAM. Clean inclusive copies can remain there, so a later GPU eviction does not require another save. When a request returns, a compatible host suffix is restored before prefill; if no copy survives, the engine recomputes. The implementation uses sixteen-token pages, locks and events to protect transfers, and predictive prefetch with a bounded per-step budget. In the recovery study the GPU pool holds twenty-four GiB of KV payload and the host tier adds thirty-six GiB. These are nominal cache payloads, excluding weights and other memory. No SSD path is implemented.',
         'Implementation: Mini-SGLangs 3f9aee7; report Figure 2 and §5')
     s.box(180, 132, 600, 67, '#ffffff', stroke='#bac5d1', radius=8)
     s.text(202, 143, 556, 'Request queue + radix prefix index', size=24, bold=True)
@@ -409,19 +422,6 @@ def make_slides():
         s.box(x, 394, 284, 83, '#ffffff', radius=6)
         s.text(x+16, 406, 252, title, size=20, bold=True)
         s.text(x+16, 443, 252, body, size=15.5, color=MUTED)
-
-    s = new('Host restoration reduces session time', 'Part 2 · Reported operating points', 75,
-        'A simple cost test is whether saving, restoring, and managing the copy costs less than recomputation. Here we keep LRU and FCFS fixed and compare recomputation with on-demand host restoration. At twenty-eight concurrent episodes, reported mean session time falls from 821 to 90.7 seconds, a baseline-to-restoration ratio of about 9.1. At thirty-six it falls from 1,060 to 222 seconds, about 4.8. The reported prior-prefix deficit also drops sharply, supporting the interpretation that more reusable state survives. Two qualifications matter. First, restoration adds thirty-six GiB of host KV capacity to the common twenty-four-GiB GPU pool, so this is not an equal-total-memory algorithm comparison. Second, each bar is one reported run. This study also uses a different engine, smaller GPU pool, larger prefill chunks, and transformed replay inputs. We therefore keep it separate from the vLLM replication. The result demonstrates a favorable host-DRAM operating regime, not a measured SSD break-even curve.',
-        'Evidence: host-dram-reported-results.json; report Figure 3a and §6')
-    s.text(36, 104, 888, 'Recovery tradeoff: save + restore + management < recomputation', size=17, color=MUTED)
-    s.box(36, 137, 625, 328, '#ffffff', radius=8)
-    s.picture(44, 143, 609, 315, recovery)
-    s.box(686, 145, 238, 306, '#ffffff', radius=8)
-    s.text(704, 164, 202, '9.1× / 4.8×', size=30, color=GREEN, bold=True)
-    s.text(704, 216, 202, 'reported time ratios\nat N = 28 / 36', size=18)
-    s.text(704, 289, 202, '+36 GiB host KV\n24 GiB GPU KV fixed', size=18, bold=True)
-    s.text(704, 366, 202, 'One observation\nper bar', size=18, color=MUTED)
-    s.text(44, 471, 880, 'Separate Mini-SGLang study. Added-capacity comparison; lower is better.', size=13.5, color=MUTED)
 
     s = new('Fetch-aware ordering discounts host hits', 'Part 3 · Scheduling extension', 80,
         'Ordinary prefix-aware ordering considers the GPU prefix. Fetch-aware ordering also recognizes that a host-resident prefix can be cheaper than recomputing a complete miss. The priority is new prefill tokens plus alpha times the additional host tokens, with alpha fixed to 0.05. Lower-cost requests go first. This is a heuristic, not a calibrated latency predictor. On the left are the reported N-equals-thirty-six host ablations at fixed tier capacities. LRU plus prefix scheduling takes 159 seconds, predictive plus prefix takes 158, adding prefetch alone takes 172, and the full fetch-aware combination takes 136. The diamonds show the additional observations: 175 seconds for predictive-prefix and 135 for the full combination. The two descriptive means are 166.5 and 135.5 seconds. These sparse, not verified matched observations favor the full combination, but do not isolate every component or establish statistical significance. Prefetch alone is not enough in this example.',

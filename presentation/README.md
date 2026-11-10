@@ -13,6 +13,7 @@ The opening slide introduces the project and its central question.
 Slide 2 introduces the released coding-agent traces and explains why prefix reuse matters.
 Slide 3 then introduces CacheWise scheduling and eviction before the replication results.
 Slide 6 defines A as the nested load sweep, B/C as source-disjoint workload checks, and N as concurrent segments.
+Host-recovery results motivate offloading before the host-cache architecture is introduced.
 Timing guidance stays in the notes and script.
 Questions follow the talk.
 The full script has about 1,100 spoken words, plus slide cues and transitions, following the same timing plan.
@@ -27,8 +28,8 @@ Rehearse once to adjust the pacing to your speaking speed.
 | 4 | Adapted replication methodology | 1:55–2:55 |
 | 5 | Main replication result | 2:55–4:05 |
 | 6 | Scheduler interaction and workload-group key | 4:05–5:00 |
-| 7 | Host-cache architecture | 5:00–6:00 |
-| 8 | Recovery cost and host results | 6:00–7:15 |
+| 7 | Motivation: recovery cost and host results | 5:00–6:15 |
+| 8 | Host-cache architecture | 6:15–7:15 |
 | 9 | Fetch-aware ordering | 7:15–8:35 |
 | 10 | Scope and limitations | 8:35–9:20 |
 | 11 | Takeaways | 9:20–10:00 |
