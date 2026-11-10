@@ -84,17 +84,17 @@ The result supports prefix-aware scheduling in this replay. Next, we can ask whe
 
 **4:05–5:00 · 55 seconds**
 
-*Point below zero for orange, above zero for purple, then to the P99 callout.*
+*Explain the workload key, then point below zero for orange and above zero for purple.*
 
-Each point compares predictive eviction with LRU within the same repeat block. Below zero means prediction is faster.
+A, B, and C are workload groups. A tests ten, twenty, and thirty concurrent segments, with larger sets retaining the smaller ones.
 
-Every orange point is below zero: prediction helps first-come, first-served. Every purple point is above zero: it makes prefix-aware scheduling slower.
+B and C each contain ten segments from different held-out source sessions, disjoint from A and one another. They check whether the result depends on the chosen workload. N means concurrent segments.
 
-The prefix-aware mean increases by about ten to forty-three percent across settings.
+Each dot compares predictive eviction with LRU within one repeat. Below zero means prediction is faster.
 
-There is also a tail tradeoff. At the largest cohort A load, prefix-aware LRU improves the mean, but average per-run request P99 rises from about 713 to 1,292 seconds.
+Every orange point is below zero; every purple point is above zero. Prediction helps first-come, first-served but makes prefix-aware scheduling slower across these workloads.
 
-Scheduling and eviction therefore need to be considered together, including both means and tails. That completes the first half; next is recovery after eviction.
+Lower session means also do not guarantee better request tails. Next is recovery after eviction.
 
 ## Slide 7 — Preserve evicted KV in host DRAM
 

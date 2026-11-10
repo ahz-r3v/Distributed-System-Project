@@ -52,9 +52,9 @@ Evidence: frozen 60-run coverage study; report Table 3 and Figure 1a
 
 **4:05–5:00 · 55 seconds**
 
-The predictive eviction result changes direction when we change the scheduler. Each point here compares predictive eviction against LRU within one matched repeat block. Values below zero mean predictive eviction is faster. Orange points use FCFS, and every orange point is below zero. Purple points use prefix-aware scheduling, and every purple point is above zero. Across settings, adding predictive eviction increases the prefix-aware mean by roughly ten to forty-three percent. The historical tool-duration oracle does not remove this local regression, so prediction accuracy alone does not explain it. There is also a responsiveness tradeoff: at A30, prefix/LRU improves the session mean but increases the average per-run request P99 from about 713 to 1,292 seconds. Scheduling should therefore be judged against both locality and latency objectives.
+A, B, and C identify workload groups. A is the main load sweep at ten, twenty, and thirty concurrent segments; larger selections retain the smaller ones. B and C each use ten segments from different held-out source sessions, disjoint from A and each other, to check sensitivity to workload selection. N is the number of concurrent segments. Each dot compares predictive eviction with LRU in one matched repeat. Below zero means prediction is faster. Every orange FCFS point is below zero; every purple prefix-aware point is above zero. Prediction therefore helps FCFS but worsens prefix-aware means across these workloads. Lower session means also do not guarantee better request tails. This completes the first half.
 
-Evidence: matched coverage repeats and request tails; report Figure 1b and §3.3
+Evidence: matched coverage repeats; report Figure 1b and §3.3
 
 ## 7. Preserve evicted KV in host DRAM
 

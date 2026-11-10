@@ -96,7 +96,9 @@ def charts():
                 ax.scatter(x + offset + dx, value, color=color, s=58, alpha=.9,
                            label=label if x == 0 and dx == -.035 else None)
     ax.axhline(0, color=INK, ls='--', lw=1)
-    ax.set(xticks=range(5), xticklabels=LABELS, ylabel='Predictive vs. LRU: time change (%)', ylim=(-18, 55))
+    ax.set(xticks=range(5), xticklabels=['A\nN = 10', 'A\nN = 20', 'A\nN = 30', 'B\nN = 10', 'C\nN = 10'],
+           xlabel='Workload group and concurrent segments',
+           ylabel='Predictive vs. LRU: time change (%)', ylim=(-18, 55))
     ax.legend(frameon=False, fontsize=12, loc='upper left')
     clean(ax)
     effects = saveplot(fig, 'replication-interaction')
@@ -373,16 +375,18 @@ def make_slides():
     s.text(704, 307, 202, '58–65% lower\nmean vs. FCFS / LRU\nin cohort A', size=18)
     s.text(44, 471, 880, 'Three repeats per cell. Ranges are observed minima/maxima; lower is better.', size=13.5, color=MUTED)
 
-    s = new('Prediction depends on the scheduler', 'Part 1 · Interaction and tradeoff', 55,
-        'The predictive eviction result changes direction when we change the scheduler. Each point here compares predictive eviction against LRU within one matched repeat block. Values below zero mean predictive eviction is faster. Orange points use FCFS, and every orange point is below zero. Purple points use prefix-aware scheduling, and every purple point is above zero. Across settings, adding predictive eviction increases the prefix-aware mean by roughly ten to forty-three percent. The historical tool-duration oracle does not remove this local regression, so prediction accuracy alone does not explain it. There is also a responsiveness tradeoff: at A30, prefix/LRU improves the session mean but increases the average per-run request P99 from about 713 to 1,292 seconds. Scheduling should therefore be judged against both locality and latency objectives.',
-        'Evidence: matched coverage repeats and request tails; report Figure 1b and §3.3')
+    s = new('Prediction depends on the scheduler', 'Part 1 · Scheduler interaction', 55,
+        'A, B, and C identify workload groups. A is the main load sweep at ten, twenty, and thirty concurrent segments; larger selections retain the smaller ones. B and C each use ten segments from different held-out source sessions, disjoint from A and each other, to check sensitivity to workload selection. N is the number of concurrent segments. Each dot compares predictive eviction with LRU in one matched repeat. Below zero means prediction is faster. Every orange FCFS point is below zero; every purple prefix-aware point is above zero. Prediction therefore helps FCFS but worsens prefix-aware means across these workloads. Lower session means also do not guarantee better request tails. This completes the first half.',
+        'Evidence: matched coverage repeats; report Figure 1b and §3.3')
     s.box(36, 140, 625, 325, '#ffffff', radius=8)
     s.picture(44, 146, 609, 310, effects)
-    s.box(686, 145, 238, 306, '#ffffff', radius=8)
-    s.text(704, 164, 202, 'Mean ≠ tail', size=24, bold=True)
-    s.text(704, 220, 202, 'A30 request P99\n(average of 3 runs)', size=16, color=MUTED)
-    s.text(704, 286, 202, '713 s → 1,292 s', size=22, color=PURPLE, bold=True)
-    s.text(704, 339, 202, 'FCFS / LRU →\nprefix / LRU', size=18)
+    s.box(686, 145, 238, 318, '#ffffff', radius=8)
+    s.text(704, 164, 202, 'Workload key', size=23, bold=True)
+    s.text(704, 209, 202, 'A: load sweep', size=18, color=BLUE, bold=True)
+    s.text(704, 241, 202, '10 → 20 → 30 segments\nKeep earlier segments.', size=16)
+    s.text(704, 301, 202, 'B/C: extra checks', size=18, color=GREEN, bold=True)
+    s.text(704, 334, 202, '10 segments each;\ndifferent source sessions\nfrom A and one another.', size=16)
+    s.text(704, 421, 202, 'N = concurrent segments', size=15, color=MUTED)
     s.text(44, 471, 880, 'Dots are matched-repeat effects. Positive values mean slower serving.', size=13.5, color=MUTED)
 
     s = new('Preserve evicted KV in host DRAM', 'Parts 2–3 · Recovery method', 60,
