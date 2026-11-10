@@ -1,7 +1,7 @@
 # Presentation script: CacheWise replication and KV cache recovery
 
-This script follows the ten-slide deck and its 10:00 timing plan.
-Spend 0:00–5:00 on the CacheWise paper and adapted replication (slides 1–5), then 5:00–10:00 on recovery costs, host methods, limitations and takeaways (slides 6–10).
+This script follows the eleven-slide deck and its 10:00 timing plan.
+Spend 0:00–5:00 on the CacheWise paper and adapted replication (slides 1–6), then 5:00–10:00 on recovery costs, host methods, limitations and takeaways (slides 7–11).
 Questions follow the talk.
 Read the spoken paragraphs; italic instructions are delivery cues and should not be read aloud.
 Pause briefly after the main numbers and use the slide transitions to check your timing.
@@ -16,49 +16,55 @@ Hello everyone. This project asks how coding-agent servers can reuse previous co
 
 We examine CacheWise scheduling and eviction, then look at restoring evicted KV state from host memory.
 
-## Slide 2 — CacheWise: reuse prefixes across tool calls
+## Slide 2 — What do the CacheWise traces contain?
 
-**0:20–1:35 · 75 seconds**
+**0:20–1:05 · 45 seconds**
 
-*Follow the request–tool–return sequence, then point to the two CacheWise mechanisms.*
+*Point to the logged events, then the reuse patterns and the scheduling explanation.*
 
-CacheWise studies a pattern common in coding agents: a model request, followed by tool execution, followed by another request that reuses much of the same context.
+CacheWise uses CATraces: logs of real Claude Code sessions. They record model requests, tool calls, timing information, and token usage.
 
-The KV cache stores attention keys and values. Keeping a compatible prefix avoids processing that context again during prefill. But while a tool runs, the inactive state still takes up GPU memory.
+These are multi-turn sessions with growing prompts. Successive requests repeatedly share long prefixes, while generated outputs are relatively short. Tool waits separate the requests.
 
-CacheWise combines two mechanisms to manage this tradeoff.
+The released content is redacted, so our replay uses synthetic tokens to preserve lengths and prefix growth.
 
-First, prefix-aware scheduling favors requests needing fewer additional KV blocks. This controls which request goes next.
+When a prefix is already on the GPU, serving that request requires less new prefill and fewer additional KV blocks. Prefix-aware ordering can therefore reduce the active working set and eviction pressure.
 
-Second, predictive eviction uses tool metadata to estimate when inactive sessions will return. This guides which cached state to retain.
+## Slide 3 — CacheWise: scheduling and eviction
 
-The original paper also evaluates GPU–CPU offloading, so offloading itself is not a new idea introduced by our project.
+**1:05–1:55 · 50 seconds**
 
-My replication asks how these scheduling and eviction mechanisms behave in our adapted setup.
+*Point to scheduling first, then eviction. Connect both decisions back to prefix reuse.*
 
-## Slide 3 — Replication separates two decisions
+These trace properties motivate two CacheWise mechanisms.
 
-**1:35–2:40 · 65 seconds**
+First, prefix-aware scheduling favors waiting requests needing fewer additional KV blocks, using overlap with state already on the GPU.
 
-*Point to the two rows and then the two columns of the policy matrix.*
+Second, predictive eviction uses tool metadata to estimate when inactive sessions will return and guide which cached state to retain.
 
-For the replication, we separate scheduling from eviction.
+Scheduling decides what to serve. Eviction decides what to reclaim. They interact because request ordering changes cache residency and future reuse.
 
-We compare first-come, first-served scheduling with prefix-aware scheduling, which favors requests needing less additional KV state. We also compare least recently used eviction, or LRU, with predictive eviction based on tool names.
+Our replication tests the two decisions independently. The later host study then examines how to recover useful state after eviction.
 
-All four combinations use the same engine fork, fresh servers, and identical selected inputs.
+## Slide 4 — Replication separates two decisions
 
-Because the released text is redacted, we use synthetic prompts preserving prefix growth and recorded lengths. This is an adapted replay.
+**1:55–2:55 · 60 seconds**
 
-The setup uses a fourteen-billion-parameter Qwen coding model on one Blackwell GPU. The cache holds about 288,000 tokens.
+*Point to the policy matrix and the coverage-study box.*
 
-We test five workload settings: three nested loads in cohort A, plus two additional held-out cohorts. With three repeats per policy, that gives sixty runs and 6,384 request executions.
+We compare first-come, first-served with prefix-aware scheduling, and least recently used eviction, or LRU, with predictive eviction.
 
-Our main metric is mean session serving time: the sum of model-request latencies within a session, excluding tool waits.
+All four combinations use the same configuration, fresh servers, and identical selected inputs. The replay preserves recorded lengths and within-session prefix growth.
 
-## Slide 4 — Prefix / LRU has the lowest mean
+The setup uses a fourteen-billion-parameter Qwen coding model on one Blackwell GPU, with about 288,000 KV token slots.
 
-**2:40–4:00 · 80 seconds**
+Cohort A tests nested loads of ten, twenty, and thirty segments. B and C check whether the ordering holds on different held-out sessions. All are evaluation cohorts.
+
+Five settings, four policies, and three repeats give sixty runs and 6,384 request executions. Our main metric sums model-request latencies within a session, excluding tool waits.
+
+## Slide 5 — Prefix / LRU has the lowest mean
+
+**2:55–4:05 · 70 seconds**
 
 *Trace the green line. Pause after “all five settings.”*
 
@@ -74,25 +80,23 @@ The error bars show the observed range of three repeats. They are not confidence
 
 The result supports prefix-aware scheduling in this replay. Next, we can ask whether predictive eviction adds to that benefit.
 
-## Slide 5 — Prediction depends on the scheduler
+## Slide 6 — Prediction depends on the scheduler
 
-**4:00–5:00 · 60 seconds**
+**4:05–5:00 · 55 seconds**
 
-*Point below zero for orange, then above zero for purple. Finish at the P99 callout.*
+*Point below zero for orange, above zero for purple, then to the P99 callout.*
 
-Here, each point compares predictive eviction with LRU within the same repeat block. Below zero means predictive eviction is faster.
+Each point compares predictive eviction with LRU within the same repeat block. Below zero means prediction is faster.
 
-Every orange point is below zero: prediction helps first-come, first-served scheduling. Every purple point is above zero: prediction makes prefix-aware scheduling slower.
+Every orange point is below zero: prediction helps first-come, first-served. Every purple point is above zero: it makes prefix-aware scheduling slower.
 
-Across the five settings, the prefix-aware mean increases by about ten to forty-three percent when prediction is added. Its benefit therefore depends on the scheduler.
+The prefix-aware mean increases by about ten to forty-three percent across settings.
 
-There is also a tail-latency tradeoff. At the largest cohort A load, prefix-aware LRU improves the session mean, but the average per-run request P99 rises from about 713 to 1,292 seconds.
+There is also a tail tradeoff. At the largest cohort A load, prefix-aware LRU improves the mean, but average per-run request P99 rises from about 713 to 1,292 seconds.
 
-A lower mean therefore does not guarantee better responsiveness for the slowest requests.
+Scheduling and eviction therefore need to be considered together, including both means and tails. That completes the first half; next is recovery after eviction.
 
-That completes the CacheWise and replication half. Next, I’ll turn to recovery costs.
-
-## Slide 6 — Preserve evicted KV in host DRAM
+## Slide 7 — Preserve evicted KV in host DRAM
 
 **5:00–6:00 · 60 seconds**
 
@@ -108,7 +112,7 @@ Clean host copies can be retained, avoiding another save when those GPU pages ar
 
 This study keeps twenty-four gibibytes of GPU KV capacity and adds thirty-six gibibytes of host KV capacity. The implemented backing tier is host DRAM; SSD storage remains future work.
 
-## Slide 7 — Host restoration reduces session time
+## Slide 8 — Host restoration reduces session time
 
 **6:00–7:15 · 75 seconds**
 
@@ -126,7 +130,7 @@ These comparisons include the extra host capacity, and each bar represents one r
 
 This study also uses a different engine and replay setup, so we keep its timings separate from the replication results.
 
-## Slide 8 — Fetch-aware ordering discounts host hits
+## Slide 9 — Fetch-aware ordering discounts host hits
 
 **7:15–8:35 · 80 seconds**
 
@@ -144,7 +148,7 @@ These observations favor the full combination, but there are too few repetitions
 
 The design lesson is to consider cache location when ordering requests. Prefetching alone does not guarantee an improvement.
 
-## Slide 9 — Keep the conclusions within the evidence
+## Slide 10 — Keep the conclusions within the evidence
 
 **8:35–9:20 · 45 seconds**
 
@@ -160,7 +164,7 @@ Third, we have no SSD implementation or measurements. An SSD extension would nee
 
 The completed evidence therefore concerns this adapted replication and host-DRAM recovery.
 
-## Slide 10 — Three takeaways
+## Slide 11 — Three takeaways
 
 **9:20–10:00 · 40 seconds**
 

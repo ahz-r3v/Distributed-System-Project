@@ -30,6 +30,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 ASSETS = HERE / 'assets'
 W, H = 960, 540
+SLIDE_COUNT, FIRST_HALF_SLIDES = 11, 6
 INK, MUTED, BG = '#172b40', '#526477', '#f7f9fc'
 BLUE, ORANGE, GREEN, PURPLE = '#536e89', '#cf7934', '#238269', '#8661a6'
 FONT_ROOT = Path('/usr/share/fonts/truetype/dejavu')
@@ -169,12 +170,12 @@ class Slide:
 
     def frame(self, index):
         self.box(0, 0, W, H, BG)
-        self.box(0, 0, 10, H, [BLUE, GREEN, PURPLE][min(2, (index-1)//4)])
+        self.box(0, 0, 10, H, BLUE if index <= FIRST_HALF_SLIDES else GREEN if index < SLIDE_COUNT else PURPLE)
         self.text(36, 20, 880, self.section.upper(), size=11, bold=True, color=MUTED)
         self.text(36, 47, 880, self.title, size=30, bold=True)
         self.line(36, 500, 924, 500, '#d9e0e8', 1)
         self.text(36, 513, 700, self.source or 'CacheWise Replication and Fetch-Aware KV Cache Recovery', size=9.5, color=MUTED)
-        self.text(882, 510, 42, f'{index:02d}/10', size=11, color=MUTED)
+        self.text(882, 510, 42, f'{index:02d}/{SLIDE_COUNT}', size=11, color=MUTED)
 
 
 def sha(path):
@@ -197,9 +198,9 @@ def write_outputs(slides):
     pdf.setTitle(prs.core_properties.title)
     pdf.setAuthor('')
     notes = ['# Ten-minute presentation speaker notes', '',
-             '10 slides · 10:00 planned speaking time · questions after the talk.', '',
-             '0:00–5:00: CacheWise paper and adapted replication (slides 1–5).',
-             '5:00–10:00: recovery costs, host methods, limitations and takeaways (slides 6–10).', '',
+             f'{SLIDE_COUNT} slides · 10:00 planned speaking time · questions after the talk.', '',
+             '0:00–5:00: CacheWise paper and adapted replication (slides 1–6).',
+             '5:00–10:00: recovery costs, host methods, limitations and takeaways (slides 7–11).', '',
              'The PowerPoint and PDF use the same layout. The PowerPoint includes these notes.',
              'Timings are rehearsal targets, not a recording. No experiments were run to create this deck.', '']
     elapsed = 0
@@ -270,18 +271,18 @@ def write_outputs(slides):
         notes += [f'## {i}. {note_title}', '', f'**{timestamp(start)}–{timestamp(end)} · {slide.seconds} seconds**', '', slide.notes, '', f'Evidence: {source_label}', '']
         elapsed = end
         pdf.showPage()
-    assert elapsed == 600 and len(slides) == 10
-    assert sum(slide.seconds for slide in slides[:5]) == 300
-    assert sum(slide.seconds for slide in slides[5:]) == 300
+    assert elapsed == 600 and len(slides) == SLIDE_COUNT
+    assert sum(slide.seconds for slide in slides[:FIRST_HALF_SLIDES]) == 300
+    assert sum(slide.seconds for slide in slides[FIRST_HALF_SLIDES:]) == 300
     prs.save(HERE / 'cachewise-10-minute-talk.pptx')
     pdf.save()
     (HERE / 'cachewise-10-minute-speaker-notes.md').write_text('\n'.join(notes))
     outputs = [HERE / ('cachewise-10-minute-talk.' + ext) for ext in ['pptx', 'pdf']]
     outputs += [HERE / 'cachewise-10-minute-speaker-notes.md'] + sorted(ASSETS.glob('*.png'))
     provenance = {
-        'scope': 'Ten slides, 600 seconds of planned speaking time. Existing evidence only; no model execution or experiment.',
-        'time_allocation_seconds': {'cachewise_paper_and_replication_slides_1_to_5': 300,
-                                    'recovery_methods_and_wrapup_slides_6_to_10': 300},
+        'scope': 'Eleven slides, 600 seconds of planned speaking time. Existing evidence only; no model execution or experiment.',
+        'time_allocation_seconds': {'cachewise_paper_and_replication_slides_1_to_6': 300,
+                                    'recovery_methods_and_wrapup_slides_7_to_11': 300},
         'rendering': 'PDF and editable PPTX generated independently from the same validated layout; PDF is not an Office export. DejaVu Sans is used in both.',
         'inputs': {str(p.relative_to(ROOT)): sha(p) for p in [COVERAGE_INPUT, HOST_INPUT]},
         'script_sha256': sha(Path(__file__)),
@@ -309,28 +310,42 @@ def make_slides():
     s.text(56, 286, 848, 'CENTRAL QUESTION', size=13, color=BLUE, bold=True)
     s.text(56, 322, 848, 'How can coding agents reuse previous computation\nwhen GPU memory is limited?', size=27, bold=True)
 
-    s = new('CacheWise: reuse prefixes across tool calls', 'Part 1 · The CacheWise paper', 75,
-        'CacheWise studies a pattern common in coding agents: a model request is followed by tool execution, then another request reusing much of the previous context. The KV cache stores attention keys and values, so keeping a prefix avoids processing it again during prefill. Tool waits create both an opportunity and memory pressure: inactive state is useful later but occupies GPU space now. CacheWise combines two mechanisms. Prefix-aware scheduling favors waiting requests needing fewer additional KV blocks. Predictive eviction uses tool metadata to estimate when inactive sessions will return and guide which cached state to retain. These mechanisms address request ordering and memory reclamation, respectively. The original paper also evaluates GPU–CPU offloading, so host offloading itself is not a new claim here. Our replication asks how the scheduling and eviction mechanisms behave in our adapted setup.',
-        'CacheWise: Tiwari et al., arXiv:2606.16824v1; report §§1–3')
-    for x, label, sub in [(36, 'Model request', 'Prefill + decode'), (350, 'Tool execution', 'Inactive KV still uses GPU space'), (664, 'Returning request', 'Shared prefix + new context')]:
-        s.box(x, 137, 260, 85, '#ffffff', radius=8)
-        s.text(x+16, 149, 230, label, size=21, bold=True)
-        s.text(x+16, 188, 230, sub, size=13, color=MUTED)
-    s.line(301, 179, 340, 179, arrow=True)
-    s.line(615, 179, 655, 179, arrow=True)
-    for x, color, title, question, body in [
-        (36, GREEN, 'Prefix-aware scheduling', 'Which request goes next?',
-         'Favor requests needing fewer\nadditional KV blocks.'),
-        (489, PURPLE, 'Predictive eviction', 'Which cached state should stay?',
-         'Use tool metadata to estimate\nwhen inactive sessions return.')]:
-        s.box(x, 262, 435, 174, '#ffffff', stroke=color, radius=8)
-        s.text(x+18, 278, 399, title, size=22, bold=True, color=color)
-        s.text(x+18, 320, 399, question, size=18, bold=True)
-        s.text(x+18, 360, 399, body, size=18)
-    s.text(36, 460, 888, 'Paper also evaluates CPU offloading; our replication isolates scheduling and eviction.', size=14, color=MUTED)
+    s = new('What do the CacheWise traces contain?', 'Part 1 · Coding-agent traces', 45,
+        'CacheWise uses CATraces: logs of real Claude Code sessions, including model requests, tool calls, timing information, and token usage. They describe multi-turn sessions rather than independent prompts. Inputs grow across turns and repeatedly share long prefixes, while outputs are relatively short. Tool execution separates requests and makes sessions return at different times. The released content is redacted, so our replay preserves lengths and within-session prefix growth using synthetic tokens. A request with a resident prefix needs less new prefill and fewer additional KV blocks. Prefix-aware ordering can therefore reduce the active working set and eviction pressure.',
+        'CacheWise v1 §§3–5; released-trace replay: report §3.1')
+    for x, title, body, detail in [
+        (36, 'CATraces: real coding sessions',
+         'Claude Code interaction logs\nModel requests + tool calls\nTiming + prompt / output lengths',
+         'Released content is redacted; replay\npreserves lengths and prefix growth.'),
+        (489, 'Reuse across turns',
+         'Growing, shared prompt prefixes\nLong inputs with short outputs\nTool waits between requests',
+         'Requests arrive in sessions,\nwith repeated opportunities for reuse.')]:
+        s.box(x, 137, 435 if x == 489 else 430, 198, '#ffffff', radius=8)
+        s.text(x+18, 153, 394, title, size=21, bold=True)
+        s.text(x+18, 196, 394, body, size=17.5)
+        s.text(x+18, 282, 394, detail, size=14.5, color=MUTED)
+    s.box(36, 361, 888, 116, '#e9eef5', radius=8)
+    s.text(54, 375, 852, 'Why prefix-aware scheduling can help', size=22, bold=True, color=GREEN)
+    s.text(54, 418, 852, 'Reuse a resident prefix → less new prefill → fewer additional KV blocks.\nA smaller active working set can reduce eviction pressure.', size=18)
 
-    s = new('Replication separates two decisions', 'Part 1 · Methodology', 65,
-        'We vary scheduling and eviction independently. The two schedulers are first-come, first-served and prefix-aware scheduling, which favors requests requiring less additional KV state. The two eviction policies are LRU and learned predictive eviction using tool names. All four combinations run in the same engine fork with fresh servers and identical selected inputs. Our testbed uses a 14-billion-parameter Qwen coding model in BF16 on one Blackwell GPU, with 287,696 KV token slots and 512-token prefill chunks. Cohort A has nested loads of ten, twenty, and thirty segments; B and C add two source-disjoint ten-segment cohorts. Four policies, five settings, and three repeats give sixty runs and 6,384 request executions. The primary metric sums model-request latencies within each session, excluding external tool waits.',
+    s = new('CacheWise: scheduling and eviction', 'Part 1 · The CacheWise paper', 50,
+        'These trace properties motivate the two CacheWise mechanisms. Prefix-aware scheduling favors waiting requests that need fewer additional KV blocks, using overlap with state already on the GPU. Predictive eviction uses tool metadata to estimate when inactive sessions will return and guide which cached state to retain. Scheduling decides what to serve, while eviction decides what to reclaim. The decisions interact because request ordering changes residency and future reuse. Our replication varies them independently, then the separate host study examines recovery after eviction.',
+        'CacheWise: Tiwari et al., arXiv:2606.16824v1; report §§1–3')
+    for x, color, title, question, body, detail in [
+        (36, GREEN, 'Prefix-aware scheduling', 'Which request goes next?',
+         'Favor requests needing fewer\nadditional KV blocks.', 'Uses GPU prefix overlap.'),
+        (489, PURPLE, 'Predictive eviction', 'Which cached state should stay?',
+         'Use tool metadata to estimate\nwhen inactive sessions return.', 'Uses predicted time until reuse.')]:
+        s.box(x, 160, 435, 229, '#ffffff', stroke=color, radius=8)
+        s.text(x+18, 178, 399, title, size=22, bold=True, color=color)
+        s.text(x+18, 228, 399, question, size=18, bold=True)
+        s.text(x+18, 276, 399, body, size=18)
+        s.text(x+18, 349, 399, detail, size=16, color=MUTED)
+    s.text(36, 424, 888, 'Scheduling chooses what to serve; eviction chooses what to reclaim.', size=20, bold=True)
+    s.text(36, 469, 888, 'Our replay tests these policies before the separate host-recovery study.', size=14, color=MUTED)
+
+    s = new('Replication separates two decisions', 'Part 1 · Methodology', 60,
+        'We vary scheduling and eviction independently. The two schedulers are first-come, first-served and prefix-aware scheduling, which favors requests requiring less additional KV state. The two eviction policies are LRU and learned predictive eviction using tool names. All four combinations use the same configuration, fresh servers, and identical selected inputs. Our testbed uses a 14-billion-parameter Qwen coding model in BF16 on one Blackwell GPU, with 287,696 KV token slots and 512-token prefill chunks. Cohort A has nested loads of ten, twenty, and thirty segments; B and C add two source-disjoint ten-segment cohorts. Four policies, five settings, and three repeats give sixty runs and 6,384 request executions. The primary metric sums model-request latencies within each session, excluding external tool waits.',
         'Evidence: part1-coverage-comparison.json; report §3.1–3.2')
     s.text(36, 131, 544, 'Scheduler × eviction policy', size=20, bold=True)
     s.text(171, 173, 175, 'LRU', size=18, color=MUTED, bold=True)
@@ -347,9 +362,9 @@ def make_slides():
     s.box(36, 417, 888, 62, '#e9eef5', radius=7)
     s.text(52, 430, 856, 'Primary metric: mean session serving time, excluding tool waits.', size=20, bold=True)
 
-    s = new('Prefix / LRU has the lowest mean', 'Part 1 · Main result', 80,
+    s = new('Prefix / LRU has the lowest mean', 'Part 1 · Main result', 70,
         'This chart shows cohort A as the selected workload grows from ten to thirty concurrent segments. Lower is better. The blue and orange lines use FCFS; green and purple use prefix-aware scheduling. The largest separation comes from scheduling. Prefix-aware LRU reduces the FCFS/LRU mean by about 58 percent at ten segments, 62 percent at twenty, and 65 percent at thirty. The bars show the observed range of three repeats, not confidence intervals. The additional held-out B and C cohorts are included in the report table: prefix-aware LRU also has the lowest mean there, making five out of five settings. Increasing N adds new segments, so this is a nested workload sweep rather than a concurrency-only experiment with fixed composition. The result supports prefix-aware scheduling in this adapted replay; it does not establish a universal ranking across models or the entire trace population.',
-        'Evidence: frozen 60-run coverage study; report Table 1 and Figure 1a')
+        'Evidence: frozen 60-run coverage study; report Table 3 and Figure 1a')
     s.box(36, 137, 625, 328, '#ffffff', radius=8)
     s.picture(44, 143, 609, 315, load)
     s.box(686, 145, 238, 303, '#ffffff', radius=8)
@@ -358,7 +373,7 @@ def make_slides():
     s.text(704, 307, 202, '58–65% lower\nmean vs. FCFS / LRU\nin cohort A', size=18)
     s.text(44, 471, 880, 'Three repeats per cell. Ranges are observed minima/maxima; lower is better.', size=13.5, color=MUTED)
 
-    s = new('Prediction depends on the scheduler', 'Part 1 · Interaction and tradeoff', 60,
+    s = new('Prediction depends on the scheduler', 'Part 1 · Interaction and tradeoff', 55,
         'The predictive eviction result changes direction when we change the scheduler. Each point here compares predictive eviction against LRU within one matched repeat block. Values below zero mean predictive eviction is faster. Orange points use FCFS, and every orange point is below zero. Purple points use prefix-aware scheduling, and every purple point is above zero. Across settings, adding predictive eviction increases the prefix-aware mean by roughly ten to forty-three percent. The historical tool-duration oracle does not remove this local regression, so prediction accuracy alone does not explain it. There is also a responsiveness tradeoff: at A30, prefix/LRU improves the session mean but increases the average per-run request P99 from about 713 to 1,292 seconds. Scheduling should therefore be judged against both locality and latency objectives.',
         'Evidence: matched coverage repeats and request tails; report Figure 1b and §3.3')
     s.box(36, 140, 625, 325, '#ffffff', radius=8)

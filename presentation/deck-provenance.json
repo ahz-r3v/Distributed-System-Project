@@ -1,19 +1,19 @@
 {
-  "scope": "Ten slides, 600 seconds of planned speaking time. Existing evidence only; no model execution or experiment.",
+  "scope": "Eleven slides, 600 seconds of planned speaking time. Existing evidence only; no model execution or experiment.",
   "time_allocation_seconds": {
-    "cachewise_paper_and_replication_slides_1_to_5": 300,
-    "recovery_methods_and_wrapup_slides_6_to_10": 300
+    "cachewise_paper_and_replication_slides_1_to_6": 300,
+    "recovery_methods_and_wrapup_slides_7_to_11": 300
   },
   "rendering": "PDF and editable PPTX generated independently from the same validated layout; PDF is not an Office export. DejaVu Sans is used in both.",
   "inputs": {
     "notes/experiment-evidence/part1-coverage-comparison.json": "ece9e43fc8ca9e12691ca0311fe5f222d1f3cdec48dcfbb21a6152ea2174292c",
     "notes/experiment-evidence/host-dram-reported-results.json": "8126bea2a77ad959e6e109b5157463b05cd23d09db33753609c80f7e9975baaf"
   },
-  "script_sha256": "c5896be546a680e6cd98953f56fda821a13446f168029beab7f5b8bf50dda5a7",
+  "script_sha256": "e4757a56f098c6b25699b9778b4afced0843a7c90e7c08ac4e1c77422ea59044",
   "outputs": {
-    "presentation/cachewise-10-minute-talk.pptx": "0822dc50abb9fd26cc15d20390c35bc68c806e28b4a04f01031e25e4001efd5c",
-    "presentation/cachewise-10-minute-talk.pdf": "3b67b8278b10941db90957a3fbb0a429b50d998bbcacc068bde5acb22a76c7c6",
-    "presentation/cachewise-10-minute-speaker-notes.md": "1d988f636036e4f0887ac5ffd20471f353125f3886e3e54d097828dc9f809856",
+    "presentation/cachewise-10-minute-talk.pptx": "1b4f0018bf49243b019459122d30ba988ebaa64b129348a3ef97a560f2e6c6a6",
+    "presentation/cachewise-10-minute-talk.pdf": "6d49e2351fb667d932c87e437acf345c3cd82be6824253e2be7effa291f06f2c",
+    "presentation/cachewise-10-minute-speaker-notes.md": "0afb73fff1daf7ea5035b2e0403b3c2c4bbe3bcf327dddcccd0a342fd515289c",
     "presentation/assets/host-ablation.png": "84d30c5997762a0b7b6ef8bc3a7cfd2a760345d16d9a37e3db1d13c22abf5227",
     "presentation/assets/host-recovery.png": "53c321b6924f1d51c89c87530b218ba49c9cce323f090f5d3ed7254d44dd2904",
     "presentation/assets/replication-interaction.png": "00ab9be44370dd89055bad2859534de3bac0e4309035051cfa8849599d123740",

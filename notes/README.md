@@ -380,3 +380,19 @@ Existing detailed figure generators remain unchanged.
 Plots are redrawn at larger type sizes from the same evidence.
 The slide timings total 600 seconds, excluding questions; rehearse to adjust pacing.
 This revision executes document builds and rendering only, with no new experiments, replays, model calls, or correctness runs.
+
+## Methodology review and trace introduction (2026-11-10)
+
+The six-page report now presents the replication testbed and coverage eligibility/workloads in two methodology tables, alongside the existing means table and three selected figures.
+Cohort A provides a nested load sweep; B and C check whether the policy ordering holds on different held-out source sessions.
+Engine revision/patch narration and the stock-engine comparison were removed from the prose; the archived provenance is unchanged.
+The audit paragraph is reduced to completion and the retained preemption, with its post hoc amendment and unmeasured extra prefill work still disclosed.
+The introduction frames GPU–CPU recovery as an additional study in this project and removes its last secondary-storage sentence.
+For attribution, the cited CacheWise v1 does contain a physical GPU–CPU experiment in [Section 6.4](https://arxiv.org/html/2606.16824v1#S6.SS4); the revised framing does not claim that our project first introduced host offloading.
+
+The presentation now has eleven slides.
+After the introduction, a new CATraces slide explains the real Claude Code logs, recorded event/usage metadata, repeated growing prefixes, short outputs, and tool waits, then connects resident-prefix reuse to reduced prefill and allocation pressure.
+The mechanisms follow on the next slide.
+Slides 1–6 still total 300 seconds; host recovery and the closing slides occupy the remaining 300 seconds.
+The script, embedded notes, PDFs, and timing table follow the same order.
+No experiment, replay, model execution, or correctness run was launched for these revisions.
