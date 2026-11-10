@@ -16,7 +16,8 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 EVIDENCE = ROOT / "notes/experiment-evidence"
 POLICIES = ["baseline", "eviction_only", "prefix_only_no_aging", "cachewise_no_aging"]
-NAMES = ["FCFS / LRU", "FCFS / predictive", "Prefix / LRU", "Prefix / predictive"]
+NAMES = ["Baseline\nFCFS / LRU", "Eviction only\nFCFS / predictive",
+         "Scheduling only\nPrefix / LRU", "CacheWise\nPrefix / predictive"]
 COLORS = ["#536e89", "#cf7934", "#238269", "#8661a6"]
 MARKERS = ["o", "s", "^", "D"]
 SETTINGS = ["a-n10", "a-n20", "a-n30", "b-n10", "c-n10"]
@@ -152,11 +153,11 @@ def serving(groups, effects):
     for policy, name, color, marker in zip(POLICIES, NAMES, COLORS, MARKERS):
         observed(axes[0], [10, 20, 30], [groups[f"a-n{n}", policy]["mean_session_serving_s"] for n in [10, 20, 30]],
                  name, color, marker, connect=True)
-    axes[0].set(title="(a) Nested cohort A", xlabel="Concurrent segments, N",
+    axes[0].set(title="(a) Nested cohort A", xlabel="Initial concurrent segments, N",
                 ylabel="Mean session serving time (s)", xticks=[10, 20, 30], ylim=(0, 2200))
     for offset, scheduler, treatment, control, color in [
-        (-.1, "FCFS", "eviction_only", "baseline", COLORS[1]),
-        (.1, "Prefix-aware", "cachewise_no_aging", "prefix_only_no_aging", COLORS[3]),
+        (-.1, "Eviction only vs baseline", "eviction_only", "baseline", COLORS[1]),
+        (.1, "CacheWise vs scheduling only", "cachewise_no_aging", "prefix_only_no_aging", COLORS[3]),
     ]:
         for repeat, marker in enumerate(["o", "s", "^"]):
             values = [next(r["mean_session_time_change_percent"] for r in effects
@@ -167,7 +168,7 @@ def serving(groups, effects):
                             label=scheduler if repeat == 0 else None)
     axes[1].axhline(0, color="#555555", linewidth=.8, linestyle="--")
     axes[1].set(title="(b) Predictive versus LRU, matched repeats",
-                xlabel="Cohort and concurrent segments", ylabel="Change in mean session time (%)",
+                xlabel="Cohort and initial segments", ylabel="Change in mean session time (%)",
                 xticks=np.arange(5), xticklabels=LABELS, ylim=(-18, 51))
     axes[1].legend(frameon=False, fontsize=7, loc="upper left")
     axes[1].text(.98, .02, "Negative = lower time", transform=axes[1].transAxes,
@@ -193,7 +194,7 @@ def accounting(groups, data):
                      [groups[setting, policy][metric] for setting in SETTINGS],
                      name, color, marker, scale=scale)
         ax.set(title=title, ylabel=ylabel, xticks=np.arange(5), xticklabels=LABELS,
-               xlabel="Cohort and concurrent segments", xlim=(-.6, 4.6), ylim=(0, None))
+               xlabel="Cohort and initial segments", xlim=(-.6, 4.6), ylim=(0, None))
         decorate(ax)
     selected = {s["id"]: s for s in data["selection"]["settings"]}
     first_use, = axes[1].plot(np.arange(5), [selected[s]["first_use_prompt_tokens"] / 1000000 for s in SETTINGS],

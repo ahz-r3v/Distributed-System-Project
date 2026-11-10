@@ -13,6 +13,14 @@ GPU residency remains prefix-closed; the host tier can preserve an evicted suffi
   \label{fig:host-cache-architecture}
 \end{figure}
 
+% Declare the evaluation float early so it stays near the evaluation text.
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{compact-host-results.pdf}
+  \caption{Reported host-study observations. (a) FCFS/LRU baseline fixed: restoration adds 36~GiB of host KV payload to the 24~GiB GPU pool; each bar is one run. (b) $N=36$ ablations at fixed tier capacities; the offload baseline uses FCFS/LRU, and CacheWise uses prefix/predictive. Bars show the first observations; diamonds mark additional observations where available. Most policies have one run, and the additional observations are not verified matched blocks. Lower is better in both panels.}
+  \label{fig:compact-host-results}
+\end{figure*}
+
 \paragraph{Page offload and restoration.}
 When allocation needs GPU space, the engine evicts unreferenced radix leaves according to its eviction priority.
 Dirty pages are copied to host memory; a clean inclusive host copy lets the engine release GPU pages without rewriting them.

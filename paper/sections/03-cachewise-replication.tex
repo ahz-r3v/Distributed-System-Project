@@ -8,7 +8,9 @@ The released corpus contains 94 source traces with redacted content; among 11,38
 These corpus statistics motivate reuse but do not describe every selected serving workload.
 Seeded synthetic prompts preserve prefix growth within a segment, and generation follows recorded output lengths with constrained token identifiers.
 Human-input boundaries and context shrink split sessions into complete segments.
-Turns execute sequentially within a segment and concurrently across selected segments, preserving external delays.
+All $N$ segments are launched as a group.
+Each segment issues its next request only after the previous response and recorded external wait finish.
+Completed segments are not replaced, so $N$ is the initial concurrent segment count rather than a constant number of in-flight requests.
 The predictor uses tool names, since arguments are redacted; its 34 training sources are excluded from serving evaluation.
 
 Table~\ref{tab:replication-testbed} summarizes the replication testbed.
@@ -36,8 +38,12 @@ Each policy starts a fresh server with identical selected inputs.
   \label{tab:replication-testbed}
 \end{table}
 
+FCFS/LRU is the \emph{baseline}.
+The \emph{adapted CacheWise} policy combines prefix-aware scheduling with learned predictive eviction (prefix/predictive).
+The \emph{scheduling-only} ablation uses prefix/LRU, and the \emph{eviction-only} ablation uses FCFS/predictive.
+These names identify the four core policy combinations throughout the report.
+
 The initial experiment uses ten segments from eight sources, 83 requests per run, six policies, and three repeats (18 runs; 1,494 request executions).
-The four core combinations independently vary FCFS/prefix-aware scheduling and LRU/learned predictive eviction.
 Two diagnostics substitute recorded tool durations for predictions or enable a local 30-second queue-aging override.
 
 The coverage study selects workloads before observing policy outcomes, using the eligibility limits in Table~\ref{tab:replication-selection}.
@@ -89,7 +95,7 @@ The coverage runs add full-eviction instrumentation and new workloads, so their 
 \begin{figure*}[t]
   \centering
   \includegraphics[width=\textwidth]{replication-coverage-serving.pdf}
-  \caption{Coverage results: (a) cohort A load sweep, with three-repeat means and observed ranges; (b) predictive eviction's effect within matched repeat blocks under each scheduler. Positive values indicate slower serving. B/C are additional source-disjoint $N=10$ cohorts. Ranges and points are descriptive, not confidence intervals.}
+  \caption{Coverage results: (a) cohort A load sweep, with three-repeat means and observed ranges; (b) predictive eviction's effect within matched repeat blocks under each scheduler. The legend identifies the baseline, two ablations, and adapted CacheWise. Positive values indicate slower serving. B/C are additional source-disjoint $N=10$ cohorts. Ranges and points are descriptive, not confidence intervals.}
   \label{fig:replication-coverage-serving}
 \end{figure*}
 
@@ -108,11 +114,10 @@ One preemption (A20, prefix/predictive, repeat 0) is retained under a post hoc a
 
 
 \subsection{Results and Interpretation}
-Table~\ref{tab:compact-coverage} reports all five settings.
-Prefix/LRU achieves the lowest mean in each, reducing the FCFS/LRU mean by 58.39\%, 61.74\%, and 64.96\% at A10, A20, and A30.
-Predictive eviction improves FCFS in all 15 matched repeat blocks, but worsens prefix-aware scheduling in all 15.
-The setting-level prefix/predictive increases are 12.65\%, 14.01\%, 11.10\%, 10.07\%, and 43.38\% (Figure~\ref{fig:replication-coverage-serving}).
-The direction therefore extends beyond one ten-segment cohort, although its size varies substantially.
+Table~\ref{tab:compact-coverage} compares the four named policies across all five settings.
+The scheduling-only ablation (prefix/LRU) achieves the lowest mean in each, reducing the baseline mean by 58.39\%, 61.74\%, and 64.96\% at A10, A20, and A30.
+The eviction-only ablation improves the baseline in all 15 matched repeat blocks, whereas adapted CacheWise is slower than scheduling-only in all 15.
+The setting-level CacheWise increases over scheduling-only are 12.65\%, 14.01\%, 11.10\%, 10.07\%, and 43.38\% (Figure~\ref{fig:replication-coverage-serving}).
 
 Eviction events and uncached usage support the same setting-level ordering.
 For example, A30 averages 548,909 allocation evictions under FCFS/LRU, 202,130 under prefix/LRU, and 237,320 under prefix/predictive.
@@ -120,7 +125,7 @@ These counters describe residency churn rather than transfer traffic or exclusiv
 The mean improvement also has a tail tradeoff: A20's average per-run request P99 is 755.28~s with prefix/LRU versus 594.03~s with FCFS/LRU; at A30 it is 1,292.43 versus 712.53~s.
 Favoring cheap prefix hits can postpone expensive requests, so session means alone do not establish better responsiveness.
 
-The historical diagnostics are consistent with this interaction: prefix/LRU averages 337.87~s, learned prefix/predictive 349.67~s, and the tool-duration oracle 349.58~s.
+The historical diagnostics are consistent with this interaction: prefix/LRU averages 337.87~s, adapted CacheWise 349.67~s, and the tool-duration oracle 349.58~s.
 Replacing the predictor therefore does not remove the local regression.
 The 30-second aging override raises the mean to 599.14~s, illustrating that this fairness intervention can sacrifice locality.
 These diagnostics use the historical workload and are not additional coverage repeats.
