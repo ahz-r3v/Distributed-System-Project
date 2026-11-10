@@ -1,7 +1,7 @@
 # Presentation script: CacheWise replication and KV cache recovery
 
-This script follows the thirteen-slide deck and its 10:00 timing plan.
-Spend 0:00–5:00 on the CacheWise paper and adapted replication (slides 1–8), then 5:00–10:00 on recovery costs, host methods, limitations and takeaways (slides 9–13).
+This script follows the twelve-slide deck and its 10:00 timing plan.
+Spend 0:00–5:00 on the CacheWise paper and adapted replication (slides 1–7), then 5:00–10:00 on recovery costs, host methods, limitations and takeaways (slides 8–12).
 Questions follow the talk.
 Read the spoken paragraphs; italic instructions are delivery cues and should not be read aloud.
 Pause briefly after the main numbers and use the slide transitions to check your timing.
@@ -32,7 +32,7 @@ The next graphs come from the original paper and show why this workload needs sp
 
 ## Slide 3 — CATraces: long inputs, short outputs
 
-**0:40–1:20 · 40 seconds**
+**0:40–1:25 · 45 seconds**
 
 *Compare the red CATraces curve with the orange ShareGPT curve in each panel.*
 
@@ -44,7 +44,7 @@ Repeatedly processing a large shared prefix can therefore be expensive even when
 
 ## Slide 4 — CATraces differ from traditional chat
 
-**1:20–1:50 · 30 seconds**
+**1:25–2:00 · 35 seconds**
 
 *Compare the labeled datasets. In the right-hand plot, CATraces is blue and ShareGPT is purple.*
 
@@ -54,7 +54,7 @@ One user task drives repeated model and tool calls, so KV must survive between r
 
 ## Slide 5 — CacheWise predicts when a session returns
 
-**1:50–2:45 · 55 seconds**
+**2:00–3:05 · 65 seconds**
 
 *Explain scheduling briefly, then follow the tool-metadata prediction path and remaining-time formula.*
 
@@ -64,51 +64,39 @@ For eviction, CacheWise predicts tool-call duration from historical calls. The p
 
 For a tool still running after elapsed time e, it estimates the remaining time using only durations longer than e. That is the conditional expectation shown here.
 
-It evicts unreferenced KV whose predicted reuse is farthest away and refreshes estimates as time passes. The relative ordering matters.
+It evicts unreferenced KV whose predicted reuse is farthest away and refreshes estimates as time passes. The relative ordering matters. For example, prefer retaining state predicted to return in one second over state predicted to return in thirty seconds.
 
 Our replication uses tool names only because arguments are redacted. That is an adaptation of the paper’s predictor.
 
-## Slide 6 — Replication separates two decisions
+## Slide 6 — CacheWise combines scheduling and eviction
 
-**2:45–3:25 · 40 seconds**
+**3:05–3:50 · 45 seconds**
 
-*Point to the four policy combinations and five workload settings.*
+*Start with the highlighted bottom-right cell, then identify the baseline and two ablations.*
 
-We cross first-come, first-served and prefix-aware scheduling with LRU and predictive eviction, using the same configuration and inputs.
+The bottom-right cell is adapted CacheWise: prefix-aware scheduling plus predictive eviction.
 
-Our adapted setup uses a fourteen-billion-parameter Qwen coding model on one Blackwell GPU.
+The top-left cell is the first-come, first-served LRU baseline. The other two cells isolate one component: scheduling only uses prefix-aware LRU, and eviction only uses first-come, first-served with predictive eviction.
 
-A tests nested loads of ten, twenty, and thirty segments. B and C add separate held-out workloads.
+All four use the same configuration and inputs, with a fourteen-billion-parameter Qwen model on one Blackwell GPU.
 
-Five settings, four policies, and three repeats give sixty runs and 6,384 request executions. The metric is mean summed model-request latency per session, excluding tool waits.
+Five workload settings, four policies, and three repeats give sixty runs and 6,384 request executions. We measure mean summed model-request latency per session, excluding tool waits.
 
 ## Slide 7 — Prefix / LRU has the lowest mean
 
-**3:25–4:20 · 55 seconds**
+**3:50–5:00 · 70 seconds**
 
 *Trace the green line. Explain the range bars without reading every number.*
 
-The green prefix-aware LRU line has the lowest mean at all three A loads. Compared with first-come, first-served LRU, the reduction is about 58, 62, and 65 percent as N increases.
+The green prefix-aware LRU line is the scheduling-only ablation. Adapted CacheWise is the purple prefix/predictive curve. The green line has the lowest mean at all three tested loads. Compared with first-come, first-served LRU, the reduction is about 58, 62, and 65 percent as N increases.
 
-It also has the lowest mean in B and C, making five settings out of five.
+It also has the lowest mean in two additional held-out workloads, making five settings out of five.
 
 The ranges show observed minima and maxima from three repeats, not confidence intervals. The load sweep adds segments, so concurrency and composition both change.
 
-These are our adapted replay results, separate from the published workload graphs shown earlier. Next, we examine whether prediction adds further benefit.
+These are our adapted replay results, separate from the published workload graphs shown earlier. The purple curve also shows that adding predictive eviction does not improve on prefix-aware LRU in this sweep. We now turn to recovery after eviction.
 
-## Slide 8 — Prediction depends on the scheduler
-
-**4:20–5:00 · 40 seconds**
-
-*Use the workload key, then compare the orange and purple points against zero.*
-
-A is the nested load sweep. B and C are different held-out workload checks with ten segments each. N means concurrent segments.
-
-Each dot compares predictive eviction with LRU in a matched repeat. Orange points are below zero, showing improvement with first-come, first-served. Purple points are above zero, showing regression with prefix-aware scheduling.
-
-Prediction therefore depends on the scheduler across these workloads. Lower means also do not guarantee lower request tails. We now turn to recovery after eviction.
-
-## Slide 9 — Host restoration reduces session time
+## Slide 8 — Host restoration reduces session time
 
 **5:00–6:15 · 75 seconds**
 
@@ -128,7 +116,7 @@ These comparisons include the extra host capacity, and each bar represents one r
 
 This study also uses a different engine and replay setup, so we keep its timings separate from the replication results.
 
-## Slide 10 — Preserve evicted KV in host DRAM
+## Slide 9 — Preserve evicted KV in host DRAM
 
 **6:15–7:15 · 60 seconds**
 
@@ -144,7 +132,7 @@ Clean host copies can be retained, avoiding another save when those GPU pages ar
 
 This study keeps twenty-four gibibytes of GPU KV capacity and adds thirty-six gibibytes of host KV capacity. The implemented backing tier is host DRAM; SSD storage remains future work.
 
-## Slide 11 — Fetch-aware ordering discounts host hits
+## Slide 10 — Fetch-aware ordering discounts host hits
 
 **7:15–8:35 · 80 seconds**
 
@@ -162,7 +150,7 @@ These observations favor the full combination, but there are too few repetitions
 
 The design lesson is to consider cache location when ordering requests. Prefetching alone does not guarantee an improvement.
 
-## Slide 12 — Keep the conclusions within the evidence
+## Slide 11 — Keep the conclusions within the evidence
 
 **8:35–9:20 · 45 seconds**
 
@@ -178,7 +166,7 @@ Third, we have no SSD implementation or measurements. An SSD extension would nee
 
 The completed evidence therefore concerns this adapted replication and host-DRAM recovery.
 
-## Slide 13 — Three takeaways
+## Slide 12 — Three takeaways
 
 **9:20–10:00 · 40 seconds**
 

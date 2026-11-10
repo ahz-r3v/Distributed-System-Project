@@ -407,3 +407,11 @@ It explicitly distinguishes the paper's argument-aware predictor from our name-o
 The thirteen-slide talk allocates 300 seconds to slides 1–8 and 300 seconds to slides 9–13.
 The offloading-motivation results remain before the host-cache architecture.
 No experimental/model/replay runs were launched; the six-page report and frozen experimental measurements are unchanged.
+
+## Policy labels and shorter replication presentation (2026-11-10)
+
+The presentation policy matrix explicitly identifies adapted CacheWise as prefix-aware scheduling plus predictive eviction, the FCFS/LRU baseline, and the scheduling-only and eviction-only ablations.
+The results script identifies the winning prefix/LRU configuration as the scheduling-only ablation and the purple prefix/predictive curve as adapted CacheWise.
+The standalone scheduler-interaction slide is omitted from the talk; its research evidence remains in the report and archive.
+The twelve-slide deck allocates five minutes to slides 1–7 and five minutes to slides 8–12, with the freed time used for workload figures, the prediction algorithm, and the main replication results.
+The full script and embedded notes use the same timing plan.

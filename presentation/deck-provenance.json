@@ -1,8 +1,8 @@
 {
-  "scope": "Thirteen slides, 600 seconds of planned speaking time. Existing evidence only; no model execution or experiment.",
+  "scope": "Twelve slides, 600 seconds of planned speaking time. Existing evidence only; no model execution or experiment.",
   "time_allocation_seconds": {
-    "cachewise_paper_and_replication_slides_1_to_8": 300,
-    "recovery_methods_and_wrapup_slides_9_to_13": 300
+    "cachewise_paper_and_replication_slides_1_to_7": 300,
+    "recovery_methods_and_wrapup_slides_8_to_12": 300
   },
   "rendering": "PDF and editable PPTX generated independently from the same validated layout; PDF is not an Office export. DejaVu Sans is used in both.",
   "inputs": {
@@ -13,12 +13,12 @@
     "presentation/assets/original-cachewise-figure3.png": "d816d47e8c7ec115c78d06f942755e14e887f23682a91a567bb010f02bdf5ac7",
     "presentation/assets/original-cachewise-figure6.png": "d8c041abed0a2a4b94948a9318dd4c0bc1eaa81bbdeba68e7fa19017bcfac0ca"
   },
-  "script_sha256": "76ae240535c0e85b3b93cd84c3b7c187e2c38e0c403ea1bcd598435e86e42e12",
+  "script_sha256": "37a1cb2af6f5b527246aea60acb96a396591f49dae5526fd5265e767a6deb0c6",
   "outputs": {
-    "presentation/cachewise-10-minute-talk.pptx": "46c6b9c171866b6ed3c5f2addbd43edf1b4bdc59077fd66bee97ee976fd7cad0",
-    "presentation/cachewise-10-minute-talk.pdf": "4d9174a71e08c04a2571f35c589c6e542c539581c6f8f127ce4b237d7a357a13",
-    "presentation/cachewise-10-minute-speaker-notes.md": "f4e0459a749eb462821af86c6f46b7403bd66f2e3dc0e550d93689512d097e90",
-    "presentation/assets/replication-load.png": "a9c5245977d53dfe4f0f14dd2917b92f140e3ee7e9cdb5063a90b4129b2d4e9f",
+    "presentation/cachewise-10-minute-talk.pptx": "bb0a54110f5936e40587a836149237200f0294bf38744ecba9b28f5284ec1c1f",
+    "presentation/cachewise-10-minute-talk.pdf": "f3b0af4d5882e21c261f96502e7001ce04ab1f5630d5c5df3f7e955b8a6b8d9f",
+    "presentation/cachewise-10-minute-speaker-notes.md": "faee1c843ff2395066d6e281ba92ba51449d7a4c530b1358567b63fcb9339437",
+    "presentation/assets/replication-load.png": "190ccc7d1594d8fbc5e942aaad68910c87cfdfd0aec77874a7523d0470baf322",
     "presentation/assets/replication-interaction.png": "c0b91e7beb7ed03ecfcba8ccf0601ca47f885abf5c7e482544a19ef418648c8b",
     "presentation/assets/host-recovery.png": "53c321b6924f1d51c89c87530b218ba49c9cce323f090f5d3ed7254d44dd2904",
     "presentation/assets/host-ablation.png": "84d30c5997762a0b7b6ef8bc3a7cfd2a760345d16d9a37e3db1d13c22abf5227"

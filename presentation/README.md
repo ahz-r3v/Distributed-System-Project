@@ -7,14 +7,14 @@ The whole-study deck accompanies the six-page report and covers CacheWise replic
 - [Speaker notes](cachewise-10-minute-speaker-notes.md), also embedded in the PowerPoint
 - Full spoken script: [editable Markdown](cachewise-10-minute-script.md) · [printable PDF](cachewise-10-minute-script.pdf)
 
-The deck has thirteen 16:9 slides, with 10:00 of planned speaking time.
-The first five minutes cover the CacheWise paper and adapted replication (slides 1–8); the next five cover recovery costs, host methods, limitations and takeaways (slides 9–13).
+The deck has twelve 16:9 slides, with 10:00 of planned speaking time.
+The first five minutes cover the CacheWise paper and adapted replication (slides 1–7); the next five cover recovery costs, host methods, limitations and takeaways (slides 8–12).
 The opening slide introduces the project and its central question.
 Slide 2 introduces the released coding-agent traces and explains why prefix reuse matters.
 Slides 3–4 reproduce original-paper graphs showing prefill/decode lengths, turn counts, and context growth compared with chat workloads.
 Slide 5 explains prefix-aware scheduling and tool-duration prediction, including argument clustering, elapsed-time conditioning, and eviction order.
 It distinguishes the original argument-aware predictor from our tool-name-only replication.
-Slide 8 defines A as the nested load sweep, B/C as source-disjoint workload checks, and N as concurrent segments.
+The policy matrix highlights adapted CacheWise as prefix-aware scheduling plus predictive eviction, with the baseline and single-component ablations labeled.
 Host-recovery results motivate offloading before the host-cache architecture is introduced.
 Timing guidance stays in the notes and script.
 Questions follow the talk.
@@ -26,17 +26,16 @@ Rehearse once to adjust the pacing to your speaking speed.
 | --- | --- | --- |
 | 1 | Project introduction | 0:00–0:15 |
 | 2 | What CATraces records | 0:15–0:40 |
-| 3 | Original prefill/decode distributions | 0:40–1:20 |
-| 4 | Turns and context growth versus chat | 1:20–1:50 |
-| 5 | Scheduling and tool-duration prediction algorithm | 1:50–2:45 |
-| 6 | Adapted replication methodology | 2:45–3:25 |
-| 7 | Main replication result | 3:25–4:20 |
-| 8 | Scheduler interaction and workload-group key | 4:20–5:00 |
-| 9 | Motivation: recovery cost and host results | 5:00–6:15 |
-| 10 | Host-cache architecture | 6:15–7:15 |
-| 11 | Fetch-aware ordering | 7:15–8:35 |
-| 12 | Scope and limitations | 8:35–9:20 |
-| 13 | Takeaways | 9:20–10:00 |
+| 3 | Original prefill/decode distributions | 0:40–1:25 |
+| 4 | Turns and context growth versus chat | 1:25–2:00 |
+| 5 | Scheduling and tool-duration prediction algorithm | 2:00–3:05 |
+| 6 | CacheWise, baseline, and component ablations | 3:05–3:50 |
+| 7 | Main replication result | 3:50–5:00 |
+| 8 | Motivation: recovery cost and host results | 5:00–6:15 |
+| 9 | Host-cache architecture | 6:15–7:15 |
+| 10 | Fetch-aware ordering | 7:15–8:35 |
+| 11 | Scope and limitations | 8:35–9:20 |
+| 12 | Takeaways | 9:20–10:00 |
 
 The PowerPoint uses editable text and native shapes; charts are high-resolution images rendered from archived measurements.
 The PDF and PowerPoint are generated from the same layout description. The PDF is not an Office export.
