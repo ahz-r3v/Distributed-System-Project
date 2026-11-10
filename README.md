@@ -2,7 +2,7 @@
 
 A collaborative repository for a distributed systems course report, using the [official USENIX LaTeX template](https://www.usenix.org/conferences/author-resources/paper-templates) used by OSDI.
 The report uses US Letter paper, two columns, and 10 pt text, with separate section files so teammates can write in parallel.
-The report, **CacheWise Replication and Fetch-Aware KV Cache Recovery**, includes a historical six-policy experiment, a separate 60-run coverage study, and an analysis of existing Mini-SGLang host-restoration results. The concise report is **six pages including references**, with three selected figures and tables for the testbed, workload selection, and results. It describes the implemented pinned-host cache and fetch-aware scheduling. SSD support remains future work, and author information still needs to be filled in.
+The report, **CacheWise Replication and Fetch-Aware KV Cache Recovery**, includes a historical six-policy experiment, a separate 60-run coverage study, and an analysis of existing Mini-SGLang host-restoration results. The concise report is **six pages including references**, with three selected figures and tables for the testbed, workload selection, and results. It describes the implemented pinned-host cache and fetch-aware scheduling. SSD support remains future work.
 
 ## Getting started
 
