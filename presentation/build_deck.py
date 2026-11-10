@@ -43,10 +43,16 @@ SETTINGS = ['a-n10', 'a-n20', 'a-n30', 'b-n10', 'c-n10']
 LABELS = ['A10', 'A20', 'A30', 'B10', 'C10']
 COVERAGE_INPUT = ROOT / 'notes/experiment-evidence/part1-coverage-comparison.json'
 HOST_INPUT = ROOT / 'notes/experiment-evidence/host-dram-reported-results.json'
+OPERATION_INPUT = ROOT / 'notes/experiment-evidence/host-dram-operation-times.json'
 ORIGINAL_FIGURE_MANIFEST = ASSETS / 'original-cachewise-figures.json'
 ORIGINAL_FIGURES = {n: ASSETS / f'original-cachewise-figure{n}.png' for n in [2, 3, 6]}
 coverage = json.loads(COVERAGE_INPUT.read_text())
 host = json.loads(HOST_INPUT.read_text())
+operations = json.loads(OPERATION_INPUT.read_text())
+transfer_rows = [r for r in operations['observations'] if r['transfer_ms'] is not None]
+assert [r['n'] for r in transfer_rows] == [28, 36]
+assert all(r['prefetch'] is False and r['transfer_ms']['prefetch_h2d_ms'] == 0 for r in transfer_rows)
+assert all(r['recomputation_time_s'] is None for r in operations['observations'])
 rows = coverage['runs']
 assert len(rows) == 60 and sum(r['requests'] for r in rows) == 6384
 assert sum(r['preemptions'] for r in rows) == 1
@@ -106,23 +112,30 @@ def charts():
     effects = saveplot(fig, 'replication-interaction')
 
     fig, ax = plt.subplots(figsize=(8, 4.3), layout='constrained')
-    for offset, recovery, color in [(-.19, 'Recompute', BLUE), (.19, 'Host restore', GREEN)]:
-        values = [r['session_s'] for r in host['primary_observations'] if r['recovery'] == recovery]
-        bars = ax.bar(np.arange(2) + offset, values, width=.36, color=color, label=recovery)
-        ax.bar_label(bars, labels=[f'{v:g}' for v in values], padding=7, fontsize=17, color=INK)
-    ax.set(xticks=[0, 1], xticklabels=['N = 28', 'N = 36'], ylim=(0, 1300), ylabel='Mean session serving time (s)')
+    bottom = np.zeros(2)
+    for field, label, color in [('d2h_ms', 'Save: GPU → host', BLUE), ('h2d_ms', 'Restore: host → GPU', GREEN)]:
+        values = np.array([r['transfer_ms'][field] / 1000 for r in transfer_rows])
+        bars = ax.bar(np.arange(2), values, bottom=bottom, width=.48, color=color, label=label)
+        ax.bar_label(bars, labels=[f'{v:.2f} s' for v in values], label_type='center', fontsize=15, color='#ffffff')
+        bottom += values
+    for x, total in enumerate(bottom):
+        ax.text(x, total + .6, f'{total:.2f} s total', ha='center', fontsize=16, color=INK)
+    ax.set(xticks=[0, 1], xticklabels=['N = 28', 'N = 36'], ylim=(0, 32), ylabel='Cumulative operation time (s)')
     ax.legend(frameon=False, fontsize=14, loc='upper left')
     clean(ax)
     recovery = saveplot(fig, 'host-recovery')
 
     fig, ax = plt.subplots(figsize=(8, 4.6), layout='constrained')
-    names = ['LRU + FCFS', 'LRU + prefix', 'Predictive + prefix', '+ prefetch', '+ fetch-aware']
+    names = ['Baseline\nFCFS + LRU', 'Scheduling only\nPrefix-aware + LRU',
+             'Adapted CacheWise\nPrefix-aware + predictive', 'CacheWise + prefetch',
+             'CacheWise + prefetch\n+ fetch-aware ordering']
     values = [r['session_s'] for r in host['n36_policy_observations']]
     colors = [BLUE, GREEN, '#aa96bd', '#c5b6d2', PURPLE]
     for y, (v, c) in enumerate(zip(values, colors)):
         ax.barh(y, v, height=.58, color=c)
         ax.text(6, y, f'{v:g} s', va='center', color='#ffffff', fontweight='bold', fontsize=16)
     ax.set(yticks=range(5), yticklabels=names, xlim=(0, 250), xlabel='Mean session serving time (s)')
+    ax.tick_params(axis='y', labelsize=12)
     ax.invert_yaxis()
     clean(ax, 'x')
     ablation = saveplot(fig, 'host-ablation')
@@ -287,7 +300,7 @@ def write_outputs(slides):
         'time_allocation_seconds': {'cachewise_paper_and_replication_slides_1_to_7': 300,
                                     'recovery_methods_and_wrapup_slides_8_to_12': 300},
         'rendering': 'PDF and editable PPTX generated independently from the same validated layout; PDF is not an Office export. DejaVu Sans is used in both.',
-        'inputs': {str(p.relative_to(ROOT)): sha(p) for p in [COVERAGE_INPUT, HOST_INPUT, ORIGINAL_FIGURE_MANIFEST, *ORIGINAL_FIGURES.values()]},
+        'inputs': {str(p.relative_to(ROOT)): sha(p) for p in [COVERAGE_INPUT, HOST_INPUT, OPERATION_INPUT, ORIGINAL_FIGURE_MANIFEST, *ORIGINAL_FIGURES.values()]},
         'script_sha256': sha(Path(__file__)),
         'outputs': {str(p.relative_to(ROOT)): sha(p) for p in outputs},
         'matplotlib_version': matplotlib.__version__,
@@ -414,18 +427,20 @@ def make_slides():
     s.text(704, 307, 202, '58–65% lower\nmean vs. FCFS / LRU\nin the load sweep', size=18)
     s.text(44, 471, 880, 'Three repeats per cell. Ranges are observed minima/maxima; lower is better.', size=13.5, color=MUTED)
 
-    s = new('Host restoration reduces session time', 'Part 2 · Motivation for KV offloading', 75,
-        'After the CacheWise replication, we turn to recovery after eviction. Scheduling can limit churn, but useful state may still leave the GPU. Saving it in host memory allows restoration instead of repeating prefill. A simple cost test is whether saving, restoring, and managing the copy costs less than recomputation. Here we keep LRU and FCFS fixed and compare recomputation with on-demand host restoration. At twenty-eight concurrent episodes, reported mean session time falls from 821 to 90.7 seconds, a baseline-to-restoration ratio of about 9.1. At thirty-six it falls from 1,060 to 222 seconds, about 4.8. The reported prior-prefix deficit also drops sharply, supporting the interpretation that more reusable state survives. Two qualifications matter. First, restoration adds thirty-six GiB of host KV capacity to the common twenty-four-GiB GPU pool, so this is not an equal-total-memory algorithm comparison. Second, each bar is one reported run. This study also uses a different engine, smaller GPU pool, larger prefill chunks, and transformed replay inputs. We therefore keep it separate from the vLLM replication. The result demonstrates a favorable host-DRAM operating regime, not a measured SSD break-even curve.',
-        'Evidence: host-dram-reported-results.json; report Figure 3a and §6')
-    s.text(36, 104, 888, 'Recovery tradeoff: save + restore + management < recomputation', size=17, color=MUTED)
+    s = new('Host restoration: cumulative transfer work', 'Part 2 · Motivation for KV offloading', 75,
+        'We now examine the measured cost of retaining evicted KV in host memory. The vertical axis sums operation time over each entire run, rather than averaging session latency. Blue is saving KV from GPU to host; green is restoring it. At N equals twenty-eight, the event sums are 1.68 seconds saving and 5.99 seconds restoring, or 7.66 seconds total. At thirty-six they are 4.80 and 19.09 seconds, or 23.89 seconds total. These CUDA events include GPU staging as well as the copies, and their work can overlap model execution. They do not measure all CPU management overhead. The archive has no isolated recomputation timer, so these bars cannot establish a direct recompute-versus-transfer time ratio. Separately, the reported mean-session ratios are about 9.1 and 4.8 in favor of restoration. That comparison adds thirty-six GiB of host KV capacity to a common twenty-four-GiB GPU pool. Each load has one observation; this is host DRAM, not SSD.',
+        'Evidence: Mini-SGLangs 3f9aee7; host-dram-operation-times.json and host-study snapshot')
+    s.text(36, 104, 888, 'Total measured GPU → host save + host → GPU restore time per run', size=17, color=MUTED)
     s.box(36, 137, 625, 328, '#ffffff', radius=8)
     s.picture(44, 143, 609, 315, recovery)
     s.box(686, 145, 238, 306, '#ffffff', radius=8)
-    s.text(704, 164, 202, '9.1× / 4.8×', size=30, color=GREEN, bold=True)
-    s.text(704, 216, 202, 'reported time ratios\nat N = 28 / 36', size=18)
-    s.text(704, 289, 202, '+36 GiB host KV\n24 GiB GPU KV fixed', size=18, bold=True)
-    s.text(704, 366, 202, 'One observation\nper bar', size=18, color=MUTED)
-    s.text(44, 471, 880, 'Separate Mini-SGLang study. Added-capacity comparison; lower is better.', size=13.5, color=MUTED)
+    s.text(704, 164, 202, 'Recompute time', size=18, bold=True)
+    s.text(704, 196, 202, 'Not recorded', size=22, color=ORANGE, bold=True)
+    s.text(704, 250, 202, 'Separate session metric', size=14, color=MUTED)
+    s.text(704, 278, 202, '9.1× / 4.8×', size=28, color=GREEN, bold=True)
+    s.text(704, 321, 202, 'baseline / restoration\nat N = 28 / 36', size=15)
+    s.text(704, 384, 202, '+36 GiB host KV\n24 GiB GPU KV fixed', size=16, bold=True)
+    s.text(44, 471, 880, 'FCFS/LRU, one run per load. Event sums include staging and may overlap compute.', size=13, color=MUTED)
 
     s = new('Preserve evicted KV in host DRAM', 'Part 3 · Host-cache design', 60,
         'These recovery observations motivate offloading. Here is how the Mini-SGLang host cache implements the save-and-restore path. One radix index records which prefix pages reside on the GPU and which have host copies. When memory is needed, dirty GPU pages are copied to pinned host DRAM. Clean inclusive copies can remain there, so a later GPU eviction does not require another save. When a request returns, a compatible host suffix is restored before prefill; if no copy survives, the engine recomputes. The implementation uses sixteen-token pages, locks and events to protect transfers, and predictive prefetch with a bounded per-step budget. In the recovery study the GPU pool holds twenty-four GiB of KV payload and the host tier adds thirty-six GiB. These are nominal cache payloads, excluding weights and other memory. No SSD path is implemented.',
@@ -449,16 +464,20 @@ def make_slides():
         s.text(x+16, 443, 252, body, size=15.5, color=MUTED)
 
     s = new('Fetch-aware ordering discounts host hits', 'Part 3 · Scheduling extension', 80,
-        'Ordinary prefix-aware ordering considers the GPU prefix. Fetch-aware ordering also recognizes that a host-resident prefix can be cheaper than recomputing a complete miss. The priority is new prefill tokens plus alpha times the additional host tokens, with alpha fixed to 0.05. Lower-cost requests go first. This is a heuristic, not a calibrated latency predictor. On the left are the reported N-equals-thirty-six host ablations at fixed tier capacities. LRU plus prefix scheduling takes 159 seconds, predictive plus prefix takes 158, adding prefetch alone takes 172, and the full fetch-aware combination takes 136. Two runs are reported for the predictive-prefix control and the full combination. Their descriptive means are 166.5 and 135.5 seconds. These sparse, not verified matched observations favor the full combination, but do not isolate every component or establish statistical significance. Prefetch alone is not enough in this example.',
+        'Every bar uses the same GPU and host cache capacities and can restore KV on demand. Read each full configuration on the left. The baseline uses FCFS and LRU. The scheduling-only row replaces FCFS with prefix-aware ordering: requests with more reusable GPU KV need less new prefill and go first. Adapted CacheWise also adds predictive eviction. CacheWise with prefetch keeps both components and restores host KV before the predicted session return, rather than waiting for its next request. The final row keeps prefetch and adds fetch-aware ordering: it recognizes host-resident prefixes as cheaper than full recomputation. Its priority is new prefill tokens plus 0.05 times additional host tokens, a heuristic with lower cost served first. The first reported session times are 222, 159, 158, 172, and 136 seconds. Prefetch alone does not improve this observation. The final combination is promising, but sparse repetitions do not isolate each component or establish statistical significance.',
         'Evidence: Mini-SGLangs 3f9aee7; report Figure 3b and Eq. (3)')
+    s.text(36, 104, 888, 'Fetch-aware priority = new prefill tokens + 0.05 × additional host tokens', size=16, color=MUTED)
     s.box(36, 136, 625, 332, '#ffffff', radius=8)
     s.picture(44, 140, 609, 324, ablation)
     s.box(686, 145, 238, 306, '#ffffff', radius=8)
-    s.text(704, 164, 202, 'Priority cost', size=23, bold=True)
-    s.text(704, 211, 202, 'new prefill tokens\n+ 0.05 × host tokens', size=18, color=PURPLE, bold=True)
-    s.text(704, 286, 202, 'Mean of 2 observations\n166.5 s → 135.5 s', size=18)
-    s.text(704, 365, 202, 'Sparse repetitions;\nno confidence interval.', size=16, color=MUTED)
-    s.text(44, 475, 880, 'Bars: first reported runs. Side-panel means use the two available runs.', size=13, color=MUTED)
+    s.text(704, 158, 202, 'What changes?', size=21, bold=True)
+    s.text(704, 201, 202, 'Prefix-aware', size=17, color=GREEN, bold=True)
+    s.text(704, 229, 202, 'Order by GPU reuse;\nless new prefill first.', size=14.5)
+    s.text(704, 285, 202, 'Prefetch', size=17, color=PURPLE, bold=True)
+    s.text(704, 313, 202, 'Restore host KV\nbefore session return.', size=14.5)
+    s.text(704, 369, 202, 'Fetch-aware', size=17, color=PURPLE, bold=True)
+    s.text(704, 397, 202, 'Also discount host hits\nwhen ordering requests.', size=14.5)
+    s.text(44, 475, 880, 'N = 36, host restoration in every row. First reported runs; sparse repetitions.', size=13, color=MUTED)
 
     s = new('Keep the conclusions within the evidence', 'Scope and limitations', 45,
         'There are three boundaries to keep in mind. The replication uses synthetic content and runtime-bounded selected segments; increasing the load also changes the workload. One real preemption violated the original zero-preemption rule. It remains in the results under a disclosed post hoc audit amendment, and its extra computation is unmeasured. The host study is a separate replay with added backing capacity and mostly single-run observations. We reproduce its rounded reported values rather than claim an independent request-level audit. Finally, the implemented recovery tier is pinned host DRAM. SSD support would need complete storage writes and reads, bounded staging, compatibility metadata, and failure handling. We cannot infer an SSD speedup from these DRAM results.',

@@ -98,25 +98,23 @@ The ranges show observed minima and maxima from three repeats, not confidence in
 
 These are our adapted replay results, separate from the published workload graphs shown earlier. The purple curve also shows that adding predictive eviction does not improve on prefix-aware LRU in this sweep. We now turn to recovery after eviction.
 
-## Slide 8 — Host restoration reduces session time
+## Slide 8 — Host restoration: cumulative transfer work
 
 **5:00–6:15 · 75 seconds**
 
-*Begin the second half at 5:00. Introduce the recovery problem, then point to the bars and cost condition.*
+*Begin the second half at 5:00. Explain the stacked operation totals before discussing the separate session metric.*
 
-Even with better scheduling, useful KV state can still be evicted. Saving it in host memory gives us a way to restore it instead of recomputing the prefix.
+Saving evicted KV lets us restore it instead of repeating prefill. This chart now shows cumulative operation time across each run.
 
-The cost condition is straightforward: saving, restoring, and managing a copy should cost less than recomputing the missing prefix.
+Blue is saving from GPU to host, and green is restoring from host to GPU. At twenty-eight episodes, they total 7.66 seconds. At thirty-six, they total 23.89 seconds.
 
-Here, scheduling and eviction stay fixed at first-come, first-served and LRU. We change the recovery method.
+These CUDA-event sums include GPU staging and copies. They may overlap model execution, so they are not session latency or a complete measure of management overhead.
 
-At twenty-eight concurrent episodes, reported mean session time falls from 821 to 90.7 seconds, a ratio of about 9.1. At thirty-six episodes, it falls from 1,060 to 222 seconds, a ratio of about 4.8.
+The archive does not record isolated recomputation time. We therefore cannot use this chart to give a direct recomputation-to-transfer time ratio.
 
-The reported missing-prefix deficit also decreases, consistent with more reusable state surviving.
+The sidebar retains a separate result: mean session time improves by ratios of about 9.1 and 4.8 with restoration. That comparison adds thirty-six gibibytes of host KV capacity to the common twenty-four-gibibyte GPU pool.
 
-These comparisons include the extra host capacity, and each bar represents one reported run. They show favorable host-memory operating points rather than an equal-total-memory policy comparison.
-
-This study also uses a different engine and replay setup, so we keep its timings separate from the replication results.
+Each load has one observation. The backing tier is host DRAM; these are not SSD measurements.
 
 ## Slide 9 — Preserve evicted KV in host DRAM
 
@@ -138,19 +136,17 @@ This study keeps twenty-four gibibytes of GPU KV capacity and adds thirty-six gi
 
 **7:15–8:35 · 80 seconds**
 
-*Point to the priority cost, then compare the prefetch and fetch-aware bars.*
+*Read the configurations from top to bottom, then use the three definitions on the right.*
 
-A request with a host copy is different from a complete cache miss. Fetch-aware scheduling makes that distinction explicit.
+All five bars use the same GPU and host capacities and can restore KV on demand.
 
-Its priority combines tokens needing new prefill with a discounted cost for tokens restored from the host. The discount factor is 0.05, so lower estimated recovery cost goes first. This is a heuristic rather than a measured latency predictor.
+The baseline uses first-come, first-served scheduling and LRU eviction. The scheduling-only row replaces first-come, first-served with prefix-aware scheduling: requests needing less new prefill go first. Adapted CacheWise also adds predictive eviction.
 
-At thirty-six episodes, predictive eviction with prefix scheduling records 158 seconds. Adding prefetch alone records 172 seconds. The full fetch-aware combination records 136 seconds.
+The next row keeps CacheWise and adds prefetch. It restores host KV before a session's predicted return, rather than waiting for its next request.
 
-Two runs are reported for the predictive-prefix control and the full combination. Their descriptive means are 166.5 and 135.5 seconds.
+The final row keeps prefetch and adds fetch-aware scheduling. This changes request ordering to recognize host-resident prefixes as cheaper than full recomputation. The score is new prefill tokens plus 0.05 times additional host tokens, with lower cost served first.
 
-These observations favor the full combination, but there are too few repetitions to establish statistical significance or isolate every component.
-
-The design lesson is to consider cache location when ordering requests. Prefetching alone does not guarantee an improvement.
+The first reported session times are 222, 159, 158, 172, and 136 seconds. Prefetch alone does not improve this observation. The full combination is promising, but the sparse repetitions do not establish statistical significance or isolate every component.
 
 ## Slide 11 — Keep the conclusions within the evidence
 

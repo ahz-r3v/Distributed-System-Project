@@ -17,6 +17,10 @@ It distinguishes the original argument-aware predictor from our tool-name-only r
 The policy matrix labels rows as scheduler and columns as eviction policy, highlights adapted CacheWise, and lists the testbed alongside the policies.
 N denotes the initially launched closed-loop segment group; it is not a maintained count of in-flight requests.
 Host-recovery results motivate offloading before the host-cache architecture is introduced.
+Slide 8 plots cumulative CUDA-event time for GPU-to-host saving and host-to-GPU restoration, including staging, over each measured run.
+The archived runs have no isolated recomputation timer; session latency is not relabeled as operation time.
+The separate session-time ratios remain in the sidebar.
+Slide 10 spells out each configuration and defines prefix-aware ordering, early prefetch, and fetch-aware ordering that discounts host hits.
 Timing guidance stays in the notes and script.
 Questions follow the talk.
 The full script has about 1,150 spoken words, plus slide cues and transitions, following the same timing plan.
@@ -32,7 +36,7 @@ Rehearse once to adjust the pacing to your speaking speed.
 | 5 | Scheduling and tool-duration prediction algorithm | 2:00–3:05 |
 | 6 | Policy matrix, testbed, and replay setup | 3:05–3:55 |
 | 7 | Main replication result | 3:55–5:00 |
-| 8 | Motivation: recovery cost and host results | 5:00–6:15 |
+| 8 | Cumulative transfer work and recovery motivation | 5:00–6:15 |
 | 9 | Host-cache architecture | 6:15–7:15 |
 | 10 | Fetch-aware ordering | 7:15–8:35 |
 | 11 | Scope and limitations | 8:35–9:20 |
@@ -61,7 +65,8 @@ python -m venv /tmp/cachewise-slides-venv
 /tmp/cachewise-slides-venv/bin/python presentation/export_script.py
 ```
 
-The generator reads the frozen coverage JSON, rounded host-study snapshot, and verified original-figure assets.
+The generator reads the frozen coverage JSON, rounded host-study snapshot, selected archived operation timers, and verified original-figure assets.
+`notes/experiment-evidence/host-dram-operation-times.json` records timer fields, upstream file/blob identifiers, instrumentation sources, and accounting limits for the two FCFS/LRU host-restoration runs and their recomputation controls.
 It creates four chart images, PowerPoint, PDF, speaker notes, and `deck-provenance.json` with input/script/output checksums.
 It checks the 60-run count, request count, retained preemption, host capacity, 600-second schedule, equal 300-second halves, and text/slide bounds.
 It launches no experiment, model, replay, or correctness run.

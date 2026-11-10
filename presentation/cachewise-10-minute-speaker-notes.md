@@ -64,13 +64,13 @@ The green prefix/LRU line is the scheduling-only ablation and has the lowest mea
 
 Evidence: frozen 60-run coverage study; report Table 3 and Figure 1a
 
-## 8. Host restoration reduces session time
+## 8. Host restoration: cumulative transfer work
 
 **5:00–6:15 · 75 seconds**
 
-After the CacheWise replication, we turn to recovery after eviction. Scheduling can limit churn, but useful state may still leave the GPU. Saving it in host memory allows restoration instead of repeating prefill. A simple cost test is whether saving, restoring, and managing the copy costs less than recomputation. Here we keep LRU and FCFS fixed and compare recomputation with on-demand host restoration. At twenty-eight concurrent episodes, reported mean session time falls from 821 to 90.7 seconds, a baseline-to-restoration ratio of about 9.1. At thirty-six it falls from 1,060 to 222 seconds, about 4.8. The reported prior-prefix deficit also drops sharply, supporting the interpretation that more reusable state survives. Two qualifications matter. First, restoration adds thirty-six GiB of host KV capacity to the common twenty-four-GiB GPU pool, so this is not an equal-total-memory algorithm comparison. Second, each bar is one reported run. This study also uses a different engine, smaller GPU pool, larger prefill chunks, and transformed replay inputs. We therefore keep it separate from the vLLM replication. The result demonstrates a favorable host-DRAM operating regime, not a measured SSD break-even curve.
+We now examine the measured cost of retaining evicted KV in host memory. The vertical axis sums operation time over each entire run, rather than averaging session latency. Blue is saving KV from GPU to host; green is restoring it. At N equals twenty-eight, the event sums are 1.68 seconds saving and 5.99 seconds restoring, or 7.66 seconds total. At thirty-six they are 4.80 and 19.09 seconds, or 23.89 seconds total. These CUDA events include GPU staging as well as the copies, and their work can overlap model execution. They do not measure all CPU management overhead. The archive has no isolated recomputation timer, so these bars cannot establish a direct recompute-versus-transfer time ratio. Separately, the reported mean-session ratios are about 9.1 and 4.8 in favor of restoration. That comparison adds thirty-six GiB of host KV capacity to a common twenty-four-GiB GPU pool. Each load has one observation; this is host DRAM, not SSD.
 
-Evidence: host-dram-reported-results.json; report Figure 3a and §6
+Evidence: Mini-SGLangs 3f9aee7; host-dram-operation-times.json and host-study snapshot
 
 ## 9. Preserve evicted KV in host DRAM
 
@@ -84,7 +84,7 @@ Evidence: Implementation: Mini-SGLangs 3f9aee7; report Figure 2 and §5
 
 **7:15–8:35 · 80 seconds**
 
-Ordinary prefix-aware ordering considers the GPU prefix. Fetch-aware ordering also recognizes that a host-resident prefix can be cheaper than recomputing a complete miss. The priority is new prefill tokens plus alpha times the additional host tokens, with alpha fixed to 0.05. Lower-cost requests go first. This is a heuristic, not a calibrated latency predictor. On the left are the reported N-equals-thirty-six host ablations at fixed tier capacities. LRU plus prefix scheduling takes 159 seconds, predictive plus prefix takes 158, adding prefetch alone takes 172, and the full fetch-aware combination takes 136. Two runs are reported for the predictive-prefix control and the full combination. Their descriptive means are 166.5 and 135.5 seconds. These sparse, not verified matched observations favor the full combination, but do not isolate every component or establish statistical significance. Prefetch alone is not enough in this example.
+Every bar uses the same GPU and host cache capacities and can restore KV on demand. Read each full configuration on the left. The baseline uses FCFS and LRU. The scheduling-only row replaces FCFS with prefix-aware ordering: requests with more reusable GPU KV need less new prefill and go first. Adapted CacheWise also adds predictive eviction. CacheWise with prefetch keeps both components and restores host KV before the predicted session return, rather than waiting for its next request. The final row keeps prefetch and adds fetch-aware ordering: it recognizes host-resident prefixes as cheaper than full recomputation. Its priority is new prefill tokens plus 0.05 times additional host tokens, a heuristic with lower cost served first. The first reported session times are 222, 159, 158, 172, and 136 seconds. Prefetch alone does not improve this observation. The final combination is promising, but sparse repetitions do not isolate each component or establish statistical significance.
 
 Evidence: Mini-SGLangs 3f9aee7; report Figure 3b and Eq. (3)
 

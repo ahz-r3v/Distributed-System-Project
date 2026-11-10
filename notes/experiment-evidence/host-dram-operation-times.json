@@ -1,0 +1,119 @@
+{
+  "study": "Cumulative operation timers from the existing Mini-SGLang host-DRAM study",
+  "repository": "https://github.com/BoxuanYang/MiniSGLangs",
+  "revision": "3f9aee7362004126e937ba88085ff72f9ad6083a",
+  "scope": "Selected fields from four archived result JSON files; no experiment, replay, or model run. These are operation-timer measurements, separate from the rounded mean-session results.",
+  "instrumentation": [
+    {
+      "source_path": "python/minisgl/kvcache/host_pool.py",
+      "source_git_blob_sha1": "370a0d6558e0c174bb26006a129c50bba01e67ea"
+    },
+    {
+      "source_path": "cachewise_exp/replay.py",
+      "source_git_blob_sha1": "f785e0fd541687b8af302ac533f22042cb849b30"
+    }
+  ],
+  "accounting": {
+    "d2h_ms": "Sum of CUDA-event durations for GPU-to-host saves across the measured run. Events include GPU staging/gather and host copy operations.",
+    "h2d_ms": "Sum of CUDA-event durations for on-demand host-to-GPU restores across the measured run. Events include host copy and GPU staging/scatter operations.",
+    "prefetch_h2d_ms": "Sum of CUDA-event durations for prefetched restores; zero in these FCFS/LRU runs with prefetch disabled.",
+    "total_transfer_s": "(d2h_ms + h2d_ms + prefetch_h2d_ms) / 1000; cumulative measured operation time, not wall-clock session latency or critical-path delay.",
+    "recomputation_time_s": "Not instrumented in these archived runs. Token counts and scheduler CPU time do not provide an isolated recomputation duration."
+  },
+  "observations": [
+    {
+      "source_path": "cachewise_exp/results/exp2_fetchback/offload_lru_fcfs_n28.json",
+      "source_git_blob_sha1": "56d832404a8c1131bda9e5a8a73ac8f85a858d5f",
+      "n": 28,
+      "completed_sessions": 28,
+      "completed_requests": 677,
+      "eviction": "lru",
+      "schedule": "fcfs",
+      "prefetch": false,
+      "fetch_aware": false,
+      "run_stats": {
+        "prefill_tokens": 383410,
+        "decode_tokens": 27308,
+        "sched_time": 3.245123699627584,
+        "num_prefill_batches": 549,
+        "num_decode_batches": 4476
+      },
+      "transfer_ms": {
+        "d2h_ms": 1675.0102449208498,
+        "h2d_ms": 5987.329417511821,
+        "prefetch_h2d_ms": 0
+      },
+      "recomputation_time_s": null
+    },
+    {
+      "source_path": "cachewise_exp/results/exp2_fetchback/offload_lru_fcfs_n36.json",
+      "source_git_blob_sha1": "629a0533056e76a07a3f4ce9b9f6e7bb895d63e4",
+      "n": 36,
+      "completed_sessions": 36,
+      "completed_requests": 887,
+      "eviction": "lru",
+      "schedule": "fcfs",
+      "prefetch": false,
+      "fetch_aware": false,
+      "run_stats": {
+        "prefill_tokens": 1113025,
+        "decode_tokens": 36115,
+        "sched_time": 4.167398640944157,
+        "num_prefill_batches": 568,
+        "num_decode_batches": 5253
+      },
+      "transfer_ms": {
+        "d2h_ms": 4798.129191093147,
+        "h2d_ms": 19094.937819622457,
+        "prefetch_h2d_ms": 0
+      },
+      "recomputation_time_s": null
+    },
+    {
+      "source_path": "cachewise_exp/results/exp1_recompute/vllm_lru_fcfs_n28.json",
+      "source_git_blob_sha1": "c1f578076d5f8cbc1b6f3760ca8bc60b0c43c16b",
+      "n": 28,
+      "completed_sessions": 28,
+      "completed_requests": 677,
+      "eviction": "lru",
+      "schedule": "fcfs",
+      "prefetch": false,
+      "fetch_aware": false,
+      "run_stats": {
+        "prefill_tokens": 5001666,
+        "decode_tokens": 27308,
+        "sched_time": 0.9991414483229164,
+        "num_prefill_batches": 833,
+        "num_decode_batches": 3261
+      },
+      "transfer_ms": null,
+      "recomputation_time_s": null
+    },
+    {
+      "source_path": "cachewise_exp/results/exp1_recompute/vllm_lru_fcfs_n36.json",
+      "source_git_blob_sha1": "c61f1776e4fa65d0acc216ea276bb29eae0b1ae2",
+      "n": 36,
+      "completed_sessions": 36,
+      "completed_requests": 887,
+      "eviction": "lru",
+      "schedule": "fcfs",
+      "prefetch": false,
+      "fetch_aware": false,
+      "run_stats": {
+        "prefill_tokens": 6564481,
+        "decode_tokens": 36115,
+        "sched_time": 1.1909590241557453,
+        "num_prefill_batches": 1067,
+        "num_decode_batches": 4665
+      },
+      "transfer_ms": null,
+      "recomputation_time_s": null
+    }
+  ],
+  "limitations": [
+    "CUDA-event operation sums can overlap model execution and do not measure all CPU management overhead.",
+    "No direct time comparison with prefix recomputation is possible from these timers.",
+    "One observation per load; restoration adds 36 GiB nominal host KV payload to the 24 GiB GPU KV pool.",
+    "These results concern host DRAM; no SSD or filesystem operations were measured."
+  ]
+}
