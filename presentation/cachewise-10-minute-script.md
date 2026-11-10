@@ -1,38 +1,44 @@
 # Presentation script: CacheWise replication and KV cache recovery
 
-This script follows the ten-slide deck and its 10:00 timing plan. Questions follow the talk.
+This script follows the ten-slide deck and its 10:00 timing plan.
+Spend 0:00–5:00 on the CacheWise paper and adapted replication (slides 1–5), then 5:00–10:00 on recovery costs, host methods, limitations and takeaways (slides 6–10).
+Questions follow the talk.
 Read the spoken paragraphs; italic instructions are delivery cues and should not be read aloud.
 Pause briefly after the main numbers and use the slide transitions to check your timing.
 
 ## Slide 1 — CacheWise replication and KV cache recovery
 
-**0:00–0:30 · 30 seconds**
+**0:00–0:20 · 20 seconds**
 
-*Face the audience. Introduce the three parts without reading each card.*
+*Introduce the two halves. Move on at twenty seconds.*
 
-Hello everyone. Our project looks at how to serve coding agents efficiently when GPU memory is limited.
+Hello everyone. I’ll spend the first five minutes explaining the CacheWise paper and our adapted replication results.
 
-I’ll cover three parts: an adapted replication of CacheWise, the cost of recovering evicted cache state, and a host-memory extension with fetch-aware scheduling.
+The second half covers recovery costs and host-cache methods. The central question is how to reuse an agent’s previous computation when GPU memory is limited.
 
-The central question is: when an agent returns from a tool call, how can we reuse its previous work efficiently?
+## Slide 2 — CacheWise: reuse prefixes across tool calls
 
-## Slide 2 — The same prefix is useful again
+**0:20–1:35 · 75 seconds**
 
-**0:30–1:25 · 55 seconds**
+*Follow the request–tool–return sequence, then point to the two CacheWise mechanisms.*
 
-*Follow the arrows from the model request, through the tool, to the next request.*
+CacheWise studies a pattern common in coding agents: a model request, followed by tool execution, followed by another request that reuses much of the same context.
 
-A coding agent repeatedly asks the model to act, runs a tool, and sends another request. That next request often contains much of the same context.
+The KV cache stores attention keys and values. Keeping a compatible prefix avoids processing that context again during prefill. But while a tool runs, the inactive state still takes up GPU memory.
 
-The KV cache stores attention keys and values, allowing the model to reuse that context. Without a cached copy, it must process the missing prefix again. That processing is called prefill.
+CacheWise combines two mechanisms to manage this tradeoff.
 
-While the tool runs, the cached state still occupies GPU memory. Evicting it creates room for other sessions, but adds recovery work later.
+First, prefix-aware scheduling favors requests needing fewer additional KV blocks. This controls which request goes next.
 
-We can recover by recomputing the prefix or restoring a saved copy. The scheduler decides which request goes first, so scheduling, eviction, and recovery affect one another.
+Second, predictive eviction uses tool metadata to estimate when inactive sessions will return. This guides which cached state to retain.
+
+The original paper also evaluates GPU–CPU offloading, so offloading itself is not a new idea introduced by our project.
+
+My replication asks how these scheduling and eviction mechanisms behave in our adapted setup.
 
 ## Slide 3 — Replication separates two decisions
 
-**1:25–2:30 · 65 seconds**
+**1:35–2:40 · 65 seconds**
 
 *Point to the two rows and then the two columns of the policy matrix.*
 
@@ -42,6 +48,8 @@ We compare first-come, first-served scheduling with prefix-aware scheduling, whi
 
 All four combinations use the same engine fork, fresh servers, and identical selected inputs.
 
+Because the released text is redacted, we use synthetic prompts preserving prefix growth and recorded lengths. This is an adapted replay.
+
 The setup uses a fourteen-billion-parameter Qwen coding model on one Blackwell GPU. The cache holds about 288,000 tokens.
 
 We test five workload settings: three nested loads in cohort A, plus two additional held-out cohorts. With three repeats per policy, that gives sixty runs and 6,384 request executions.
@@ -50,7 +58,7 @@ Our main metric is mean session serving time: the sum of model-request latencies
 
 ## Slide 4 — Prefix / LRU has the lowest mean
 
-**2:30–3:50 · 80 seconds**
+**2:40–4:00 · 80 seconds**
 
 *Trace the green line. Pause after “all five settings.”*
 
@@ -68,7 +76,7 @@ The result supports prefix-aware scheduling in this replay. Next, we can ask whe
 
 ## Slide 5 — Prediction depends on the scheduler
 
-**3:50–4:55 · 65 seconds**
+**4:00–5:00 · 60 seconds**
 
 *Point below zero for orange, then above zero for purple. Finish at the P99 callout.*
 
@@ -80,13 +88,15 @@ Across the five settings, the prefix-aware mean increases by about ten to forty-
 
 There is also a tail-latency tradeoff. At the largest cohort A load, prefix-aware LRU improves the session mean, but the average per-run request P99 rises from about 713 to 1,292 seconds.
 
-So a lower mean does not guarantee better responsiveness for the slowest requests. Both measures matter when choosing a policy.
+A lower mean therefore does not guarantee better responsiveness for the slowest requests.
+
+That completes the CacheWise and replication half. Next, I’ll turn to recovery costs.
 
 ## Slide 6 — Preserve evicted KV in host DRAM
 
-**4:55–5:55 · 60 seconds**
+**5:00–6:00 · 60 seconds**
 
-*Follow the save arrow to host memory, then the restore arrow back to the GPU.*
+*Start this section at 5:00. Follow the save arrow to host memory, then the restore arrow back to the GPU.*
 
 I’ll now move to the separate Mini-SGLang host-recovery study.
 
@@ -100,7 +110,7 @@ This study keeps twenty-four gibibytes of GPU KV capacity and adds thirty-six gi
 
 ## Slide 7 — Host restoration reduces session time
 
-**5:55–7:10 · 75 seconds**
+**6:00–7:15 · 75 seconds**
 
 *Read the cost condition, then point to each pair of bars. Pause after each ratio.*
 
@@ -118,7 +128,7 @@ This study also uses a different engine and replay setup, so we keep its timings
 
 ## Slide 8 — Fetch-aware ordering discounts host hits
 
-**7:10–8:30 · 80 seconds**
+**7:15–8:35 · 80 seconds**
 
 *Point to the priority cost, then compare the prefetch and fetch-aware bars.*
 
@@ -136,7 +146,7 @@ The design lesson is to consider cache location when ordering requests. Prefetch
 
 ## Slide 9 — Keep the conclusions within the evidence
 
-**8:30–9:20 · 50 seconds**
+**8:35–9:20 · 45 seconds**
 
 *Move across the three limitation cards without reading every line.*
 

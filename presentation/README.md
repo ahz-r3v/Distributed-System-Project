@@ -7,22 +7,25 @@ The whole-study deck accompanies the six-page report and covers CacheWise replic
 - [Speaker notes](cachewise-10-minute-speaker-notes.md), also embedded in the PowerPoint
 - Full spoken script: [editable Markdown](cachewise-10-minute-script.md) · [printable PDF](cachewise-10-minute-script.pdf)
 
-The deck has ten 16:9 slides, with 10:00 of planned speaking time. Questions follow the talk.
+The deck has ten 16:9 slides, with 10:00 of planned speaking time.
+The first five minutes cover the CacheWise paper and adapted replication (slides 1–5); the next five cover recovery costs, host methods, limitations and takeaways (slides 6–10).
+Slide 2 explicitly explains the original paper’s motivation, prefix-aware scheduling, and predictive eviction before the replication results.
+Questions follow the talk.
 The full script has about 1,100 spoken words, plus slide cues and transitions, following the same timing plan.
 Italic instructions are delivery cues, not spoken text.
 Rehearse once to adjust the pacing to your speaking speed.
 
 | Slide | Topic | Time |
 | --- | --- | --- |
-| 1 | Study overview | 0:00–0:30 |
-| 2 | Prefix reuse and recovery | 0:30–1:25 |
-| 3 | Replication methodology | 1:25–2:30 |
-| 4 | Main replication result | 2:30–3:50 |
-| 5 | Scheduler interaction and tails | 3:50–4:55 |
-| 6 | Host-cache architecture | 4:55–5:55 |
-| 7 | Recovery cost and host results | 5:55–7:10 |
-| 8 | Fetch-aware ordering | 7:10–8:30 |
-| 9 | Scope and limitations | 8:30–9:20 |
+| 1 | Talk plan: two equal halves | 0:00–0:20 |
+| 2 | CacheWise paper: motivation and mechanisms | 0:20–1:35 |
+| 3 | Adapted replication methodology | 1:35–2:40 |
+| 4 | Main replication result | 2:40–4:00 |
+| 5 | Scheduler interaction and tails | 4:00–5:00 |
+| 6 | Host-cache architecture | 5:00–6:00 |
+| 7 | Recovery cost and host results | 6:00–7:15 |
+| 8 | Fetch-aware ordering | 7:15–8:35 |
+| 9 | Scope and limitations | 8:35–9:20 |
 | 10 | Takeaways | 9:20–10:00 |
 
 The PowerPoint uses editable text and native shapes; charts are high-resolution images rendered from archived measurements.
@@ -43,7 +46,7 @@ python -m venv /tmp/cachewise-slides-venv
 
 The generator reads the frozen coverage JSON and rounded host-study snapshot.
 It creates four chart images, PowerPoint, PDF, speaker notes, and `deck-provenance.json` with input/script/output checksums.
-It checks the 60-run count, request count, retained preemption, host capacity, 600-second schedule, and text/slide bounds.
+It checks the 60-run count, request count, retained preemption, host capacity, 600-second schedule, equal 300-second halves, and text/slide bounds.
 It launches no experiment, model, replay, or correctness run.
 `export_script.py` renders the hand-written Markdown script as a printable PDF; it does not change the deck or report.
 
