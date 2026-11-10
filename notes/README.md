@@ -396,3 +396,14 @@ The mechanisms follow on the next slide.
 Slides 1–6 still total 300 seconds; host recovery and the closing slides occupy the remaining 300 seconds.
 The script, embedded notes, PDFs, and timing table follow the same order.
 No experiment, replay, model execution, or correctness run was launched for these revisions.
+
+## Original-paper workload graphs and predictor explanation (2026-11-10)
+
+The presentation now includes two additional slides using original CacheWise Figures 2, 3, and 6 to show prefill/decode distributions, turn counts, and context growth relative to the paper's chat baseline.
+The downloaded 14-page PDF is verified as arXiv v1 with CC BY 4.0 metadata; it is kept in the ignored build directory, while attributed figure crops, extraction code, and checksums are tracked.
+`presentation/ORIGINAL_PAPER.md` records the source, license, and reproduction steps.
+The algorithm slide now explains tool-argument TF–IDF/KMeans duration groups, conditional expected remaining duration, farthest-predicted-reuse eviction of unreferenced KV, and periodic refresh.
+It explicitly distinguishes the paper's argument-aware predictor from our name-only adaptation.
+The thirteen-slide talk allocates 300 seconds to slides 1–8 and 300 seconds to slides 9–13.
+The offloading-motivation results remain before the host-cache architecture.
+No experimental/model/replay runs were launched; the six-page report and frozen experimental measurements are unchanged.

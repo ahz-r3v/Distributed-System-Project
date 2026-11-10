@@ -38,7 +38,7 @@ The configured 196,608 host slots at 196,608 bytes per token equal **36 GiB of n
 
 ## Presentation
 
-The [eleven-slide whole-study deck](presentation/README.md) includes an [editable PowerPoint](presentation/cachewise-10-minute-talk.pptx), [PDF](presentation/cachewise-10-minute-talk.pdf), and [timed speaker notes](presentation/cachewise-10-minute-speaker-notes.md) for approximately ten minutes.
+The [thirteen-slide whole-study deck](presentation/README.md) includes an [editable PowerPoint](presentation/cachewise-10-minute-talk.pptx), [PDF](presentation/cachewise-10-minute-talk.pdf), and [timed speaker notes](presentation/cachewise-10-minute-speaker-notes.md) for approximately ten minutes.
 
 ## Repository layout
 

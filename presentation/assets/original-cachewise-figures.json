@@ -1,0 +1,63 @@
+{
+  "title": "CacheWise: Understanding Workloads and Optimizing KVCache Management for Efficiently Serving LLM Coding Agents",
+  "authors": [
+    "Shubham Tiwari",
+    "Tapan Chugh",
+    "Nash Rickert",
+    "Simon Peter",
+    "Ratul Mahajan",
+    "Haiying Shen"
+  ],
+  "version": "arXiv:2606.16824v1",
+  "source_url": "https://arxiv.org/pdf/2606.16824v1",
+  "requested_download_url": "https://arxiv.org/pdf/2606.16824",
+  "source_pdf_sha256": "8787570ba7d61444aced8378af2069796d7e801920bc6b7476afabcc347aed3c",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "changes": "Cropped plots from the original PDF, excluding surrounding text/captions. Plot data, axes, and legends are unaltered. Slide captions are new and attribute the original paper. These are published results, not new or replicated measurements.",
+  "script_sha256": "7faa37ba5fb51de0ea9bfdf399a4bb3251fddd1a6574dadc10920677ad341559",
+  "figures": [
+    {
+      "figure": 2,
+      "source_pdf_page": 4,
+      "crop_top_left_points": [
+        54,
+        68,
+        560,
+        267
+      ],
+      "files": {
+        "presentation/assets/original-cachewise-figure2.pdf": "2506934d44020948a2936c241b4602b3358ec4446eb5917a6989b7d8a2de5aa3",
+        "presentation/assets/original-cachewise-figure2.png": "b788dd54c80c13d51334129b8194969ed8f14976b32a6726bf034040d4205dd5"
+      }
+    },
+    {
+      "figure": 3,
+      "source_pdf_page": 4,
+      "crop_top_left_points": [
+        54,
+        287,
+        284,
+        400
+      ],
+      "files": {
+        "presentation/assets/original-cachewise-figure3.pdf": "3a5d0742d1e4b41a4b595019ecaff660fff95e7f47eaae0fe8595e5aeb7cef55",
+        "presentation/assets/original-cachewise-figure3.png": "d816d47e8c7ec115c78d06f942755e14e887f23682a91a567bb010f02bdf5ac7"
+      }
+    },
+    {
+      "figure": 6,
+      "source_pdf_page": 4,
+      "crop_top_left_points": [
+        318,
+        435,
+        560,
+        563
+      ],
+      "files": {
+        "presentation/assets/original-cachewise-figure6.pdf": "475b05315c60125d0bc520a3a2f266d923f79e45a34719c2be11f3180ae863c3",
+        "presentation/assets/original-cachewise-figure6.png": "d8c041abed0a2a4b94948a9318dd4c0bc1eaa81bbdeba68e7fa19017bcfac0ca"
+      }
+    }
+  ]
+}
