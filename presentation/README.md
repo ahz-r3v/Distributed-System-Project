@@ -9,7 +9,9 @@ The whole-study deck accompanies the six-page report and covers CacheWise replic
 
 The deck has ten 16:9 slides, with 10:00 of planned speaking time.
 The first five minutes cover the CacheWise paper and adapted replication (slides 1–5); the next five cover recovery costs, host methods, limitations and takeaways (slides 6–10).
-Slide 2 explicitly explains the original paper’s motivation, prefix-aware scheduling, and predictive eviction before the replication results.
+The opening slide introduces the project and its central question.
+Slide 2 explains the original paper’s motivation, prefix-aware scheduling, and predictive eviction before the replication results.
+Timing guidance stays in the notes and script.
 Questions follow the talk.
 The full script has about 1,100 spoken words, plus slide cues and transitions, following the same timing plan.
 Italic instructions are delivery cues, not spoken text.
@@ -17,7 +19,7 @@ Rehearse once to adjust the pacing to your speaking speed.
 
 | Slide | Topic | Time |
 | --- | --- | --- |
-| 1 | Talk plan: two equal halves | 0:00–0:20 |
+| 1 | Project introduction and central question | 0:00–0:20 |
 | 2 | CacheWise paper: motivation and mechanisms | 0:20–1:35 |
 | 3 | Adapted replication methodology | 1:35–2:40 |
 | 4 | Main replication result | 2:40–4:00 |

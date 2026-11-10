@@ -10,11 +10,11 @@ Pause briefly after the main numbers and use the slide transitions to check your
 
 **0:00–0:20 · 20 seconds**
 
-*Introduce the two halves. Move on at twenty seconds.*
+*Introduce the project and its central question. Move to the CacheWise paper at twenty seconds.*
 
-Hello everyone. I’ll spend the first five minutes explaining the CacheWise paper and our adapted replication results.
+Hello everyone. This project asks how coding-agent servers can reuse previous computation when GPU memory is limited.
 
-The second half covers recovery costs and host-cache methods. The central question is how to reuse an agent’s previous computation when GPU memory is limited.
+We examine CacheWise scheduling and eviction, then look at restoring evicted KV state from host memory.
 
 ## Slide 2 — CacheWise: reuse prefixes across tool calls
 

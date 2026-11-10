@@ -12,7 +12,7 @@ Timings are rehearsal targets, not a recording. No experiments were run to creat
 
 **0:00–0:20 · 20 seconds**
 
-Today I will spend the first five minutes explaining the CacheWise paper and our adapted replication. The second half covers recovery costs, host offloading, and fetch-aware scheduling. The theme is how to reuse previous computation under limited GPU memory.
+Hello everyone. This project asks how coding-agent servers can reuse previous computation when GPU memory is limited. We examine CacheWise scheduling and eviction, then look at restoring evicted KV state from host memory.
 
 Evidence: Six-page report, abstract and §1
 

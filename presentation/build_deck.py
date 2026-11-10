@@ -302,18 +302,12 @@ def make_slides():
         slides.append(s)
         return s
 
-    s = new('CacheWise replication\nand KV cache recovery', 'Talk plan · two equal halves', 20,
-        'Today I will spend the first five minutes explaining the CacheWise paper and our adapted replication. The second half covers recovery costs, host offloading, and fetch-aware scheduling. The theme is how to reuse previous computation under limited GPU memory.')
-    s.text(36, 155, 870, 'Serving coding agents under GPU memory pressure', size=24, color=MUTED)
-    for x, label, title, body, color in [
-        (36, '0:00–5:00 · FIRST HALF', 'CacheWise paper\n+ replicated results',
-         'Motivation, mechanisms, setup,\nresults and interpretation.', BLUE),
-        (489, '5:00–10:00 · SECOND HALF', 'Recovery costs\n+ host-cache methods',
-         'Restoration, fetch-aware ordering,\nlimitations and takeaways.', GREEN)]:
-        s.box(x, 253, 435, 197, '#ffffff', radius=9)
-        s.text(x+20, 270, 395, label, size=14, color=color, bold=True)
-        s.text(x+20, 309, 395, title, size=26, color=color, bold=True)
-        s.text(x+20, 393, 395, body, size=17)
+    s = new('CacheWise replication\nand KV cache recovery', 'Introduction', 20,
+        'Hello everyone. This project asks how coding-agent servers can reuse previous computation when GPU memory is limited. We examine CacheWise scheduling and eviction, then look at restoring evicted KV state from host memory.')
+    s.text(36, 161, 870, 'Replicating CacheWise and evaluating host-DRAM recovery', size=22, color=MUTED)
+    s.box(36, 270, 888, 144, '#ffffff', radius=9)
+    s.text(56, 286, 848, 'CENTRAL QUESTION', size=13, color=BLUE, bold=True)
+    s.text(56, 322, 848, 'How can coding agents reuse previous computation\nwhen GPU memory is limited?', size=27, bold=True)
 
     s = new('CacheWise: reuse prefixes across tool calls', 'Part 1 · The CacheWise paper', 75,
         'CacheWise studies a pattern common in coding agents: a model request is followed by tool execution, then another request reusing much of the previous context. The KV cache stores attention keys and values, so keeping a prefix avoids processing it again during prefill. Tool waits create both an opportunity and memory pressure: inactive state is useful later but occupies GPU space now. CacheWise combines two mechanisms. Prefix-aware scheduling favors waiting requests needing fewer additional KV blocks. Predictive eviction uses tool metadata to estimate when inactive sessions will return and guide which cached state to retain. These mechanisms address request ordering and memory reclamation, respectively. The original paper also evaluates GPU–CPU offloading, so host offloading itself is not a new claim here. Our replication asks how the scheduling and eviction mechanisms behave in our adapted setup.',

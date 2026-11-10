@@ -9,11 +9,11 @@
     "notes/experiment-evidence/part1-coverage-comparison.json": "ece9e43fc8ca9e12691ca0311fe5f222d1f3cdec48dcfbb21a6152ea2174292c",
     "notes/experiment-evidence/host-dram-reported-results.json": "8126bea2a77ad959e6e109b5157463b05cd23d09db33753609c80f7e9975baaf"
   },
-  "script_sha256": "af8d18dc0f8b0e267a11bcea1d02dc8a9550b493b205ec211e3ef444c3b58d89",
+  "script_sha256": "c5896be546a680e6cd98953f56fda821a13446f168029beab7f5b8bf50dda5a7",
   "outputs": {
-    "presentation/cachewise-10-minute-talk.pptx": "ef283f5203038e326fc64979c7c9972312d472fd359a67edd7135cdf1439a475",
-    "presentation/cachewise-10-minute-talk.pdf": "eec72d06e6aee57e7dceaf1c7c742eb14c44dffa797ec6dfe4251bbb28009624",
-    "presentation/cachewise-10-minute-speaker-notes.md": "3d06830774c36131a9a477cfe18a63659d6c6526d6e0bd6571a4353df9eb4d51",
+    "presentation/cachewise-10-minute-talk.pptx": "0822dc50abb9fd26cc15d20390c35bc68c806e28b4a04f01031e25e4001efd5c",
+    "presentation/cachewise-10-minute-talk.pdf": "3b67b8278b10941db90957a3fbb0a429b50d998bbcacc068bde5acb22a76c7c6",
+    "presentation/cachewise-10-minute-speaker-notes.md": "1d988f636036e4f0887ac5ffd20471f353125f3886e3e54d097828dc9f809856",
     "presentation/assets/host-ablation.png": "84d30c5997762a0b7b6ef8bc3a7cfd2a760345d16d9a37e3db1d13c22abf5227",
     "presentation/assets/host-recovery.png": "53c321b6924f1d51c89c87530b218ba49c9cce323f090f5d3ed7254d44dd2904",
     "presentation/assets/replication-interaction.png": "00ab9be44370dd89055bad2859534de3bac0e4309035051cfa8849599d123740",
