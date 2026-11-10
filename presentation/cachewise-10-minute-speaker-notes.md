@@ -64,13 +64,13 @@ The green prefix/LRU line is the scheduling-only ablation and has the lowest mea
 
 Evidence: frozen 60-run coverage study; report Table 3 and Figure 1a
 
-## 8. Host restoration: cumulative transfer work
+## 8. Host restoration reduces session time
 
 **5:00–6:15 · 75 seconds**
 
-We now examine the measured cost of retaining evicted KV in host memory. The vertical axis sums operation time over each entire run, rather than averaging session latency. Blue is saving KV from GPU to host; green is restoring it. At N equals twenty-eight, the event sums are 1.68 seconds saving and 5.99 seconds restoring, or 7.66 seconds total. At thirty-six they are 4.80 and 19.09 seconds, or 23.89 seconds total. These CUDA events include GPU staging as well as the copies, and their work can overlap model execution. They do not measure all CPU management overhead. The archive has no isolated recomputation timer, so these bars cannot establish a direct recompute-versus-transfer time ratio. Separately, the reported mean-session ratios are about 9.1 and 4.8 in favor of restoration. That comparison adds thirty-six GiB of host KV capacity to a common twenty-four-GiB GPU pool. Each load has one observation; this is host DRAM, not SSD.
+After the CacheWise replication, we turn to recovery after eviction. Scheduling can limit churn, but useful state may still leave the GPU. Saving it in host memory allows restoration instead of repeating prefill. A simple cost test is whether saving, restoring, and managing the copy costs less than recomputation. Each bar is the mean across sessions of summed request latency, including queueing, prefill, and decoding, but excluding tool waits. Here we keep LRU and FCFS fixed and compare recomputation with on-demand host restoration. At twenty-eight concurrent episodes, reported mean session time falls from 821 to 90.7 seconds, a baseline-to-restoration ratio of about 9.1. At thirty-six it falls from 1,060 to 222 seconds, about 4.8. The reported prior-prefix deficit also drops sharply, supporting the interpretation that more reusable state survives. Two qualifications matter. First, restoration adds thirty-six GiB of host KV capacity to the common twenty-four-GiB GPU pool, so this is not an equal-total-memory algorithm comparison. Second, each bar is one reported run. This study also uses a different engine, smaller GPU pool, larger prefill chunks, and transformed replay inputs. We therefore keep it separate from the vLLM replication. The result demonstrates a favorable host-DRAM operating regime, not a measured SSD break-even curve.
 
-Evidence: Mini-SGLangs 3f9aee7; host-dram-operation-times.json and host-study snapshot
+Evidence: host-dram-reported-results.json; report Figure 3a and §6
 
 ## 9. Preserve evicted KV in host DRAM
 

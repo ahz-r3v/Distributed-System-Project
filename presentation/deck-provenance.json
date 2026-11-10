@@ -8,20 +8,19 @@
   "inputs": {
     "notes/experiment-evidence/part1-coverage-comparison.json": "ece9e43fc8ca9e12691ca0311fe5f222d1f3cdec48dcfbb21a6152ea2174292c",
     "notes/experiment-evidence/host-dram-reported-results.json": "8126bea2a77ad959e6e109b5157463b05cd23d09db33753609c80f7e9975baaf",
-    "notes/experiment-evidence/host-dram-operation-times.json": "46d047fca67582a1dbdb6d5119cbf034ef7126e8df13df0dc9fae31d63b5f033",
     "presentation/assets/original-cachewise-figures.json": "e6f525e70ccce9172fa002bb32e169c62f972a073a00a41d7be4c18139bfc84c",
     "presentation/assets/original-cachewise-figure2.png": "b788dd54c80c13d51334129b8194969ed8f14976b32a6726bf034040d4205dd5",
     "presentation/assets/original-cachewise-figure3.png": "d816d47e8c7ec115c78d06f942755e14e887f23682a91a567bb010f02bdf5ac7",
     "presentation/assets/original-cachewise-figure6.png": "d8c041abed0a2a4b94948a9318dd4c0bc1eaa81bbdeba68e7fa19017bcfac0ca"
   },
-  "script_sha256": "23fd6b91363d390939be874679b80f57aa9025d7f8e819c6eeb400915f8ff3bb",
+  "script_sha256": "1a62b8dfa4cd23fc28f6980859af48cc5ace91b2c9ec87679ba27272e1d807f2",
   "outputs": {
-    "presentation/cachewise-10-minute-talk.pptx": "34f02e42cd4cf5efe1aa42d638b434034930643691b9b31cba8d7cfa85f379a2",
-    "presentation/cachewise-10-minute-talk.pdf": "6dc109c0bfeb210370809392b87bf9748ae2547ddd76fcc4a36c0c4cb19afc55",
-    "presentation/cachewise-10-minute-speaker-notes.md": "6bc99162915f125800034d9dbe4bdad84a55b3f5fe0c0cda58366639e3098036",
+    "presentation/cachewise-10-minute-talk.pptx": "a765cafd34ce80f2b77a908ac414b0215523377b47069b1a1306dccdb9ca813f",
+    "presentation/cachewise-10-minute-talk.pdf": "97a9a6fa9576e890dc7bdf9f9024c51312db9faf516e808edbc2db94d934e577",
+    "presentation/cachewise-10-minute-speaker-notes.md": "e4252271cbe1ea54b53511691c5e07e9b1b4cd47916807c20358607bf4795c38",
     "presentation/assets/replication-load.png": "5d50753ded0a97e186f356c522bed3339bb8d2a4892b2962fcb0e2d52f4a892d",
     "presentation/assets/replication-interaction.png": "c0b91e7beb7ed03ecfcba8ccf0601ca47f885abf5c7e482544a19ef418648c8b",
-    "presentation/assets/host-recovery.png": "3459176036ffee0b05079c2829635d3019a37650d8a473c5f5e54c6d5d3a78fe",
+    "presentation/assets/host-recovery.png": "11eed5ca25ed1fcab733c67d3ec709eac192042db1ea8c8a02cfc6d863d06a2f",
     "presentation/assets/host-ablation.png": "2ed25cb4cedcd7d5f314f088d2cefdf13acd13bc52db7b7f323deeba1a230ba3"
   },
   "matplotlib_version": "3.11.2"

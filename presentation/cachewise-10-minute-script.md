@@ -98,23 +98,25 @@ The ranges show observed minima and maxima from three repeats, not confidence in
 
 These are our adapted replay results, separate from the published workload graphs shown earlier. The purple curve also shows that adding predictive eviction does not improve on prefix-aware LRU in this sweep. We now turn to recovery after eviction.
 
-## Slide 8 — Host restoration: cumulative transfer work
+## Slide 8 — Host restoration reduces session time
 
 **5:00–6:15 · 75 seconds**
 
-*Begin the second half at 5:00. Explain the stacked operation totals before discussing the separate session metric.*
+*Begin the second half at 5:00. Introduce the recovery problem, then point to the bars and cost condition.*
 
-Saving evicted KV lets us restore it instead of repeating prefill. This chart now shows cumulative operation time across each run.
+Even with better scheduling, useful KV state can still be evicted. Saving it in host memory gives us a way to restore it instead of recomputing the prefix.
 
-Blue is saving from GPU to host, and green is restoring from host to GPU. At twenty-eight episodes, they total 7.66 seconds. At thirty-six, they total 23.89 seconds.
+The cost condition is straightforward: saving, restoring, and managing a copy should cost less than recomputing the missing prefix.
 
-These CUDA-event sums include GPU staging and copies. They may overlap model execution, so they are not session latency or a complete measure of management overhead.
+Each bar sums model-request latency within a session, then averages across sessions. This includes queueing, prefill, and decoding, but excludes external tool waits. Scheduling and eviction stay fixed at first-come, first-served and LRU; we change the recovery method.
 
-The archive does not record isolated recomputation time. We therefore cannot use this chart to give a direct recomputation-to-transfer time ratio.
+At twenty-eight concurrent episodes, reported mean session time falls from 821 to 90.7 seconds, a ratio of about 9.1. At thirty-six episodes, it falls from 1,060 to 222 seconds, a ratio of about 4.8.
 
-The sidebar retains a separate result: mean session time improves by ratios of about 9.1 and 4.8 with restoration. That comparison adds thirty-six gibibytes of host KV capacity to the common twenty-four-gibibyte GPU pool.
+The reported missing-prefix deficit also decreases, consistent with more reusable state surviving.
 
-Each load has one observation. The backing tier is host DRAM; these are not SSD measurements.
+These comparisons include the extra host capacity, and each bar represents one reported run. They show favorable host-memory operating points rather than an equal-total-memory policy comparison.
+
+This study also uses a different engine and replay setup, so we keep its timings separate from the replication results.
 
 ## Slide 9 — Preserve evicted KV in host DRAM
 
