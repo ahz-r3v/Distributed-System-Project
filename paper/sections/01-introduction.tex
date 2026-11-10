@@ -8,13 +8,12 @@ Keeping inactive prefixes on the GPU enables reuse but consumes memory needed by
 Eviction releases capacity at the cost of recovering that state when the agent returns.
 Performance therefore depends jointly on which request is served, which prefix is evicted, and how missing state is recovered.
 
-CacheWise combines prefix-aware scheduling with tool-informed predictive eviction, and also evaluates GPU--CPU offloading~\cite{Tiwari2026CacheWise}.
-We examine its scheduling and eviction mechanisms in an adapted single-GPU replay before studying recovery in a separate Mini-SGLang implementation~\cite{MiniSGLang2026Artifact}.
+CacheWise combines prefix-aware scheduling with tool-informed predictive eviction~\cite{Tiwari2026CacheWise}.
+We first replicate these mechanisms in an adapted single-GPU replay, then add a separate GPU--CPU recovery study using a Mini-SGLang implementation~\cite{MiniSGLang2026Artifact}.
 The study addresses three questions: (1) which policy combinations improve serving time in our replication; (2) when retaining evicted state in host DRAM benefits recovery; and (3) how request ordering can account for host-resident prefixes.
 
-The replication's 60-run coverage study finds that predictive eviction improves FCFS but consistently worsens the prefix-aware mean, revealing a scheduler-dependent interaction.
+The replication's 60-run coverage study finds that the scheduling-only ablation (prefix/LRU) has the lowest mean in all five settings; the combined adapted CacheWise policy (prefix/predictive) is 10.07--43.38\% slower than this ablation.
 A separate host study reports large reductions in session time when backing capacity is added, and smaller further improvements with fetch-aware scheduling.
 These experiments have different engines, cache budgets, replay transformations, and token-accounting metrics.
 We analyze them separately and distinguish descriptive host observations from the replication's three-repeat comparisons.
-Our contribution is this bounded replication and analysis of an implemented host-recovery extension; host offloading itself has substantial precedent.
-Persistent secondary storage is an extension of the design, with no SSD performance claim made here.
+Our contribution combines the adapted replication with an additional host-restoration study and evaluation of fetch-aware scheduling.

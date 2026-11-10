@@ -7,28 +7,52 @@ The whole-study deck accompanies the six-page report and covers CacheWise replic
 - [Speaker notes](cachewise-10-minute-speaker-notes.md), also embedded in the PowerPoint
 - Full spoken script: [editable Markdown](cachewise-10-minute-script.md) · [printable PDF](cachewise-10-minute-script.pdf)
 
-The deck has ten 16:9 slides, with 10:00 of planned speaking time. Questions follow the talk.
-The full script has about 1,100 spoken words, plus slide cues and transitions, following the same timing plan.
+The deck has twelve 16:9 slides, with 10:00 of planned speaking time.
+The first five minutes cover the CacheWise paper and adapted replication (slides 1–7); the next five cover recovery costs, host methods, limitations and takeaways (slides 8–12).
+The opening slide introduces the project and its central question.
+Slide 2 introduces the released coding-agent traces and explains why prefix reuse matters.
+Slides 3–4 reproduce original-paper graphs showing prefill/decode lengths, turn counts, and context growth compared with chat workloads.
+Slide 5 explains prefix-aware scheduling and tool-duration prediction, including argument clustering, elapsed-time conditioning, and eviction order.
+It distinguishes the original argument-aware predictor from our tool-name-only replication.
+The policy matrix labels rows as scheduler and columns as eviction policy, highlights adapted CacheWise, and lists the testbed alongside the policies.
+N denotes the initially launched closed-loop segment group; it is not a maintained count of in-flight requests.
+Host-recovery results motivate offloading before the host-cache architecture is introduced.
+Slide 8 retains the recomputation-versus-restoration comparison.
+Its y-axis is labeled "Mean cumulative operation time (s)": an operation is a model request, and request latencies are summed within each session, then averaged across sessions.
+The metric includes queueing, prefill, and decoding and excludes external tool waits; it is not isolated prefill time.
+Slide 10 spells out each configuration and defines prefix-aware ordering, early prefetch, and fetch-aware ordering that discounts host hits.
+Timing guidance stays in the notes and script.
+Questions follow the talk.
+The full script has about 1,150 spoken words, plus slide cues and transitions, following the same timing plan.
 Italic instructions are delivery cues, not spoken text.
 Rehearse once to adjust the pacing to your speaking speed.
 
 | Slide | Topic | Time |
 | --- | --- | --- |
-| 1 | Study overview | 0:00–0:30 |
-| 2 | Prefix reuse and recovery | 0:30–1:25 |
-| 3 | Replication methodology | 1:25–2:30 |
-| 4 | Main replication result | 2:30–3:50 |
-| 5 | Scheduler interaction and tails | 3:50–4:55 |
-| 6 | Host-cache architecture | 4:55–5:55 |
-| 7 | Recovery cost and host results | 5:55–7:10 |
-| 8 | Fetch-aware ordering | 7:10–8:30 |
-| 9 | Scope and limitations | 8:30–9:20 |
-| 10 | Takeaways | 9:20–10:00 |
+| 1 | Project introduction | 0:00–0:15 |
+| 2 | What CATraces records | 0:15–0:40 |
+| 3 | Original prefill/decode distributions | 0:40–1:25 |
+| 4 | Turns and context growth versus chat | 1:25–2:00 |
+| 5 | Scheduling and tool-duration prediction algorithm | 2:00–3:05 |
+| 6 | Policy matrix, testbed, and replay setup | 3:05–3:55 |
+| 7 | Main replication result | 3:55–5:00 |
+| 8 | Recovery comparison and offloading motivation | 5:00–6:15 |
+| 9 | Host-cache architecture | 6:15–7:15 |
+| 10 | Fetch-aware ordering | 7:15–8:35 |
+| 11 | Limitations and further studies | 8:35–9:20 |
+| 12 | Takeaways | 9:20–10:00 |
 
 The PowerPoint uses editable text and native shapes; charts are high-resolution images rendered from archived measurements.
 The PDF and PowerPoint are generated from the same layout description. The PDF is not an Office export.
 The PDF embeds DejaVu Sans; install that font when editing the PowerPoint to preserve the layout.
 Names and course details can be added to the title slide when supplied.
+
+## Original-paper figures
+
+Figures 2, 3, and 6 are reproduced as attributed crops from the verified CacheWise v1 PDF.
+They describe the original paper’s workloads and are separate from our replication plots.
+See [source, license, extraction instructions and checksums](ORIGINAL_PAPER.md).
+The original PDF is downloaded locally to `paper/build/cachewise-original-2606.16824v1.pdf` and is not committed.
 
 ## Rebuilding
 
@@ -41,9 +65,11 @@ python -m venv /tmp/cachewise-slides-venv
 /tmp/cachewise-slides-venv/bin/python presentation/export_script.py
 ```
 
-The generator reads the frozen coverage JSON and rounded host-study snapshot.
+The generator reads the frozen coverage JSON, rounded host-study snapshot, and verified original-figure assets.
+`notes/experiment-evidence/host-dram-operation-times.json` records timer fields, upstream file/blob identifiers, instrumentation sources, and accounting limits for the two FCFS/LRU host-restoration runs and their recomputation controls.
+Those operation timers remain archived for reference and are not plotted on slide 8.
 It creates four chart images, PowerPoint, PDF, speaker notes, and `deck-provenance.json` with input/script/output checksums.
-It checks the 60-run count, request count, retained preemption, host capacity, 600-second schedule, and text/slide bounds.
+It checks the 60-run count, request count, retained preemption, host capacity, 600-second schedule, equal 300-second halves, and text/slide bounds.
 It launches no experiment, model, replay, or correctness run.
 `export_script.py` renders the hand-written Markdown script as a printable PDF; it does not change the deck or report.
 

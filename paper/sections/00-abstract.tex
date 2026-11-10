@@ -2,8 +2,8 @@
 Coding agents repeatedly reuse long prompts while competing for limited GPU memory.
 We study scheduling, eviction, and recovery of their attention key--value (KV) state.
 An adapted CacheWise replication comprises 60 coverage runs and 6,384 request executions across five workload settings.
-Prefix-aware LRU has the lowest mean session serving time in every setting; predictive eviction helps FCFS but increases the prefix-aware mean by 10.07--43.38\%.
+The scheduling-only ablation (prefix-aware/LRU) has the lowest mean session serving time in every setting; the combined adapted CacheWise policy (prefix-aware/predictive) is 10.07--43.38\% slower than this ablation.
 We then analyze a separate Mini-SGLang host-restoration artifact.
-With LRU+FCFS fixed, adding 36~GiB of nominal host KV capacity reduces reported mean session time from 821 to 90.7~s at $N=28$ and from 1,060 to 222~s at $N=36$.
+With the FCFS/LRU baseline fixed, adding 36~GiB of nominal host KV capacity reduces reported mean session time from 821 to 90.7~s at $N=28$ and from 1,060 to 222~s at $N=36$.
 We describe its page-based offloading and fetch-aware scheduling, retaining the limited repetitions and added-capacity qualification.
 The completed recovery path uses host DRAM; SSD support remains future work.

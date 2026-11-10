@@ -2,12 +2,6 @@
 \section{Host Recovery Evaluation}
 \label{sec:evaluation}
 
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=\textwidth]{compact-host-results.pdf}
-  \caption{Reported host-study observations. (a) LRU+FCFS fixed: restoration adds 36~GiB of host KV payload to the 24~GiB GPU pool; each bar is one run. (b) $N=36$ ablations at fixed tier capacities. Bars show the first observations; diamonds mark additional observations where available. Most policies have one run, and the additional observations are not verified matched blocks. Lower is better in both panels.}
-  \label{fig:compact-host-results}
-\end{figure*}
 
 \subsection{Setup and Evidence Scope}
 We analyze existing reported observations from Mini-SGLang commit \texttt{3f9aee7}~\cite{MiniSGLang2026Artifact}.
@@ -26,20 +20,19 @@ Host goodput counts prompt growth plus configured outputs over makespan.
 The evidence snapshot preserves rounded reported values and maps every plotted observation to a source file and Git blob.
 Most configurations have one observation; available repeats do not establish confidence intervals.
 
-
 \subsection{Restoration Benefit and Policy Ablation}
-With LRU+FCFS fixed, reported mean session time decreases from 821 to 90.7~s at $N=28$ and from 1,060 to 222~s at $N=36$ (Figure~\ref{fig:compact-host-results}a).
+With the FCFS/LRU baseline fixed, reported mean session time decreases from 821 to 90.7~s at $N=28$ and from 1,060 to 222~s at $N=36$ (Figure~\ref{fig:compact-host-results}a).
 The corresponding ratios are approximately $9.1\times$ and $4.8\times$.
 Prior-prefix deficit decreases from 4.691 to 0.073 million tokens and from 6.160 to 0.710 million; goodput rises from 347 to 1,060 tokens/s and from 326 to 927 tokens/s.
 These single-run comparisons support a favorable host-recovery regime in this replay, including the benefit of additional backing capacity.
 
-At $N=36$, on-demand restoration with LRU+prefix scheduling takes 159~s, predictive+prefix 158~s, adding prefetch alone 172~s, and the full CacheWise-Fetch combination 136~s (Figure~\ref{fig:compact-host-results}b).
+At $N=36$, the scheduling-only host ablation (prefix/LRU) takes 159~s, adapted CacheWise (prefix/predictive) 158~s, CacheWise with prefetch 172~s, and CacheWise-Fetch 136~s (Figure~\ref{fig:compact-host-results}b).
 Prefetch alone therefore does not improve this observation.
-The predictive-prefix control has reported times of 158 and 175~s; CacheWise-Fetch has 136 and 135~s.
+The adapted CacheWise control has reported times of 158 and 175~s; CacheWise-Fetch has 136 and 135~s.
 Their descriptive means are 166.5 and 135.5~s, a $1.23\times$ ratio.
 Only two observations per configuration are available, without verified balanced matching, so the difference cannot be attributed precisely to each component.
 
-The artifact also exposes a capacity-pressure limit: at $N=48$, host LRU+FCFS takes 1,450~s, compared with 193~s for LRU+prefix and 175~s for CacheWise-Fetch.
+The artifact also exposes a capacity-pressure limit: at $N=48$, the offload baseline takes 1,450~s, compared with 193~s for scheduling-only and 175~s for CacheWise-Fetch.
 The latter difference is a single-run observation rather than a robust general policy ranking.
 CUDA-event transfer work can overlap execution, so copy durations and session time measure different costs.
 No SSD or filesystem measurements are available.

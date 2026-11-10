@@ -64,7 +64,7 @@ def main():
                             leftMargin=46, rightMargin=46, topMargin=42, bottomMargin=45,
                             title='Ten-minute presentation script: CacheWise and KV cache recovery', author='')
     doc.build(story, onFirstPage=footer, onLaterPages=footer)
-    print(f'Rendered script for 10 slides; {len(words):,} spoken words, excluding cues and timings.')
+    print(f'Rendered script for {len(blocks)-1} slides; {len(words):,} spoken words, excluding cues and timings.')
 
 
 if __name__ == '__main__':

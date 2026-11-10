@@ -152,7 +152,7 @@ If the allocated 15 minutes excludes questions, add one minute to the KV-cache e
 
 **Visual:** Three takeaway lines and one handoff question: **“When does restoring KV state from secondary storage cost less than recomputing a prefix?”**
 
-**Presenter emphasis:** Parts 2 and 3 analyze existing host-DRAM restoration observations and fetch-aware scheduling in a separate Mini-SGLang artifact. SSD support and full storage write/restore measurements remain future work. Part 1 does not prove secondary-storage offloading is cheaper; host offloading is already part of CacheWise's evaluated scope.
+**Presenter emphasis:** Parts 2 and 3 analyze existing host-DRAM restoration observations and fetch-aware scheduling in a separate Mini-SGLang artifact. SSD support and full storage write/restore measurements remain future work. Part 1 does not prove secondary-storage offloading is cheaper; the project evaluates host restoration separately from the replication.
 
 ### 13. Questions
 

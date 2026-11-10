@@ -2,7 +2,7 @@
 
 A collaborative repository for a distributed systems course report, using the [official USENIX LaTeX template](https://www.usenix.org/conferences/author-resources/paper-templates) used by OSDI.
 The report uses US Letter paper, two columns, and 10 pt text, with separate section files so teammates can write in parallel.
-The report, **CacheWise Replication and Fetch-Aware KV Cache Recovery**, includes a historical six-policy experiment, a separate 60-run coverage study, and an analysis of existing Mini-SGLang host-restoration results. The concise report is **six pages including references**, with three selected figures and one results table. It describes the implemented pinned-host cache and fetch-aware scheduling. SSD support remains future work, and author information still needs to be filled in.
+The report, **CacheWise Replication and Fetch-Aware KV Cache Recovery**, includes a historical six-policy experiment, a separate 60-run coverage study, and an analysis of existing Mini-SGLang host-restoration results. The concise report is **six pages including references**, with three selected figures and tables for the testbed, workload selection, and results. It describes the implemented pinned-host cache and fetch-aware scheduling. SSD support remains future work, and author information still needs to be filled in.
 
 ## Getting started
 
@@ -13,7 +13,7 @@ The report, **CacheWise Replication and Fetch-Aware KV Cache Recovery**, include
 5. Compile and inspect the PDF, then merge changes through branches and pull requests.
 
 The shared bibliography includes the [CacheWise paper](https://arxiv.org/abs/2606.16824v1), with its citation details checked against the original paper.
-The original paper already evaluates GPU–CPU DRAM offloading. This report analyzes reported GPU–host recovery behavior and a fetch-aware scheduling extension, while keeping persistent secondary storage outside the completed implementation scope.
+The project adds a separate GPU–CPU recovery study and a fetch-aware scheduling evaluation to its CacheWise replication. The implemented recovery tier uses host DRAM; persistent secondary storage remains outside the completed scope.
 The concise report and presentation use existing measurements; no further experiments were run.
 Write the report in English and follow the instructor's length requirements.
 
@@ -38,7 +38,7 @@ The configured 196,608 host slots at 196,608 bytes per token equal **36 GiB of n
 
 ## Presentation
 
-The [ten-slide whole-study deck](presentation/README.md) includes an [editable PowerPoint](presentation/cachewise-10-minute-talk.pptx), [PDF](presentation/cachewise-10-minute-talk.pdf), and [timed speaker notes](presentation/cachewise-10-minute-speaker-notes.md) for approximately ten minutes.
+The [twelve-slide whole-study deck](presentation/README.md) includes an [editable PowerPoint](presentation/cachewise-10-minute-talk.pptx), [PDF](presentation/cachewise-10-minute-talk.pdf), and [timed speaker notes](presentation/cachewise-10-minute-speaker-notes.md) for approximately ten minutes.
 
 ## Repository layout
 

@@ -8,7 +8,14 @@ Include a figure with `\includegraphics{system-architecture.pdf}`, and add `\cap
 
 For each experimental figure, record the input data location, version, generation command, and execution environment so other authors can reproduce it.
 
-## Planned figures and tables
+## Current six-page report
+
+The concise report includes three figures: coverage serving results, host-cache architecture, and consolidated host results.
+It has three tables: the replication testbed, eligibility/cohort workloads, and coverage means.
+The first two tables are written in `sections/03-cachewise-replication.tex`; `plot_compact_results.py` generates the numeric means table and consolidated host figure.
+The detailed plots and older tables below remain supporting artifacts, rather than additional displays in the paper.
+
+## Original figure planning (historical)
 
 | Section | Figure or table | Required evidence |
 | --- | --- | --- |
@@ -18,7 +25,7 @@ For each experimental figure, record the input data location, version, generatio
 | Offloading methods | GPU–DRAM–SSD architecture and block lifecycle | Data paths and state transitions consistent with the implementation |
 | Method evaluation | End-to-end results, ablation plots, and sensitivity plots | Results for each storage method under a fixed policy, plus I/O and resource overhead |
 
-The report includes a six-policy results table and a separate uncached-request timing table; source snapshots and checksums are in `notes/experiment-evidence/`.
+The earlier long draft included a six-policy results table and a separate uncached-request timing table; source snapshots and checksums are in `notes/experiment-evidence/`.
 Part 1 includes four figures with documented data sources and generation scripts:
 
 - `replication-workload.pdf`: Deduplicated input/output lengths, message counts, and durations for common tools.

@@ -7,11 +7,11 @@
     "notes/experiment-evidence/part1-preemption-audit-amendment.json": "244e25efe66bd429cef3fc3039a281371049dc64748cd0b860c9f4f1a67581ff",
     "notes/experiment-evidence/host-dram-reported-results.json": "8126bea2a77ad959e6e109b5157463b05cd23d09db33753609c80f7e9975baaf"
   },
-  "script_sha256": "4ba14422ef5d374d58d10adb95581b794b33985fae64df74123767f330a3ccf5",
+  "script_sha256": "447247e21d43e1156adfb38d9fc16db6341ec6a1cbc76d7050818c7c43a16819",
   "outputs": {
-    "paper/figures/compact-coverage-table.tex": "227c40129bd0c9b2a5dbc1593267b6c01b4ab603a3acd44fbc812f29991d135c",
-    "paper/figures/compact-host-results.pdf": "0c28a38eb5ec73cda61b54a0ce10401389d84d93806ff2ebe0e85dd01786af3c",
-    "paper/figures/compact-host-results.png": "d5efd249a8709bf52a10d10ed9e4e31ba9a2866871b49226ebd9441f85a8c5ad"
+    "paper/figures/compact-coverage-table.tex": "3df230ac2d7ee3a1db331e9c130a151758762f694cfe1cff539c7aa28184eaa3",
+    "paper/figures/compact-host-results.pdf": "a5f094e1108bf32102b8af3696bddc0afe498aa55b297555fe319dbdd753f441",
+    "paper/figures/compact-host-results.png": "fca3fc93240930808e3905afe4e18cbc5e9f909a0826ea56ee1cd6ca493d4fe8"
   },
   "matplotlib_version": "3.11.2",
   "numpy_version": "2.5.4"

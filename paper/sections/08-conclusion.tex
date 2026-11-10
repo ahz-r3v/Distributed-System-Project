@@ -2,7 +2,8 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-Across five replication settings, prefix/LRU has the lowest mean session serving time; predictive eviction helps FCFS but regresses under prefix-aware scheduling.
+Across five replication settings, the scheduling-only ablation (prefix/LRU) has the lowest mean session serving time.
+The eviction-only ablation improves the FCFS/LRU baseline, while adapted CacheWise (prefix/predictive) is slower than scheduling-only.
 In the separate host study, adding 36~GiB of backing KV capacity yields reported $9.1\times$ and $4.8\times$ baseline-to-restoration time ratios at two loads.
 Fetch-aware ordering further favors host hits, with promising but sparsely repeated observations.
 The completed scope is adapted replication and host-DRAM recovery; SSD performance remains unevaluated.

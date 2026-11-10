@@ -1,84 +1,102 @@
 # Ten-minute presentation speaker notes
 
-10 slides · 10:00 planned speaking time · questions after the talk.
+12 slides · 10:00 planned speaking time · questions after the talk.
+
+0:00–5:00: CacheWise paper and adapted replication (slides 1–7).
+5:00–10:00: recovery costs, host methods, limitations and takeaways (slides 8–12).
 
 The PowerPoint and PDF use the same layout. The PowerPoint includes these notes.
 Timings are rehearsal targets, not a recording. No experiments were run to create this deck.
 
-## 1. CacheWise replication
-and KV cache recovery
+## 1. CacheWise replication and KV cache recovery
 
-**0:00–0:30 · 30 seconds**
+**0:00–0:15 · 15 seconds**
 
-This work asks how a coding-agent server should manage reusable attention state when GPU memory is limited. I will cover three parts: our adapted CacheWise replication, the tradeoff between recomputing a prefix and restoring a saved copy, and a host-cache extension with fetch-aware scheduling. The main theme is that scheduling, eviction, and recovery need to be considered together. The measured recovery tier is host DRAM; SSD storage remains future work.
+This project studies KV reuse for coding agents under limited GPU memory. We first examine CacheWise and its replication, then motivate and describe host-cache recovery.
 
 Evidence: Six-page report, abstract and §1
 
-## 2. The same prefix is useful again
+## 2. What do the CacheWise traces contain?
 
-**0:30–1:25 · 55 seconds**
+**0:15–0:40 · 25 seconds**
 
-A coding agent does not issue unrelated prompts. It asks the model to act, waits for a tool, and then sends another request containing much of the previous context. Prefill computes attention keys and values for that context. If the prefix is still cached, the server can reuse it. While the tool runs, however, that cache occupies scarce GPU memory. Evicting it makes room for other sessions but creates recovery work when the agent returns. There are two recovery choices: recompute the missing prefix, or restore a compatible saved copy. Scheduling then determines which returning session receives memory first. That is why a good eviction policy cannot be judged independently of request ordering.
+CATraces records real Claude Code sessions: model requests, tool calls, timings, and token usage. The released content is redacted, so our replay preserves lengths and prefix growth with synthetic tokens. The next two slides use the original paper’s graphs to show why this workload needs special cache management.
 
-Evidence: Background: CacheWise (Tiwari et al., 2026); report §§1–2
+Evidence: CacheWise v1 §§3–5; released-trace replay: report §3.1
 
-## 3. Replication separates two decisions
+## 3. CATraces: long inputs, short outputs
 
-**1:25–2:30 · 65 seconds**
+**0:40–1:25 · 45 seconds**
 
-We vary scheduling and eviction independently. The two schedulers are first-come, first-served and prefix-aware scheduling, which favors requests requiring less additional KV state. The two eviction policies are LRU and learned predictive eviction using tool names. All four combinations run in the same engine fork with fresh servers and identical selected inputs. Our testbed uses a 14-billion-parameter Qwen coding model in BF16 on one Blackwell GPU, with 287,696 KV token slots and 512-token prefill chunks. Cohort A has nested loads of ten, twenty, and thirty segments; B and C add two source-disjoint ten-segment cohorts. Four policies, five settings, and three repeats give sixty runs and 6,384 request executions. The primary metric sums model-request latencies within each session, excluding external tool waits.
+These are the original paper’s published prefill and decode distributions. A CDF shows the fraction of requests at or below a token length. Compare CATraces in red with the ShareGPT chat baseline in orange. The prefill curve is much farther right: agent prompts are much longer. The decode curve is farther left: outputs tend to be shorter. Reprocessing a large shared prefix can therefore be expensive even when little new text is generated. These are original-paper results, separate from our replay measurements.
 
-Evidence: Evidence: part1-coverage-comparison.json; report §3.1–3.2
+Evidence: Cropped from Tiwari et al., CacheWise v1, Fig. 2 (PDF p. 4); CC BY 4.0
 
-## 4. Prefix / LRU has the lowest mean
+## 4. CATraces differ from traditional chat
 
-**2:30–3:50 · 80 seconds**
+**1:25–2:00 · 35 seconds**
 
-This chart shows cohort A as the selected workload grows from ten to thirty concurrent segments. Lower is better. The blue and orange lines use FCFS; green and purple use prefix-aware scheduling. The largest separation comes from scheduling. Prefix-aware LRU reduces the FCFS/LRU mean by about 58 percent at ten segments, 62 percent at twenty, and 65 percent at thirty. The bars show the observed range of three repeats, not confidence intervals. The additional held-out B and C cohorts are included in the report table: prefix-aware LRU also has the lowest mean there, making five out of five settings. Increasing N adds new segments, so this is a nested workload sweep rather than a concurrency-only experiment with fixed composition. The result supports prefix-aware scheduling in this adapted replay; it does not establish a universal ranking across models or the entire trace population.
+ShareGPT is the chat baseline here. CATraces has many more turns in the left plot. On the right, follow blue CATraces versus purple ShareGPT: agent contexts grow much larger. One user task drives repeated model and tool calls, so KV must survive between requests and session completion matters alongside individual response latency.
 
-Evidence: Evidence: frozen 60-run coverage study; report Table 1 and Figure 1a
+Evidence: Cropped from Tiwari et al., CacheWise v1, Figs. 3 and 6 (PDF p. 4); CC BY 4.0
 
-## 5. Prediction depends on the scheduler
+## 5. CacheWise predicts when a session returns
 
-**3:50–4:55 · 65 seconds**
+**2:00–3:05 · 65 seconds**
 
-The predictive eviction result changes direction when we change the scheduler. Each point here compares predictive eviction against LRU within one matched repeat block. Values below zero mean predictive eviction is faster. Orange points use FCFS, and every orange point is below zero. Purple points use prefix-aware scheduling, and every purple point is above zero. Across settings, adding predictive eviction increases the prefix-aware mean by roughly ten to forty-three percent. The historical tool-duration oracle does not remove this local regression, so prediction accuracy alone does not explain it. There is also a responsiveness tradeoff: at A30, prefix/LRU improves the session mean but increases the average per-run request P99 from about 713 to 1,292 seconds. Scheduling should therefore be judged against both locality and latency objectives.
+The scheduler serves the request with the fewest additional KV blocks: required state minus resident state. For eviction, CacheWise predicts tool-call duration from historical calls. The original paper embeds arguments with TF–IDF and clusters similar calls with KMeans, giving a duration distribution for each group. For a tool still running after elapsed time e, estimate the remaining time as E of D minus e, conditioned on D being greater than e. This accounts for the time already spent waiting. Evict unreferenced KV whose predicted reuse is farthest away, and refresh estimates as time passes. Our replication uses tool names only because arguments are redacted.
 
-Evidence: Evidence: matched coverage repeats and request tails; report Figure 1b and §3.3
+Evidence: Algorithm adapted from CacheWise v1 §§5.1–5.3; original-paper argument-aware predictor
 
-## 6. Preserve evicted KV in host DRAM
+## 6. CacheWise combines scheduling and eviction
 
-**4:55–5:55 · 60 seconds**
+**3:05–3:55 · 50 seconds**
 
-The recovery extension is a separate Mini-SGLang implementation. One radix index records which prefix pages reside on the GPU and which have host copies. When memory is needed, dirty GPU pages are copied to pinned host DRAM. Clean inclusive copies can remain there, so a later GPU eviction does not require another save. When a request returns, a compatible host suffix is restored before prefill; if no copy survives, the engine recomputes. The implementation uses sixteen-token pages, locks and events to protect transfers, and predictive prefetch with a bounded per-step budget. In the recovery study the GPU pool holds twenty-four GiB of KV payload and the host tier adds thirty-six GiB. These are nominal cache payloads, excluding weights and other memory. No SSD path is implemented.
+Rows identify the scheduler and columns identify the eviction policy. The bottom-right cell is adapted CacheWise, combining prefix-aware scheduling with predictive eviction. The top-left cell is the FCFS/LRU baseline; the remaining cells isolate scheduling or eviction. The testbed panel gives the model, GPU, precision, KV pool, and prefill configuration. N segments start as a group, and each continues through its recorded turns; N does not mean a constant number of in-flight requests. Five settings, four policies, and three repeats give sixty runs and 6,384 request executions. The metric excludes external tool waits.
+
+Evidence: four-policy replication; report Tables 1–3 and §3
+
+## 7. Prefix / LRU has the lowest mean
+
+**3:55–5:00 · 65 seconds**
+
+The green prefix/LRU line is the scheduling-only ablation and has the lowest mean at all three tested loads. Adapted CacheWise is the purple prefix/predictive line. Scheduling-only reduces time versus FCFS/LRU by about 58, 62, and 65 percent as N rises. Scheduling-only also has the lowest mean in two additional held-out workloads, making five settings out of five. Ranges show observed minima and maxima from three repeats, not confidence intervals. The load sweep adds segments, so concurrency and composition both change. These are our adapted replay results, separate from the preceding published workload graphs.
+
+Evidence: frozen 60-run coverage study; report Table 3 and Figure 1a
+
+## 8. Host restoration reduces session time
+
+**5:00–6:15 · 75 seconds**
+
+After the CacheWise replication, we turn to recovery after eviction. Scheduling can limit churn, but useful state may still leave the GPU. Saving it in host memory allows restoration instead of repeating prefill. A simple cost test is whether saving, restoring, and managing the copy costs less than recomputation. Each bar is the mean across sessions of summed request latency, including queueing, prefill, and decoding, but excluding tool waits. Here we keep LRU and FCFS fixed and compare recomputation with on-demand host restoration. At twenty-eight concurrent episodes, reported mean session time falls from 821 to 90.7 seconds, a baseline-to-restoration ratio of about 9.1. At thirty-six it falls from 1,060 to 222 seconds, about 4.8. The reported prior-prefix deficit also drops sharply, supporting the interpretation that more reusable state survives. Two qualifications matter. First, restoration adds thirty-six GiB of host KV capacity to the common twenty-four-GiB GPU pool, so this is not an equal-total-memory algorithm comparison. Second, each bar is one reported run. This study also uses a different engine, smaller GPU pool, larger prefill chunks, and transformed replay inputs. We therefore keep it separate from the vLLM replication. The result demonstrates a favorable host-DRAM operating regime, not a measured SSD break-even curve.
+
+Evidence: host-dram-reported-results.json; report Figure 3a and §6
+
+## 9. Preserve evicted KV in host DRAM
+
+**6:15–7:15 · 60 seconds**
+
+These recovery observations motivate offloading. Here is how the Mini-SGLang host cache implements the save-and-restore path. One radix index records which prefix pages reside on the GPU and which have host copies. When memory is needed, dirty GPU pages are copied to pinned host DRAM. Clean inclusive copies can remain there, so a later GPU eviction does not require another save. When a request returns, a compatible host suffix is restored before prefill; if no copy survives, the engine recomputes. The implementation uses sixteen-token pages, locks and events to protect transfers, and predictive prefetch with a bounded per-step budget. In the recovery study the GPU pool holds twenty-four GiB of KV payload and the host tier adds thirty-six GiB. These are nominal cache payloads, excluding weights and other memory. No SSD path is implemented.
 
 Evidence: Implementation: Mini-SGLangs 3f9aee7; report Figure 2 and §5
 
-## 7. Host restoration reduces session time
+## 10. Fetch-aware ordering discounts host hits
 
-**5:55–7:10 · 75 seconds**
+**7:15–8:35 · 80 seconds**
 
-A simple cost test is whether saving, restoring, and managing the copy costs less than recomputation. Here we keep LRU and FCFS fixed and compare recomputation with on-demand host restoration. At twenty-eight concurrent episodes, reported mean session time falls from 821 to 90.7 seconds, a baseline-to-restoration ratio of about 9.1. At thirty-six it falls from 1,060 to 222 seconds, about 4.8. The reported prior-prefix deficit also drops sharply, supporting the interpretation that more reusable state survives. Two qualifications matter. First, restoration adds thirty-six GiB of host KV capacity to the common twenty-four-GiB GPU pool, so this is not an equal-total-memory algorithm comparison. Second, each bar is one reported run. This study also uses a different engine, smaller GPU pool, larger prefill chunks, and transformed replay inputs. We therefore keep it separate from the vLLM replication. The result demonstrates a favorable host-DRAM operating regime, not a measured SSD break-even curve.
+Every bar uses the same GPU and host cache capacities and can restore KV on demand. Read each full configuration on the left. The baseline uses FCFS and LRU. The scheduling-only row replaces FCFS with prefix-aware ordering: requests with more reusable GPU KV need less new prefill and go first. Adapted CacheWise also adds predictive eviction. CacheWise with prefetch keeps both components and restores host KV before the predicted session return, rather than waiting for its next request. The final row keeps prefetch and adds fetch-aware ordering: it recognizes host-resident prefixes as cheaper than full recomputation. Its priority is new prefill tokens plus 0.05 times additional host tokens, a heuristic with lower cost served first. The first reported session times are 222, 159, 158, 172, and 136 seconds. Prefetch alone does not improve this observation. The final combination is promising, but sparse repetitions do not isolate each component or establish statistical significance.
 
-Evidence: Evidence: host-dram-reported-results.json; report Figure 3a and §6
+Evidence: Mini-SGLangs 3f9aee7; report Figure 3b and Eq. (3)
 
-## 8. Fetch-aware ordering discounts host hits
+## 11. Limitations and further studies
 
-**7:10–8:30 · 80 seconds**
+**8:35–9:20 · 45 seconds**
 
-Ordinary prefix-aware ordering considers the GPU prefix. Fetch-aware ordering also recognizes that a host-resident prefix can be cheaper than recomputing a complete miss. The priority is new prefill tokens plus alpha times the additional host tokens, with alpha fixed to 0.05. Lower-cost requests go first. This is a heuristic, not a calibrated latency predictor. On the left are the reported N-equals-thirty-six host ablations at fixed tier capacities. LRU plus prefix scheduling takes 159 seconds, predictive plus prefix takes 158, adding prefetch alone takes 172, and the full fetch-aware combination takes 136. The diamonds show the additional observations: 175 seconds for predictive-prefix and 135 for the full combination. The two descriptive means are 166.5 and 135.5 seconds. These sparse, not verified matched observations favor the full combination, but do not isolate every component or establish statistical significance. Prefetch alone is not enough in this example.
+Three limitations point to further studies. First, our replication uses one model and synthetic, selected traces. Test natural prompts, more models, and sustained arrivals to assess generality. Second, the host comparisons have few repeats and add memory capacity. Use matched repeats, equal memory budgets, and separate recomputation and transfer timing to assess policy effects and recovery costs. Third, the implemented backing tier is host DRAM. An SSD study should measure writes, reads, staging, contention, and failure recovery. One retained preemption also has unmeasured extra computation. These are proposed next studies, not new experiments performed for this revision.
 
-Evidence: Evidence: Mini-SGLangs 3f9aee7; report Figure 3b and Eq. (3)
+Evidence: Limitations: report §§3.2, 6.1 and 7; further studies are proposals
 
-## 9. Keep the conclusions within the evidence
-
-**8:30–9:20 · 50 seconds**
-
-There are three boundaries to keep in mind. The replication uses synthetic content and runtime-bounded selected segments; increasing the load also changes the workload. One real preemption violated the original zero-preemption rule. It remains in the results under a disclosed post hoc audit amendment, and its extra computation is unmeasured. The host study is a separate replay with added backing capacity and mostly single-run observations. We reproduce its rounded reported values rather than claim an independent request-level audit. Finally, the implemented recovery tier is pinned host DRAM. SSD support would need complete storage writes and reads, bounded staging, compatibility metadata, and failure handling. We cannot infer an SSD speedup from these DRAM results.
-
-Evidence: Limitations: report §§3.2, 6.1 and 7
-
-## 10. Three takeaways
+## 12. Three takeaways
 
 **9:20–10:00 · 40 seconds**
 
