@@ -3,7 +3,7 @@
 \label{sec:tradeoff}
 
 Better scheduling reduces cache churn but does not eliminate recovery after eviction.
-The limitation examined here is the cost of discarding useful state when no backing copy survives; CacheWise itself already evaluates CPU offloading~\cite{Tiwari2026CacheWise}.
+We extend the replication by studying recovery when useful state no longer fits on the GPU: discard it for later recomputation, or preserve it in host memory for restoration.
 For $n$ missing prefix tokens with KV size $S$, a serial save-and-restore cycle costs
 \begin{equation}
  T_{\mathrm{off}}(S)=T_{\mathrm{out}}(S)+T_{\mathrm{in}}(S)+T_{\mathrm{mgr}}.
