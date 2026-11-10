@@ -13,14 +13,14 @@
     "presentation/assets/original-cachewise-figure3.png": "d816d47e8c7ec115c78d06f942755e14e887f23682a91a567bb010f02bdf5ac7",
     "presentation/assets/original-cachewise-figure6.png": "d8c041abed0a2a4b94948a9318dd4c0bc1eaa81bbdeba68e7fa19017bcfac0ca"
   },
-  "script_sha256": "1a62b8dfa4cd23fc28f6980859af48cc5ace91b2c9ec87679ba27272e1d807f2",
+  "script_sha256": "084b385b727c3bead3548d9dbabf6cf0c6f540b1a92d5a577ed8fb2e85fe08c4",
   "outputs": {
-    "presentation/cachewise-10-minute-talk.pptx": "a765cafd34ce80f2b77a908ac414b0215523377b47069b1a1306dccdb9ca813f",
-    "presentation/cachewise-10-minute-talk.pdf": "97a9a6fa9576e890dc7bdf9f9024c51312db9faf516e808edbc2db94d934e577",
-    "presentation/cachewise-10-minute-speaker-notes.md": "e4252271cbe1ea54b53511691c5e07e9b1b4cd47916807c20358607bf4795c38",
+    "presentation/cachewise-10-minute-talk.pptx": "72a741144d630548496ac71f76861720636756873f0c852703bd4a035b62593d",
+    "presentation/cachewise-10-minute-talk.pdf": "16be80fef842a0fbcbfea0c63311f67760885008b383ca13c0ff32c20057e9ff",
+    "presentation/cachewise-10-minute-speaker-notes.md": "57c69f9d121991e3d066b783036e6e1d7bc93e858fe0882ccca75c661ad40796",
     "presentation/assets/replication-load.png": "5d50753ded0a97e186f356c522bed3339bb8d2a4892b2962fcb0e2d52f4a892d",
     "presentation/assets/replication-interaction.png": "c0b91e7beb7ed03ecfcba8ccf0601ca47f885abf5c7e482544a19ef418648c8b",
-    "presentation/assets/host-recovery.png": "11eed5ca25ed1fcab733c67d3ec709eac192042db1ea8c8a02cfc6d863d06a2f",
+    "presentation/assets/host-recovery.png": "f1b54bc19317b1239ac163015b78596911ad778221f135d0ab2279feaba3ff06",
     "presentation/assets/host-ablation.png": "2ed25cb4cedcd7d5f314f088d2cefdf13acd13bc52db7b7f323deeba1a230ba3"
   },
   "matplotlib_version": "3.11.2"

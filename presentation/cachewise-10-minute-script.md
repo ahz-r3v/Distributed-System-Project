@@ -150,21 +150,21 @@ The final row keeps prefetch and adds fetch-aware scheduling. This changes reque
 
 The first reported session times are 222, 159, 158, 172, and 136 seconds. Prefetch alone does not improve this observation. The full combination is promising, but the sparse repetitions do not establish statistical significance or isolate every component.
 
-## Slide 11 — Keep the conclusions within the evidence
+## Slide 11 — Limitations and further studies
 
 **8:35–9:20 · 45 seconds**
 
-*Move across the three limitation cards without reading every line.*
+*Pair each limitation with its proposed further study.*
 
-Three limits frame these findings.
+Three limitations point to further studies.
 
-First, the replication uses synthetic content and selected workloads. One preemption violated the original audit rule. We retained it under a documented post hoc amendment; its extra computation is unmeasured.
+First, our replication uses one model and synthetic, selected traces. Test natural prompts, more models, and sustained arrivals.
 
-Second, the host study uses a separate replay and adds memory capacity. Most configurations have one reported observation, so its policy comparisons are descriptive.
+Second, the host comparisons have few repeats and add memory. Use matched repeats, equal memory budgets, and separate recomputation and transfer timing.
 
-Third, we have no SSD implementation or measurements. An SSD extension would need storage reads and writes, bounded staging, compatibility metadata, and failure handling.
+Third, the current backing tier is host DRAM. An SSD study should measure writes, reads, staging, contention, and failure recovery.
 
-The completed evidence therefore concerns this adapted replication and host-DRAM recovery.
+One retained preemption also has unmeasured extra computation. These are proposed next studies; we have not run them for this revision.
 
 ## Slide 12 — Three takeaways
 

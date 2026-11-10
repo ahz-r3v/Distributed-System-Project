@@ -88,13 +88,13 @@ Every bar uses the same GPU and host cache capacities and can restore KV on dema
 
 Evidence: Mini-SGLangs 3f9aee7; report Figure 3b and Eq. (3)
 
-## 11. Keep the conclusions within the evidence
+## 11. Limitations and further studies
 
 **8:35–9:20 · 45 seconds**
 
-There are three boundaries to keep in mind. The replication uses synthetic content and runtime-bounded selected segments; increasing the load also changes the workload. One real preemption violated the original zero-preemption rule. It remains in the results under a disclosed post hoc audit amendment, and its extra computation is unmeasured. The host study is a separate replay with added backing capacity and mostly single-run observations. We reproduce its rounded reported values rather than claim an independent request-level audit. Finally, the implemented recovery tier is pinned host DRAM. SSD support would need complete storage writes and reads, bounded staging, compatibility metadata, and failure handling. We cannot infer an SSD speedup from these DRAM results.
+Three limitations point to further studies. First, our replication uses one model and synthetic, selected traces. Test natural prompts, more models, and sustained arrivals to assess generality. Second, the host comparisons have few repeats and add memory capacity. Use matched repeats, equal memory budgets, and separate recomputation and transfer timing to assess policy effects and recovery costs. Third, the implemented backing tier is host DRAM. An SSD study should measure writes, reads, staging, contention, and failure recovery. One retained preemption also has unmeasured extra computation. These are proposed next studies, not new experiments performed for this revision.
 
-Evidence: Limitations: report §§3.2, 6.1 and 7
+Evidence: Limitations: report §§3.2, 6.1 and 7; further studies are proposals
 
 ## 12. Three takeaways
 

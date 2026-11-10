@@ -110,7 +110,7 @@ def charts():
         values = [r['session_s'] for r in host['primary_observations'] if r['recovery'] == recovery]
         bars = ax.bar(np.arange(2) + offset, values, width=.36, color=color, label=recovery)
         ax.bar_label(bars, labels=[f'{v:g}' for v in values], padding=7, fontsize=17, color=INK)
-    ax.set(xticks=[0, 1], xticklabels=['N = 28', 'N = 36'], ylim=(0, 1300), ylabel='Mean cumulative serving time\nper session (s)')
+    ax.set(xticks=[0, 1], xticklabels=['N = 28', 'N = 36'], ylim=(0, 1300), ylabel='Mean cumulative operation time (s)')
     ax.legend(frameon=False, fontsize=14, loc='upper left')
     clean(ax)
     recovery = saveplot(fig, 'host-recovery')
@@ -428,7 +428,7 @@ def make_slides():
     s.text(704, 216, 202, 'reported time ratios\nat N = 28 / 36', size=18)
     s.text(704, 289, 202, '+36 GiB host KV\n24 GiB GPU KV fixed', size=18, bold=True)
     s.text(704, 366, 202, 'One observation\nper bar', size=18, color=MUTED)
-    s.text(44, 471, 880, 'Separate Mini-SGLang study. Added-capacity comparison; lower is better.', size=13.5, color=MUTED)
+    s.text(44, 471, 880, 'Operation = model request. Sum latencies per session, then average; includes queueing.', size=13, color=MUTED)
 
     s = new('Preserve evicted KV in host DRAM', 'Part 3 · Host-cache design', 60,
         'These recovery observations motivate offloading. Here is how the Mini-SGLang host cache implements the save-and-restore path. One radix index records which prefix pages reside on the GPU and which have host copies. When memory is needed, dirty GPU pages are copied to pinned host DRAM. Clean inclusive copies can remain there, so a later GPU eviction does not require another save. When a request returns, a compatible host suffix is restored before prefill; if no copy survives, the engine recomputes. The implementation uses sixteen-token pages, locks and events to protect transfers, and predictive prefetch with a bounded per-step budget. In the recovery study the GPU pool holds twenty-four GiB of KV payload and the host tier adds thirty-six GiB. These are nominal cache payloads, excluding weights and other memory. No SSD path is implemented.',
@@ -467,18 +467,21 @@ def make_slides():
     s.text(704, 397, 202, 'Also discount host hits\nwhen ordering requests.', size=14.5)
     s.text(44, 475, 880, 'N = 36, host restoration in every row. First reported runs; sparse repetitions.', size=13, color=MUTED)
 
-    s = new('Keep the conclusions within the evidence', 'Scope and limitations', 45,
-        'There are three boundaries to keep in mind. The replication uses synthetic content and runtime-bounded selected segments; increasing the load also changes the workload. One real preemption violated the original zero-preemption rule. It remains in the results under a disclosed post hoc audit amendment, and its extra computation is unmeasured. The host study is a separate replay with added backing capacity and mostly single-run observations. We reproduce its rounded reported values rather than claim an independent request-level audit. Finally, the implemented recovery tier is pinned host DRAM. SSD support would need complete storage writes and reads, bounded staging, compatibility metadata, and failure handling. We cannot infer an SSD speedup from these DRAM results.',
-        'Limitations: report §§3.2, 6.1 and 7')
-    for x, color, title, body in [
-        (36, BLUE, 'Replication', 'Synthetic replay and selected segments.\n\nOne retained preemption; extra prefill work unmeasured.'),
-        (338, GREEN, 'Host results', 'Separate engine and replay.\n\nAdded host capacity; most configurations run once.'),
-        (640, PURPLE, 'SSD extension', 'Not implemented or measured.\n\nNeeds full I/O, staging, metadata and recovery.')]:
+    s = new('Limitations and further studies', 'Discussion · Next steps', 45,
+        'Three limitations point to further studies. First, our replication uses one model and synthetic, selected traces. Test natural prompts, more models, and sustained arrivals to assess generality. Second, the host comparisons have few repeats and add memory capacity. Use matched repeats, equal memory budgets, and separate recomputation and transfer timing to assess policy effects and recovery costs. Third, the implemented backing tier is host DRAM. An SSD study should measure writes, reads, staging, contention, and failure recovery. One retained preemption also has unmeasured extra computation. These are proposed next studies, not new experiments performed for this revision.',
+        'Limitations: report §§3.2, 6.1 and 7; further studies are proposals')
+    for x, color, title, limit, study in [
+        (36, BLUE, 'Generality', 'One model; synthetic, selected traces.', 'Natural prompts, more models, and sustained arrivals.'),
+        (338, GREEN, 'Comparisons', 'Few host runs; added memory capacity.', 'Matched repeats, equal memory budgets, and operation timing.'),
+        (640, PURPLE, 'Storage tier', 'Host DRAM only; no SSD measurements.', 'SSD save/restore, staging, contention, and failure recovery.')]:
         s.box(x, 150, 284, 280, '#ffffff', radius=8)
         s.box(x, 150, 284, 6, color)
-        s.text(x+20, 178, 244, title, size=23, bold=True, color=color)
-        s.text(x+20, 235, 244, body, size=18)
-    s.text(36, 455, 888, 'Interpret both studies separately; retain the declared protocol deviation.', size=18, bold=True)
+        s.text(x+20, 178, 244, title, size=22, bold=True, color=color)
+        s.text(x+20, 223, 244, 'Limitation', size=14, bold=True, color=MUTED)
+        s.text(x+20, 249, 244, limit, size=17)
+        s.text(x+20, 320, 244, 'Further study', size=14, bold=True, color=color)
+        s.text(x+20, 347, 244, study, size=16.5)
+    s.text(36, 455, 888, 'Retained preemption: extra work unmeasured. Further studies are proposed.', size=15, color=MUTED)
 
     s = new('Three takeaways', 'Conclusion · Questions', 40,
         'The first takeaway is that scheduling dominates the mean improvement in our adapted replication: prefix-aware LRU wins all five settings, while predictive eviction changes direction with the scheduler. The second is that retaining KV in host memory can avoid substantial recovery work for long prefixes, with large reported improvements when host capacity is added. The third is that host residency should inform request ordering. Fetch-aware scheduling is promising here, but the policy evidence is much smaller than the replication study. The completed scope is replication and host-DRAM recovery. SSD performance remains future work. Thank you; I am happy to take questions.',

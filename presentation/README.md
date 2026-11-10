@@ -18,7 +18,7 @@ The policy matrix labels rows as scheduler and columns as eviction policy, highl
 N denotes the initially launched closed-loop segment group; it is not a maintained count of in-flight requests.
 Host-recovery results motivate offloading before the host-cache architecture is introduced.
 Slide 8 retains the recomputation-versus-restoration comparison.
-Its y-axis is mean cumulative serving time per session: request latencies are summed within each session, then averaged across sessions.
+Its y-axis is labeled "Mean cumulative operation time (s)": an operation is a model request, and request latencies are summed within each session, then averaged across sessions.
 The metric includes queueing, prefill, and decoding and excludes external tool waits; it is not isolated prefill time.
 Slide 10 spells out each configuration and defines prefix-aware ordering, early prefetch, and fetch-aware ordering that discounts host hits.
 Timing guidance stays in the notes and script.
@@ -39,7 +39,7 @@ Rehearse once to adjust the pacing to your speaking speed.
 | 8 | Recovery comparison and offloading motivation | 5:00–6:15 |
 | 9 | Host-cache architecture | 6:15–7:15 |
 | 10 | Fetch-aware ordering | 7:15–8:35 |
-| 11 | Scope and limitations | 8:35–9:20 |
+| 11 | Limitations and further studies | 8:35–9:20 |
 | 12 | Takeaways | 9:20–10:00 |
 
 The PowerPoint uses editable text and native shapes; charts are high-resolution images rendered from archived measurements.
